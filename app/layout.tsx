@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import MicrosoftClarity from "./clarity";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -30,6 +31,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">{children}</body>
       <GoogleAnalytics gaId="G-986WZSRXDC" />
+      <MicrosoftClarity />
     </html>
   );
 }
