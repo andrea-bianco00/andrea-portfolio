@@ -1,0 +1,234 @@
+<svg width="260" height="160" viewBox="0 0 260 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    :root {
+      --fur: #F4C99D;
+      --fur-light: #FFE0B8;
+      --fur-dark: #D9925F;
+      --line: #8A5A38;
+      --cheek: #EFA08E;
+      --shadow: rgba(0, 0, 0, 0.16);
+    }
+
+    .cat {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: body-bob 0.9s ease-in-out infinite;
+    }
+
+    .head {
+      transform-box: fill-box;
+      transform-origin: 48% 75%;
+      animation: head-bob 1.8s ease-in-out infinite;
+    }
+
+    .tail {
+      transform-box: fill-box;
+      transform-origin: 86% 70%;
+      animation: tail-sway 1.35s ease-in-out infinite;
+    }
+
+    .leg-a {
+      transform-box: fill-box;
+      transform-origin: 50% 8%;
+      animation: step-a 0.9s ease-in-out infinite;
+    }
+
+    .leg-b {
+      transform-box: fill-box;
+      transform-origin: 50% 8%;
+      animation: step-b 0.9s ease-in-out infinite;
+    }
+
+    .ear-left {
+      transform-box: fill-box;
+      transform-origin: 65% 90%;
+      animation: ear-soft 2.4s ease-in-out infinite;
+    }
+
+    .ear-right {
+      transform-box: fill-box;
+      transform-origin: 40% 90%;
+      animation: ear-soft 2.4s ease-in-out 0.4s infinite;
+    }
+
+    .eye {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: sleepy-blink 4.8s ease-in-out infinite;
+    }
+
+    .shadow {
+      transform-origin: center;
+      animation: shadow-pulse 0.9s ease-in-out infinite;
+    }
+
+    @keyframes body-bob {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-4px) rotate(-0.8deg);
+      }
+    }
+
+    @keyframes head-bob {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-2px) rotate(1.5deg);
+      }
+    }
+
+    @keyframes tail-sway {
+      0%, 100% {
+        transform: rotate(-7deg);
+      }
+
+      50% {
+        transform: rotate(11deg);
+      }
+    }
+
+    @keyframes step-a {
+      0%, 100% {
+        transform: rotate(12deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(-24deg) translateY(-7px);
+      }
+    }
+
+    @keyframes step-b {
+      0%, 100% {
+        transform: rotate(-10deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(23deg) translateY(-7px);
+      }
+    }
+
+    @keyframes ear-soft {
+      0%, 100% {
+        transform: rotate(0deg);
+      }
+
+      50% {
+        transform: rotate(2deg);
+      }
+    }
+
+    @keyframes sleepy-blink {
+      0%, 88%, 100% {
+        transform: scaleY(1);
+      }
+
+      92%, 96% {
+        transform: scaleY(0.25);
+      }
+    }
+
+    @keyframes shadow-pulse {
+      0%, 100% {
+        transform: scaleX(1);
+        opacity: 0.16;
+      }
+
+      50% {
+        transform: scaleX(0.92);
+        opacity: 0.10;
+      }
+    }
+  </style>
+
+  <ellipse class="shadow" cx="132" cy="132" rx="76" ry="12" fill="var(--shadow)" />
+
+  <g class="cat">
+    <!-- Tail -->
+    <path
+      class="tail"
+      d="M76 90C48 87 33 72 38 55C42 41 59 36 70 46C80 55 75 70 62 69"
+      stroke="var(--fur)"
+      stroke-width="18"
+      stroke-linecap="round"
+    />
+    <path
+      class="tail"
+      d="M76 90C48 87 33 72 38 55C42 41 59 36 70 46C80 55 75 70 62 69"
+      stroke="var(--line)"
+      stroke-width="3"
+      stroke-linecap="round"
+      opacity="0.25"
+    />
+
+    <!-- Back legs -->
+    <path class="leg-a" d="M98 101C93 111 92 120 93 130" stroke="var(--fur)" stroke-width="16" stroke-linecap="round" />
+    <path class="leg-b" d="M124 102C120 112 120 121 122 130" stroke="var(--fur)" stroke-width="16" stroke-linecap="round" />
+
+    <!-- Body -->
+    <path
+      d="M77 85C82 57 114 43 150 49C181 54 201 73 200 96C199 120 169 128 126 125C94 123 73 106 77 85Z"
+      fill="var(--fur)"
+    />
+
+    <!-- Belly light shape -->
+    <path
+      d="M89 86C94 67 119 56 149 60C174 64 188 78 187 95C186 111 163 118 129 115C101 113 86 101 89 86Z"
+      fill="var(--fur-light)"
+      opacity="0.62"
+    />
+
+    <!-- Soft body stripes -->
+    <path d="M113 52C112 61 109 67 103 72" stroke="var(--fur-dark)" stroke-width="4" stroke-linecap="round" opacity="0.42" />
+    <path d="M135 50C134 60 131 67 125 74" stroke="var(--fur-dark)" stroke-width="4" stroke-linecap="round" opacity="0.42" />
+    <path d="M158 55C156 64 152 70 146 76" stroke="var(--fur-dark)" stroke-width="4" stroke-linecap="round" opacity="0.42" />
+
+    <!-- Front legs -->
+    <path class="leg-b" d="M164 101C160 112 160 121 162 131" stroke="var(--fur)" stroke-width="16" stroke-linecap="round" />
+    <path class="leg-a" d="M186 99C184 110 184 120 187 129" stroke="var(--fur)" stroke-width="16" stroke-linecap="round" />
+
+    <!-- Head -->
+    <g class="head">
+      <circle cx="191" cy="63" r="35" fill="var(--fur)" />
+
+      <!-- Ears -->
+      <path class="ear-left" d="M166 44L171 15L191 41Z" fill="var(--fur)" />
+      <path class="ear-right" d="M199 40L222 19L219 52Z" fill="var(--fur)" />
+
+      <path d="M172 40L175 28L184 40Z" fill="#F1A978" opacity="0.65" />
+      <path d="M204 39L215 30L213 46Z" fill="#F1A978" opacity="0.65" />
+
+      <!-- Forehead soft stripes -->
+      <path d="M184 35C184 44 181 50 176 55" stroke="var(--fur-dark)" stroke-width="3.5" stroke-linecap="round" opacity="0.42" />
+      <path d="M195 34C195 43 192 50 187 56" stroke="var(--fur-dark)" stroke-width="3.5" stroke-linecap="round" opacity="0.42" />
+
+      <!-- Sleepy eye -->
+      <path
+        class="eye"
+        d="M199 62C202 65 207 65 210 62"
+        stroke="var(--line)"
+        stroke-width="3.2"
+        stroke-linecap="round"
+      />
+
+      <!-- Nose -->
+      <ellipse cx="219" cy="68" rx="3.2" ry="2.6" fill="var(--line)" opacity="0.75" />
+
+      <!-- Little mouth -->
+      <path
+        d="M216 74C219 77 224 77 227 74"
+        stroke="var(--line)"
+        stroke-width="2.4"
+        stroke-linecap="round"
+        opacity="0.55"
+      />
+
+      <!-- Cheek -->
+      <ellipse cx="209" cy="73" rx="5.5" ry="3.6" fill="var(--cheek)" opacity="0.42" />
+    </g>
+  </g>
+</svg>

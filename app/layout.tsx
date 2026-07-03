@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import MicrosoftClarity from "./clarity";
+import IntroScreen from "./components/IntroScreen";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +12,11 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
 });
 
@@ -27,11 +33,14 @@ export default function RootLayout({
   return (
     <html
       lang="it"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
-      <GoogleAnalytics gaId="G-986WZSRXDC" />
-      <MicrosoftClarity />
+      <body className="min-h-full flex flex-col">
+        <IntroScreen />
+        {children}
+        <GoogleAnalytics gaId="G-986WZSRXDC" />
+        <MicrosoftClarity />
+      </body>
     </html>
   );
 }
