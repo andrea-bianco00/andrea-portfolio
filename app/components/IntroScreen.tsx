@@ -30,19 +30,6 @@ export default function IntroScreen() {
       }}
     >
       <div className="intro-content">
-        <div className="intro-cat-asset-scene" aria-hidden="true">
-          <img
-            className="intro-cat-asset intro-cat-walk"
-            src="/cats/cat-walk.svg"
-            alt=""
-          />
-          <img
-            className="intro-cat-asset intro-cat-sleep"
-            src="/cats/cat-sleep.svg"
-            alt=""
-          />
-        </div>
-
         <h1 className="intro-title">ANDREA BIANCO</h1>
       </div>
     </div>

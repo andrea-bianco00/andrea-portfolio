@@ -45,6 +45,7 @@ body {
 
 .intro-content {
   position: relative;
+  display: inline-block;
   text-align: center;
   animation: introTextIn 1.2s ease forwards;
 }
@@ -60,59 +61,10 @@ body {
   text-transform: uppercase;
 }
 
-/* ================================
-   CAT ASSET ANIMATION
-================================ */
-
-.intro-cat-asset-scene {
-  position: absolute;
-  left: -15rem;
-  top: -7.8rem;
-  width: clamp(10rem, 15vw, 16rem);
-  height: clamp(6rem, 9vw, 10rem);
-  pointer-events: none;
-  z-index: 2;
-
-  /*
-    Camminata fluida:
-    - nessun saltino
-    - arrivo lento sopra il nome
-    - piccola pausa finale
-  */
-  animation: catAssetPath 11s cubic-bezier(0.34, 0.01, 0.18, 1) forwards;
-}
-
-.intro-cat-asset {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 0 16px rgba(255, 243, 223, 0.14));
-}
-
-/* Gatto che cammina */
-.intro-cat-walk {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  animation: catWalkVisibility 11s ease-in-out forwards;
-}
-
-/* Gatto che dorme */
-.intro-cat-sleep {
-  opacity: 0;
-  transform: translateY(0.25rem) scale(0.96);
-  animation: catSleepVisibility 11s ease-in-out forwards;
-}
-
-/* ================================
-   GENERAL ANIMATIONS
-================================ */
-
 @keyframes introTextIn {
   0% {
     opacity: 0;
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
 
   100% {
@@ -130,98 +82,5 @@ body {
   100% {
     opacity: 0;
     visibility: hidden;
-  }
-}
-
-/*
-  Movimento del gatto:
-  0%   entra da sinistra
-  72%  arriva sopra la scritta
-  82%  si assesta lentamente
-  100% resta fermo mentre dorme
-*/
-
-@keyframes catAssetPath {
-  0% {
-    left: -15rem;
-    top: -7.8rem;
-    transform: translateY(0) rotate(0deg);
-  }
-
-  30% {
-    left: calc(20% - 8rem);
-    top: -7.8rem;
-    transform: translateY(0.05rem) rotate(0deg);
-  }
-
-  58% {
-    left: calc(45% - 8rem);
-    top: -7.8rem;
-    transform: translateY(0) rotate(0deg);
-  }
-
-  72% {
-    left: calc(58% - 8rem);
-    top: -7.8rem;
-    transform: translateY(0) rotate(0deg);
-  }
-
-  82% {
-    left: calc(60% - 8rem);
-    top: -7.65rem;
-    transform: translateY(0.08rem) rotate(0deg);
-  }
-
-  100% {
-    left: calc(60% - 8rem);
-    top: -7.65rem;
-    transform: translateY(0.08rem) rotate(0deg);
-  }
-}
-
-/*
-  Transizione:
-  il gatto che cammina rimane visibile fino all'arrivo,
-  poi svanisce lentamente.
-*/
-@keyframes catWalkVisibility {
-  0%,
-  70% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-
-  76% {
-    opacity: 0.55;
-    transform: translateY(0.12rem) scale(0.985);
-  }
-
-  82%,
-  100% {
-    opacity: 0;
-    transform: translateY(0.2rem) scale(0.96);
-  }
-}
-
-/*
-  Il gatto che dorme appare nello stesso punto,
-  leggermente più basso e morbido, come se si fosse accoccolato.
-*/
-@keyframes catSleepVisibility {
-  0%,
-  70% {
-    opacity: 0;
-    transform: translateY(0.35rem) scale(0.94);
-  }
-
-  78% {
-    opacity: 0.45;
-    transform: translateY(0.25rem) scale(0.98);
-  }
-
-  86%,
-  100% {
-    opacity: 1;
-    transform: translateY(0.2rem) scale(1);
   }
 }
