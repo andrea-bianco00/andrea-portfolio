@@ -208,3 +208,11 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .tracker-error{border:1px solid #b84b36;color:#ffb29d;border-radius:9px;padding:12px;font-size:13px}
 .tracker-back{display:inline-block;margin-top:35px;font-size:12px;color:#a99178}
 @media(max-width:680px){.tracker-content{padding:50px 18px}.tracker-header{padding:20px 18px}.tracker-stats{gap:8px;margin:40px 0 28px}.tracker-stats>div{padding:16px}.tracker-stats strong{font-size:35px}.tracker-stats small{display:none}.tracker-panel-head,.tracker-filters,.tracker-item{padding:20px}.tracker-filters{flex-wrap:wrap}.tracker-filters input{flex-basis:100%}.tracker-new{grid-template-columns:1fr;margin:0 15px 20px}.tracker-login-card{padding:27px}.tracker-item{align-items:start;flex-direction:column}}
+
+
+.tracker-item{flex-wrap:wrap}.tracker-item-controls{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.tracker-small-action{background:transparent;color:#f3e7d3;border:1px solid #493021;border-radius:9px;padding:12px;cursor:pointer;font-size:12px}
+.tracker-small-action:hover{border-color:#ff7a1a}.tracker-danger{color:#f5a99b}
+.tracker-edit{flex-basis:100%;margin:8px 0 0}.tracker-confirm{flex-basis:100%;border:1px solid #8a4437;background:#21100d;border-radius:12px;padding:20px}
+.tracker-confirm p{font-size:14px;line-height:1.6;color:#f3e7d3}.tracker-delete-button{background:#a63f30;color:#fff;border:0;border-radius:99px;padding:13px 19px;font-weight:700;cursor:pointer}
+.tracker-delete-button:disabled{opacity:.5}.tracker-panel>.tracker-error{margin:15px 30px}
