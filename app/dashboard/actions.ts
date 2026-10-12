@@ -103,7 +103,7 @@ export async function saveApplicationDetails(data:FormData) {
  if((work_mode&&!["onsite","hybrid","remote"].includes(work_mode))||(cv_language&&!["it","en","other"].includes(cv_language))||(next_action_on&&!/^\d{4}-\d{2}-\d{2}$/.test(next_action_on))||!Number.isFinite(amount(salary_min)??0)||!Number.isFinite(amount(salary_max)??0))throw new Error("Alcuni valori non sono validi");
  const min=amount(salary_min),max=amount(salary_max);
  if(min!==null&&max!==null&&min>max)throw new Error("La RAL minima supera la massima");
- const payload={job_url:job_url||null,source:get("source",120)||null,work_mode:work_mode||null,cv_language:cv_language||null,salary_min:min,salary_max:max,next_action_on:next_action_on||null,notes:get("notes",20000)||null};
+ const payload={application_email:get("application_email",254)||null,recruiter_name:get("recruiter_name",200)||null,recruiter_email:get("recruiter_email",254)||null,recruiter_phone:get("recruiter_phone",60)||null,interviewers:get("interviewers",3000)||null,interview_preparation:get("interview_preparation",20000)||null,next_action_details:get("next_action_details",2000)||null,offer_snapshot:get("offer_snapshot",20000)||null,job_url:job_url||null,source:get("source",120)||null,work_mode:work_mode||null,cv_language:cv_language||null,salary_min:min,salary_max:max,next_action_on:next_action_on||null,notes:get("notes",20000)||null};
  const response=await supabase("/rest/v1/job_applications?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify(payload)},token);
  if(!response.ok)throw new Error("Impossibile salvare i dettagli");
  const rows=await response.json() as unknown[];
