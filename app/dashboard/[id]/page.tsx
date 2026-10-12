@@ -3,6 +3,7 @@ import Link from "next/link";
 import {notFound} from "next/navigation";
 import {requireSession,supabase} from "../lib";
 import {saveApplicationDetails,addApplicationActivity} from "../actions";
+import ApplicationWorkspace from "./ApplicationWorkspace";
 export const metadata:Metadata={title:"Scheda candidatura | Andrea Bianco",robots:{index:false,follow:false}};
 export const dynamic="force-dynamic";
 type RecordData={id:string;company:string;role_title:string;status:string;location:string|null;applied_on:string|null;job_url:string|null;source:string|null;work_mode:string|null;cv_language:string|null;salary_min:number|null;salary_max:number|null;next_action_on:string|null;notes:string|null;application_email:string|null;recruiter_name:string|null;recruiter_email:string|null;recruiter_phone:string|null;interviewers:string|null;interview_preparation:string|null;next_action_details:string|null;offer_snapshot:string|null};
@@ -19,9 +20,18 @@ export default async function ApplicationDetail({params}:{params:Promise<{id:str
  const a=records[0];
  const eventsResponse=await supabase("/rest/v1/application_activities?application_id=eq."+encodeURIComponent(id)+"&select=id,kind,title,details,occurred_at&order=occurred_at.desc&limit=200",{},token);
  const activities=eventsResponse.ok?await eventsResponse.json() as Activity[]:[];
+ const [contactResponse,interviewResponse,taskResponse]=await Promise.all([
+  supabase("/rest/v1/application_contacts?application_id=eq."+encodeURIComponent(id)+"&select=id,full_name,role,email,phone,notes&order=created_at.desc&limit=200",{},token),
+  supabase("/rest/v1/application_interviews?application_id=eq."+encodeURIComponent(id)+"&select=id,title,interview_type,scheduled_at,participants,meeting_url,questions,feedback,notes&order=created_at.desc&limit=200",{},token),
+  supabase("/rest/v1/application_tasks?application_id=eq."+encodeURIComponent(id)+"&select=id,title,due_on,completed&order=created_at.desc&limit=200",{},token)
+ ]);
+ if(!contactResponse.ok||!interviewResponse.ok||!taskResponse.ok)throw new Error("Impossibile caricare i dettagli della selezione");
+ const contacts=await contactResponse.json() as {id:string;full_name:string;role:string|null;email:string|null;phone:string|null;notes:string|null}[];
+ const interviews=await interviewResponse.json() as {id:string;title:string;interview_type:string;scheduled_at:string|null;participants:string|null;meeting_url:string|null;questions:string|null;feedback:string|null;notes:string|null}[];
+ const tasks=await taskResponse.json() as {id:string;title:string;due_on:string|null;completed:boolean}[];
  return <main className="tracker-shell"><header className="tracker-header"><Link href="/dashboard" className="brand">← TUTTE LE CANDIDATURE</Link><a href="/" className="tracker-exit">ANDREA BIANCO / PRIVATE</a></header>
  <div className="tracker-content tracker-detail"><p className="eyebrow">SCHEDA CANDIDATURA / {a.status.toUpperCase()}</p><h1>{a.company}<em>.</em></h1><p className="tracker-muted">{a.role_title}{a.location?" · "+a.location:""}{a.applied_on?" · Candidatura: "+a.applied_on:""}</p>
- <div className="tracker-detail-grid"><section className="tracker-panel tracker-detail-panel"><div className="tracker-panel-head"><div><p className="eyebrow">01 / INFORMAZIONI</p><h2>Dettagli dell’offerta</h2></div></div>
+ <ApplicationWorkspace applicationId={a.id} contacts={contacts} interviews={interviews} tasks={tasks}/><div className="tracker-detail-grid"><section className="tracker-panel tracker-detail-panel"><div className="tracker-panel-head"><div><p className="eyebrow">01 / INFORMAZIONI</p><h2>Dettagli dell’offerta</h2></div></div>
  <form action={saveApplicationDetails} className="tracker-detail-form"><input type="hidden" name="id" value={a.id}/>
  <label>Link dell’offerta<input type="url" name="job_url" maxLength={2048} placeholder="https://..." defaultValue={a.job_url||""}/></label>
  {a.job_url&&/^https?:\/\//i.test(a.job_url)&&<a href={a.job_url} target="_blank" rel="noopener noreferrer" className="tracker-job-link">APRI L’ANNUNCIO ↗</a>}
