@@ -119,3 +119,28 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .ner-resource-links a{border-bottom:1px solid var(--line);padding:20px 0;font:700 11px var(--font-geist-sans);letter-spacing:.09em}.ner-resource-links a:hover{color:var(--orange)}
 @media(max-width:760px){.ner-overview{grid-template-columns:1fr;gap:10px;margin:-15px 0 40px}.ner-overview>div{padding:22px}.ner-toc>span{width:100%}.ner-loss-grid,.ner-limit-grid,.ner-resources{grid-template-columns:1fr}.ner-chart{padding:20px}.ner-resources{padding:25px}}
 @media(max-width:430px){.ner-dataset strong{font-size:1.35rem}.ner-dataset>div{padding:18px 7px}.ner-example{padding:20px}.ner-example-top{font-size:9px}}
+
+
+/* Home — editorial polish and clearer recruiter journey */
+.hero{position:relative}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;line-height:1.6}
+.hero-status-dot{width:7px;height:7px;background:var(--orange);border-radius:50%;box-shadow:0 0 0 5px rgba(255,122,26,.1);flex-shrink:0}
+.hero-copy{max-width:590px}
+.hero-availability{font-size:12px;color:var(--muted);margin:19px 0 0;padding-left:15px;border-left:2px solid var(--orange);line-height:1.6}
+.hero .actions .button{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+.hero-card{isolation:isolate}
+.hero-card:after{content:"";position:absolute;inset:18%;border:1px dashed rgba(255,122,26,.11);border-radius:50%;pointer-events:none}
+.viz-watermark{position:absolute;right:25px;top:53px;color:rgba(255,122,26,.22);font:700 11px var(--font-geist-mono);letter-spacing:.22em}
+.home-section-lead{font-size:15px;color:var(--muted);line-height:1.65;max-width:550px;margin:25px 0 0}
+.work .section-head{align-items:end}
+.work .section-head h2 em{color:var(--orange)}
+.work .project-row{position:relative}
+.work .project-row:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.work .project-row .arrow{color:var(--orange);transition:transform .2s}
+.work .project-row:hover .arrow{transform:translate(4px,-4px)}
+.contact{max-width:1280px}
+.contact h2{font-size:clamp(3.5rem,8vw,7rem);line-height:1.03;max-width:1000px}
+.contact>a{font-size:13px;letter-spacing:.08em;padding:10px 0}
+@media(max-width:850px){.hero{min-height:auto}.work .section-head{align-items:start}.home-section-lead{margin-top:20px}}
+@media(max-width:520px){.hero-eyebrow{font-size:9px;letter-spacing:.14em}.hero .actions{flex-wrap:wrap}.hero .actions .button{flex:1;white-space:nowrap}.contact h2{font-size:clamp(2.8rem,12vw,4.5rem)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.primary:hover,.work .project-row:hover .arrow{transform:none}}
