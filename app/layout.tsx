@@ -21,7 +21,7 @@ const fraunces = Fraunces({
 
 export const metadata: Metadata = {
   title: "Andrea Bianco | Data Scientist",
-  description: "Personal website, portfolio and technical blog of Andrea Bianco.",
+  description: "Portfolio di Andrea Bianco: progetti di Data Science, Machine Learning, NLP e ricerca statistica.",
 };
 
 export default function RootLayout({
