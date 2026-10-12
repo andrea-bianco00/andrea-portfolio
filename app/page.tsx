@@ -1,10 +1,8 @@
 import Link from "next/link";
+import SiteNav from "./components/SiteNav";
+import { projects } from "./project-data";
 
-const featured = [
-  { n:"01", category:"Ricerca · 2026", title:"Mean and Covariance Estimation for Sparse Functional Data", text:"Stima della media e della struttura di covarianza per dati funzionali sparsi attraverso un approccio semiparametrico, sviluppata durante il tirocinio di ricerca presso CREST–ENSAI.", href:"/ricerca/sparse-functional-data", tags:["R","Functional Data Analysis","Simulazione"] },
-  { n:"02", category:"Data Science · 2025", title:"Spatial Interpolation with INSEE", text:"Un framework di interpolazione spaziale che mette a confronto Random Forest, Gradient Boosting e Kriging su dataset di grandi dimensioni.", href:"/progetti/spatial-interpolation", tags:["Machine Learning","Spatial Data","R"] },
-  { n:"03", category:"Machine Learning · 2024", title:"Customer Churn Prediction", text:"Predizione del churn combinando dati strutturati, sentiment analysis ed ensemble learning in un progetto sviluppato con BCG.", href:"/progetti/customer-churn", tags:["Classification","NLP","Ensemble Learning"] },
-];
+const featured = projects.filter((project) => project.featured).map((project, index) => ({ n: String(index + 1).padStart(2, "0"), category: `${project.category} · ${project.year}`, title: project.title, text: project.summary, href: `/progetti/${project.slug}`, tags: project.tags }));
 
 const approach = [
   ["01","Capire","Partire dal problema e dai dati prima di scegliere il modello."],
@@ -15,10 +13,7 @@ const approach = [
 
 export default function Home() {
   return <main>
-    <nav className="site-nav">
-      <Link href="/" className="brand">ANDREA BIANCO</Link>
-      <div className="nav-links"><Link href="/progetti">PROGETTI</Link><Link href="/ricerca">RICERCA</Link><Link href="/scritti">SCRITTI</Link><Link href="/about">CHI SONO</Link><Link href="/cv">CV</Link><span className="language">IT <span>EN</span></span></div>
-    </nav>
+    <SiteNav />
 
     <section className="hero">
       <div>
@@ -58,10 +53,7 @@ export default function Home() {
       <Link href="/about" className="text-link">IL MIO PERCORSO COMPLETO →</Link>
     </section>
 
-    <section className="section personal">
-      <div><p className="eyebrow">OLTRE I DATI</p><h2>Un posto anche<br/>per il resto.</h2></div>
-      <div><p className="large-copy">Questo sito non vuole essere soltanto un curriculum online. Voglio usarlo per raccogliere ciò che costruisco, quello che leggo, esperienze, fotografie e pensieri che vale la pena conservare.</p><Link href="/scritti" className="text-link">VAI AGLI SCRITTI →</Link></div>
-    </section>
+
 
     <section className="contact">
       <p className="eyebrow">CONTATTI</p><h2>Parliamone.</h2><p>Per opportunità, progetti o semplicemente per scambiare due idee.</p><a href="mailto:andrea.bianco00.ab@gmail.com">andrea.bianco00.ab@gmail.com ↗</a>
