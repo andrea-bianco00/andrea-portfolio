@@ -229,3 +229,17 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .tracker-timeline-entry span{font-size:10px;color:#ff7a1a;letter-spacing:.1em}.tracker-timeline-entry h3{font:450 24px var(--font-fraunces),Georgia,serif;margin:12px 0}
 .tracker-timeline-entry p{white-space:pre-wrap;overflow-wrap:anywhere;color:#c4af9c;font-size:13px;line-height:1.7}
 @media(max-width:850px){.tracker-detail-grid{grid-template-columns:1fr}.tracker-detail-form{padding:0 20px 25px}}
+
+
+.tracker-workspace{margin-top:42px}.tracker-workspace-tabs{display:flex;gap:6px;overflow-x:auto;padding:0 28px;border-bottom:1px solid #38251a}
+.tracker-workspace-tabs button{padding:16px 18px;border:0;border-bottom:2px solid transparent;background:transparent;color:#ae9782;white-space:nowrap;cursor:pointer;font-weight:600}
+.tracker-workspace-tabs button.active{border-color:#ff7a1a;color:#f3e7d3}.tracker-workspace-tabs span{margin-left:6px;opacity:.7}
+.tracker-workspace-body{padding:24px 28px}.tracker-workspace-toolbar{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:20px}
+.tracker-workspace-toolbar p{font-size:13px;color:#bca28b}.tracker-workspace-form{border:1px solid #38251a;border-radius:14px;background:#120b08;padding:22px;margin-bottom:22px}
+.tracker-workspace-entry{border-top:1px solid #38251a;padding:22px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.tracker-workspace-entry h3{font-size:19px;font-weight:600;color:#f3e7d3;margin:6px 0}.tracker-workspace-entry p{font-size:13px;color:#bca28b;line-height:1.65;margin:7px 0}
+.tracker-workspace-entry a{color:#ff9b53}.tracker-workspace-empty{padding:24px 0;color:#bca28b;font-size:13px}
+.tracker-prewrap{white-space:pre-wrap;overflow-wrap:anywhere}.tracker-task-row{display:flex;gap:13px;align-items:flex-start}
+.tracker-task-row input{margin-top:9px;accent-color:#ff7a1a}.tracker-task-done{text-decoration:line-through;opacity:.6}
+.tracker-detail-subheading{border-top:1px solid #38251a;margin-top:10px;padding-top:20px}.tracker-detail-subheading h3{font-size:22px;color:#f3e7d3;margin:8px 0}
+@media(max-width:700px){.tracker-workspace-body{padding:18px}.tracker-workspace-tabs{padding:0 12px}.tracker-workspace-toolbar{align-items:flex-start;flex-direction:column}}
