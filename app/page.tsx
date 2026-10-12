@@ -1,6 +1,12 @@
 import Link from "next/link";
 import SiteNav from "./components/SiteNav";
 import { projects } from "./project-data";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Andrea Bianco | Data Scientist · Statistica e Machine Learning",
+  description: "Portfolio di Andrea Bianco: Data Scientist con formazione in statistica. Scopri progetti di NLP, Machine Learning, ricerca e analisi dei dati.",
+};
 
 const featured = projects.filter((project) => project.featured).map((project, index) => ({ n: String(index + 1).padStart(2, "0"), category: `${project.category} · ${project.year}`, title: project.title, text: project.summary, href: `/progetti/${project.slug}`, tags: project.tags }));
 
@@ -17,23 +23,24 @@ export default function Home() {
 
     <section className="hero">
       <div>
-        <p className="eyebrow">DATA SCIENTIST · STATISTICA · MACHINE LEARNING</p>
+        <p className="eyebrow hero-eyebrow"><span className="hero-status-dot" aria-hidden="true"/> DATA SCIENTIST · STATISTICA · MACHINE LEARNING</p>
         <h1>CAPIRE I DATI.<br/><em>CAPIRE IL PROBLEMA.</em></h1>
-        <p className="hero-copy">Sono Andrea Bianco, Data Scientist con una formazione in Statistica. Mi interessa capire a fondo i problemi e usare statistica, Machine Learning e AI per costruire soluzioni efficaci in contesti reali.</p>
-        <div className="actions"><Link href="/progetti" className="button primary">ESPLORA I PROGETTI</Link><Link href="/about" className="button secondary">SCOPRI CHI SONO</Link></div>
+        <p className="hero-copy">Sono Andrea Bianco, Data Scientist con una formazione in statistica ed esperienza nella ricerca. Uso Machine Learning, AI e analisi quantitativa per trasformare problemi complessi in risultati comprensibili e verificabili.</p>
+        <div className="actions"><Link href="/progetti" className="button primary">ESPLORA I PROGETTI ↗</Link><Link href="/cv" className="button secondary">IL MIO CV →</Link></div>
+        <p className="hero-availability">Interessato a opportunità professionali in Data Science e AI.</p>
         <div className="hero-links"><a href="https://github.com/andrea-bianco00">GITHUB ↗</a><a href="https://www.linkedin.com/in/andreabianco00">LINKEDIN ↗</a><a href="mailto:andrea.bianco00.ab@gmail.com">EMAIL ↗</a></div>
       </div>
       <div className="hero-card" aria-label="Visualizzazione astratta ispirata all'analisi di dati funzionali">
-        <div className="viz-label"><span>FUNCTIONAL DATA</span><span>μ(t) · C(s,t)</span></div>
+        <div className="viz-label"><span>FUNCTIONAL DATA / RESEARCH</span><span>μ(t) · C(s,t)</span></div>
         <svg className="curves" viewBox="0 0 500 500" role="img">
           <path d="M15 385 C90 345 120 255 195 295 S305 155 485 115"/><path d="M15 410 C95 375 125 300 200 315 S315 205 485 145"/><path d="M15 355 C100 330 130 220 205 270 S310 110 485 92"/><path d="M15 430 C90 395 145 345 215 335 S330 245 485 175"/>
         </svg>
-        <div className="viz-caption"><strong>OSSERVARE</strong><strong>MODELLARE</strong><strong>VERIFICARE</strong></div>
+        <div className="viz-caption"><strong>OSSERVARE</strong><strong>MODELLARE</strong><strong>VERIFICARE</strong></div><span className="viz-watermark" aria-hidden="true">DATA / 01</span>
       </div>
     </section>
 
-    <section className="section work">
-      <div className="section-head"><div><p className="eyebrow">LAVORI SELEZIONATI</p><h2>Progetti che raccontano<br/>come lavoro.</h2></div><Link href="/progetti">VEDI TUTTI I PROGETTI →</Link></div>
+    <section className="section work" id="progetti-in-evidenza">
+      <div className="section-head"><div><p className="eyebrow">PROGETTI / IN EVIDENZA</p><h2>Il lavoro, <em>non solo le parole.</em></h2><p className="home-section-lead">Esperimenti, codice e risultati: progetti raccontati con metodo e attenzione ai limiti.</p></div><Link href="/progetti">ESPLORA IL PORTFOLIO ↗</Link></div>
       <div className="project-list">{featured.map(p=><Link href={p.href} className="project-row" key={p.title}><span className="project-number">{p.n}</span><div><p className="project-meta">{p.category}</p><h3>{p.title}</h3><p className="project-description">{p.text}</p><div className="tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div></div><span className="arrow">↗</span></Link>)}</div>
     </section>
 
@@ -42,9 +49,9 @@ export default function Home() {
       <div className="approach-grid">{approach.map(a=><article key={a[0]}><span>{a[0]}</span><h3>{a[1]}</h3><p>{a[2]}</p></article>)}</div>
     </section>
 
-    <section className="section research-feature">
+    <section className="section research-feature" id="ricerca">
       <div><p className="eyebrow">RICERCA · CREST–ENSAI</p><h2>Quando il dato è poco,<br/><em>il metodo conta ancora di più.</em></h2></div>
-      <div><p className="large-copy">Durante il tirocinio di ricerca presso CREST–ENSAI ho lavorato sulla stima della struttura di covarianza per dati funzionali sparsi. Ho studiato la letteratura, implementato metodi in R, progettato simulazioni e confrontato approcci alternativi su dati sintetici e reali.</p><Link href="/ricerca" className="text-link">SCOPRI LA MIA RICERCA →</Link></div>
+      <div><p className="large-copy">Durante il tirocinio di ricerca presso CREST–ENSAI ho lavorato sulla stima della struttura di covarianza per dati funzionali sparsi. Ho studiato la letteratura, implementato metodi in R, progettato simulazioni e confrontato approcci alternativi su dati sintetici e reali.</p><Link href="/ricerca" className="text-link">ESPLORA LA RICERCA →</Link></div>
     </section>
 
     <section className="section journey">
@@ -55,8 +62,8 @@ export default function Home() {
 
 
 
-    <section className="contact">
-      <p className="eyebrow">CONTATTI</p><h2>Parliamone.</h2><p>Per opportunità, progetti o semplicemente per scambiare due idee.</p><a href="mailto:andrea.bianco00.ab@gmail.com">andrea.bianco00.ab@gmail.com ↗</a>
+    <section className="contact" id="contatti">
+      <p className="eyebrow">CONTATTI / COLLABORAZIONI</p><h2>Costruiamo qualcosa<br/>di interessante.</h2><p>Hai un progetto, una posizione in Data Science o un problema da risolvere con i dati? Scrivimi.</p><a href="mailto:andrea.bianco00.ab@gmail.com?subject=Opportunit%C3%A0%20Data%20Science">SCRIVIMI UNA EMAIL ↗</a>
     </section>
 
     <footer><p>ANDREA BIANCO · 2026</p><div><a href="https://github.com/andrea-bianco00">GITHUB</a><a href="https://www.linkedin.com/in/andreabianco00">LINKEDIN</a><a href="mailto:andrea.bianco00.ab@gmail.com">EMAIL</a></div></footer>
