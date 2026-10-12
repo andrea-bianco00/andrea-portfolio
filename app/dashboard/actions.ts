@@ -122,3 +122,69 @@ export async function addApplicationActivity(data:FormData) {
  if(!response.ok)throw new Error("Impossibile aggiungere l'attività");
  revalidatePath("/dashboard/"+id);
 }
+
+
+type ChildTable="application_contacts"|"application_interviews"|"application_tasks";
+const childTables:ChildTable[]=["application_contacts","application_interviews","application_tasks"];
+export async function addTrackerRecord(data:FormData){
+ const {token}=await requireSession();
+ const table=String(data.get("table")||"") as ChildTable;
+ const application_id=String(data.get("application_id")||"");
+ if(!childTables.includes(table)||!validId(application_id))throw new Error("Dati non validi");
+ const field=(name:string,max:number)=>String(data.get(name)||"").trim().slice(0,max);
+ const payload:Record<string,unknown>={application_id};
+ if(table==="application_contacts"){
+  payload.full_name=field("full_name",200);
+  payload.role=field("role",160)||null;
+  payload.email=field("email",254)||null;
+  payload.phone=field("phone",60)||null;
+  payload.notes=field("notes",3000)||null;
+  if(!payload.full_name)throw new Error("Nome obbligatorio");
+ }else if(table==="application_interviews"){
+  payload.title=field("title",200);
+  payload.interview_type=field("interview_type",20)||"hr";
+  payload.scheduled_at=field("scheduled_at",30)||null;
+  payload.participants=field("participants",3000)||null;
+  payload.meeting_url=field("meeting_url",2048)||null;
+  payload.questions=field("questions",12000)||null;
+  payload.feedback=field("feedback",12000)||null;
+  payload.notes=field("notes",12000)||null;
+  if(!payload.title||!["hr","technical","manager","case","other"].includes(String(payload.interview_type)))throw new Error("Colloquio non valido");
+  if(payload.scheduled_at){const parsed=new Date(String(payload.scheduled_at));if(Number.isNaN(parsed.getTime()))throw new Error("Data non valida");payload.scheduled_at=parsed.toISOString();}
+  if(payload.meeting_url){try{const u=new URL(String(payload.meeting_url));if(!["http:","https:"].includes(u.protocol))throw Error();}catch{throw new Error("Link non valido");}}
+ }else{
+  payload.title=field("title",200);
+  payload.due_on=field("due_on",10)||null;
+  if(!payload.title||payload.due_on&&!/^\d{4}-\d{2}-\d{2}$/.test(String(payload.due_on)))throw new Error("Attività non valida");
+ }
+ const response=await supabase("/rest/v1/"+table,{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify(payload)},token);
+ if(!response.ok)throw new Error("Salvataggio non riuscito");
+ revalidatePath("/dashboard/"+application_id);
+ revalidatePath("/dashboard");
+}
+export async function deleteTrackerRecord(data:FormData){
+ const {token}=await requireSession();
+ const table=String(data.get("table")||"") as ChildTable;
+ const id=String(data.get("id")||"");
+ const application_id=String(data.get("application_id")||"");
+ if(!childTables.includes(table)||!validId(id)||!validId(application_id))throw new Error("Dati non validi");
+ const response=await supabase("/rest/v1/"+table+"?id=eq."+encodeURIComponent(id)+"&application_id=eq."+encodeURIComponent(application_id),{method:"DELETE",headers:{Prefer:"return=representation"}},token);
+ if(!response.ok)throw new Error("Eliminazione non riuscita");
+ const rows=await response.json() as unknown[];
+ if(rows.length!==1)throw new Error("Elemento non trovato");
+ revalidatePath("/dashboard/"+application_id);
+ revalidatePath("/dashboard");
+}
+export async function toggleTrackerTask(data:FormData){
+ const {token}=await requireSession();
+ const id=String(data.get("id")||"");
+ const application_id=String(data.get("application_id")||"");
+ const completed=String(data.get("completed"))==="true";
+ if(!validId(id)||!validId(application_id))throw new Error("Attività non valida");
+ const response=await supabase("/rest/v1/application_tasks?id=eq."+encodeURIComponent(id)+"&application_id=eq."+encodeURIComponent(application_id),{method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({completed})},token);
+ if(!response.ok)throw new Error("Aggiornamento non riuscito");
+ const rows=await response.json() as unknown[];
+ if(rows.length!==1)throw new Error("Attività non trovata");
+ revalidatePath("/dashboard/"+application_id);
+ revalidatePath("/dashboard");
+}
