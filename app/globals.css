@@ -267,3 +267,31 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .tracker-panel-head,.tracker-kanban,.tracker-kanban-column{min-width:0}
 @media(max-width:1050px){.tracker-kanban{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.tracker-kanban{grid-template-columns:minmax(0,1fr);gap:12px;padding:16px}.tracker-kanban-column{min-height:100px}.tracker-view-toggle{padding:15px 18px}.tracker-filters input{flex-basis:100%}}
+
+
+/* Private job search directory */
+.tracker-platforms{margin-top:28px}
+.tracker-platforms .tracker-panel-head{align-items:flex-start;padding-bottom:22px}
+.tracker-platforms-dot{color:#ff7a1a}
+.tracker-platforms-intro{font-size:13px;color:#a99178;line-height:1.7;max-width:630px;margin:14px 0 0}
+.tracker-platforms-count{font:700 10px var(--font-geist-sans);color:#ff7a1a;letter-spacing:.12em;white-space:nowrap;margin-top:12px}
+.tracker-platforms-controls{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:0 30px 22px;flex-wrap:wrap}
+.tracker-platforms-categories{display:flex;flex-wrap:wrap;gap:8px;flex:1 1 480px}
+.tracker-platforms-categories button{border:1px solid #493021;background:transparent;color:#bca28b;padding:10px 13px;border-radius:99px;cursor:pointer;font-size:11px;transition:background .15s,border-color .15s}
+.tracker-platforms-categories button:hover{border-color:#ff7a1a}
+.tracker-platforms-categories button.active{background:#ff7a1a;border-color:#ff7a1a;color:#120a05;font-weight:700}
+.tracker-platforms-controls input{flex:0 1 250px;width:100%;font-size:12px}
+.tracker-platforms-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:0 30px 30px}
+.tracker-platform-card{display:flex;flex-direction:column;gap:9px;min-width:0;min-height:168px;padding:18px;border:1px solid #38251a;background:#120c09;border-radius:14px;color:#f3e7d3;text-decoration:none;transition:border-color .15s,transform .15s,background .15s}
+.tracker-platform-card:hover,.tracker-platform-card:focus-visible{border-color:#ff7a1a;background:#1a100a;transform:translateY(-2px)}
+.tracker-platform-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.tracker-platform-mark{display:grid;place-items:center;width:32px;height:32px;border:1px solid #593520;border-radius:9px;background:#2a170d;color:#ff9140;font-size:15px;font-weight:700}
+.tracker-platform-arrow{font-size:19px;color:#ff7a1a}
+.tracker-platform-card strong{font-size:14px;line-height:1.35;overflow-wrap:anywhere}
+.tracker-platform-description{font-size:12px;color:#bca28b;line-height:1.5}
+.tracker-platform-category{font-size:10px;color:#ff9140;margin-top:auto;padding-top:9px}
+.tracker-platforms-empty{padding:15px 30px 30px;color:#bca28b}
+.tracker-platforms-note{padding:0 30px 24px;font-size:10px;color:#8c7563}
+@media(max-width:1100px){.tracker-platforms-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:800px){.tracker-platforms-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.tracker-platforms .tracker-panel-head{padding:22px 18px}.tracker-platforms-controls{padding:0 18px 20px}.tracker-platforms-controls input{flex:1 1 100%}.tracker-platforms-grid{grid-template-columns:minmax(0,1fr);padding:0 18px 22px}.tracker-platform-card{min-height:130px}.tracker-platforms-note{padding:0 18px 20px}}
