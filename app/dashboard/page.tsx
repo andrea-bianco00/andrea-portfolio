@@ -3,6 +3,7 @@ import { requireSession, supabase } from "./lib";
 import { signOut } from "./actions";
 import TrackerView from "./TrackerView";
 import JobPlatforms from "./JobPlatforms";
+import PhDDirectory from "./PhDDirectory";
 export const metadata: Metadata = { title: "Le mie candidature | Area privata", robots: {index:false,follow:false} };
 export const dynamic = "force-dynamic";
 export type Application = {id:string;company:string;role_title:string;status:string;location:string|null;applied_on:string|null;created_at:string};
@@ -13,5 +14,5 @@ export default async function Dashboard() {
  const applications = await response.json() as Application[];
  const taskResponse=await supabase("/rest/v1/application_tasks?select=id,title,due_on,completed,application_id&completed=eq.false&order=due_on.asc.nullslast&limit=200",{},token);
  const tasks=taskResponse.ok?await taskResponse.json() as {id:string;title:string;due_on:string|null;completed:boolean;application_id:string}[]:[];
- return <main className="tracker-shell"><header className="tracker-header"><a href="/" className="brand">ANDREA BIANCO / PRIVATE</a><form action={signOut}><button className="tracker-exit">ESCI ↗</button></form></header><div className="tracker-content"><p className="eyebrow">IL MIO SPAZIO DI LAVORO</p><h1>Le mie <em>candidature.</em></h1><p className="tracker-muted">Opportunità, colloqui e prossimi passi in un unico posto.</p><TrackerView applications={applications} tasks={tasks}/><JobPlatforms/></div></main>;
+ return <main className="tracker-shell"><header className="tracker-header"><a href="/" className="brand">ANDREA BIANCO / PRIVATE</a><form action={signOut}><button className="tracker-exit">ESCI ↗</button></form></header><div className="tracker-content"><p className="eyebrow">IL MIO SPAZIO DI LAVORO</p><h1>Le mie <em>candidature.</em></h1><p className="tracker-muted">Opportunità, colloqui e prossimi passi in un unico posto.</p><TrackerView applications={applications} tasks={tasks}/><JobPlatforms/><PhDDirectory/></div></main>;
 }
