@@ -5,14 +5,14 @@ import {requireSession,supabase} from "../lib";
 import {saveApplicationDetails,addApplicationActivity} from "../actions";
 export const metadata:Metadata={title:"Scheda candidatura | Andrea Bianco",robots:{index:false,follow:false}};
 export const dynamic="force-dynamic";
-type RecordData={id:string;company:string;role_title:string;status:string;location:string|null;applied_on:string|null;job_url:string|null;source:string|null;work_mode:string|null;cv_language:string|null;salary_min:number|null;salary_max:number|null;next_action_on:string|null;notes:string|null};
+type RecordData={id:string;company:string;role_title:string;status:string;location:string|null;applied_on:string|null;job_url:string|null;source:string|null;work_mode:string|null;cv_language:string|null;salary_min:number|null;salary_max:number|null;next_action_on:string|null;notes:string|null;application_email:string|null;recruiter_name:string|null;recruiter_email:string|null;recruiter_phone:string|null;interviewers:string|null;interview_preparation:string|null;next_action_details:string|null;offer_snapshot:string|null};
 type Activity={id:string;kind:string;title:string;details:string|null;occurred_at:string};
 const kinds:Record<string,string>={note:"Nota",email:"Email",call:"Telefonata",interview:"Colloquio",assessment:"Test tecnico",follow_up:"Follow-up",status_change:"Cambio stato",other:"Altro"};
 export default async function ApplicationDetail({params}:{params:Promise<{id:string}>}){
  const {id}=await params;
  if(!/^[0-9a-f-]{36}$/i.test(id))notFound();
  const {token}=await requireSession();
- const r=await supabase("/rest/v1/job_applications?id=eq."+encodeURIComponent(id)+"&select=id,company,role_title,status,location,applied_on,job_url,source,work_mode,cv_language,salary_min,salary_max,next_action_on,notes&limit=1",{},token);
+ const r=await supabase("/rest/v1/job_applications?id=eq."+encodeURIComponent(id)+"&select=id,company,role_title,status,location,applied_on,job_url,source,work_mode,cv_language,salary_min,salary_max,next_action_on,notes,application_email,recruiter_name,recruiter_email,recruiter_phone,interviewers,interview_preparation,next_action_details,offer_snapshot&limit=1",{},token);
  if(!r.ok)throw new Error("Impossibile caricare la candidatura");
  const records=await r.json() as RecordData[];
  if(!records.length)notFound();
@@ -30,7 +30,17 @@ export default async function ApplicationDetail({params}:{params:Promise<{id:str
  <label>CV utilizzato<select name="cv_language" defaultValue={a.cv_language||""}><option value="">Non specificato</option><option value="it">Italiano</option><option value="en">Inglese</option><option value="other">Altro</option></select></label>
  <div className="tracker-salary"><label>RAL minima (€)<input type="number" min="0" name="salary_min" defaultValue={a.salary_min??""} placeholder="26000"/></label><label>RAL massima (€)<input type="number" min="0" name="salary_max" defaultValue={a.salary_max??""} placeholder="30000"/></label></div>
  <label>Prossima attività / scadenza<input type="date" name="next_action_on" defaultValue={a.next_action_on||""}/></label>
- <label>Le mie note<textarea name="notes" maxLength={20000} rows={11} defaultValue={a.notes||""} placeholder="Informazioni sull’azienda, preparazione al colloquio, impressioni, domande da fare, dettagli dell’offerta..."/></label>
+ <div className="tracker-detail-subheading"><p className="eyebrow">CONTATTI E SELEZIONE</p><h3>Le persone e i colloqui</h3></div>
+<label>Email utilizzata per candidarti<input type="email" name="application_email" maxLength={254} defaultValue={a.application_email||""} placeholder="La tua email usata per questa candidatura"/></label>
+<label>Nome del recruiter / referente HR<input name="recruiter_name" maxLength={200} defaultValue={a.recruiter_name||""} placeholder="Nome, cognome e ruolo"/></label>
+<label>Email del recruiter<input type="email" name="recruiter_email" maxLength={254} defaultValue={a.recruiter_email||""} placeholder="nome@azienda.it"/></label>
+<label>Telefono del recruiter<input type="tel" name="recruiter_phone" maxLength={60} defaultValue={a.recruiter_phone||""} placeholder="+39 ..."/></label>
+<label>Chi ti ha fatto i colloqui<textarea name="interviewers" maxLength={3000} rows={4} defaultValue={a.interviewers||""} placeholder="Nome, ruolo e data di ogni incontro"/></label>
+<label>Preparazione e domande dei colloqui<textarea name="interview_preparation" maxLength={20000} rows={7} defaultValue={a.interview_preparation||""} placeholder="Domande ricevute, argomenti tecnici, feedback, cosa approfondire..."/></label>
+<label>Prossimo passo da fare<textarea name="next_action_details" maxLength={2000} rows={3} defaultValue={a.next_action_details||""} placeholder="Es. Scrivere al recruiter martedì, preparare SQL..."/></label>
+<div className="tracker-detail-subheading"><p className="eyebrow">ARCHIVIO OFFERTA</p><h3>Testo dell'annuncio</h3></div>
+<label>Descrizione dell'offerta (copia personale)<textarea name="offer_snapshot" maxLength={20000} rows={8} defaultValue={a.offer_snapshot||""} placeholder="Requisiti, mansioni, benefit e dettagli dell'annuncio, utili anche se il link scade"/></label>
+<label>Le mie note<textarea name="notes" maxLength={20000} rows={11} defaultValue={a.notes||""} placeholder="Informazioni sull’azienda, preparazione al colloquio, impressioni, domande da fare, dettagli dell’offerta..."/></label>
  <button className="tracker-button">SALVA LE INFORMAZIONI →</button></form></section>
  <section className="tracker-panel tracker-detail-panel"><div className="tracker-panel-head"><div><p className="eyebrow">02 / CRONOLOGIA</p><h2>Colloqui e attività</h2></div></div>
  <form action={addApplicationActivity} className="tracker-detail-form"><input type="hidden" name="application_id" value={a.id}/><label>Tipo di attività<select name="kind" defaultValue="note">{Object.entries(kinds).map(([key,value])=><option key={key} value={key}>{value}</option>)}</select></label><label>Titolo *<input name="title" maxLength={200} required placeholder="Es. Colloquio tecnico con il team"/></label><label>Descrizione<textarea name="details" maxLength={20000} rows={5} placeholder="Che cosa è successo? Che cosa ricordare?"/></label><button className="tracker-button">+ AGGIUNGI ATTIVITÀ</button></form>
