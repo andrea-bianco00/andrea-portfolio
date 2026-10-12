@@ -243,3 +243,11 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .tracker-task-row input{margin-top:9px;accent-color:#ff7a1a}.tracker-task-done{text-decoration:line-through;opacity:.6}
 .tracker-detail-subheading{border-top:1px solid #38251a;margin-top:10px;padding-top:20px}.tracker-detail-subheading h3{font-size:22px;color:#f3e7d3;margin:8px 0}
 @media(max-width:700px){.tracker-workspace-body{padding:18px}.tracker-workspace-tabs{padding:0 12px}.tracker-workspace-toolbar{align-items:flex-start;flex-direction:column}}
+
+
+.tracker-view-toggle{display:flex;gap:6px;padding:14px 26px 0}.tracker-view-toggle button{border:1px solid #443023;background:transparent;color:#bea68e;border-radius:9px;padding:10px 15px;cursor:pointer}.tracker-view-toggle button.active{background:#ff7a1a;color:#140a04;border-color:#ff7a1a}
+.tracker-kanban{display:flex;gap:14px;overflow-x:auto;padding:25px;align-items:flex-start;scroll-snap-type:x proximity}
+.tracker-kanban-column{flex:0 0 240px;background:#130c08;border:1px solid #38251a;border-radius:13px;padding:14px;scroll-snap-align:start;min-height:140px}
+.tracker-kanban-column h3{display:flex;justify-content:space-between;gap:8px;color:#f3e7d3;font-size:13px;margin:0 0 16px}.tracker-kanban-column h3 span{color:#ff7a1a}
+.tracker-kanban-card{display:flex;flex-direction:column;gap:8px;text-decoration:none;border:1px solid #493021;border-radius:10px;background:#21130d;padding:14px;margin-bottom:10px;color:#f3e7d3}
+.tracker-kanban-card:hover{border-color:#ff7a1a}.tracker-kanban-card span{font-size:12px;color:#ccb49b}.tracker-kanban-card small{color:#9c8571}
