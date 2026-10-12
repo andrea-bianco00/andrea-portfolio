@@ -62,3 +62,60 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
  .case-section{padding:55px 0}
  .case-header{padding:55px 0}
 }
+
+
+/* Evidence-based NLP case study */
+.ner-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:-25px 0 70px}
+.ner-overview>div{background:linear-gradient(145deg,#1c1009,#0e0906);border:1px solid var(--line);border-radius:18px;padding:28px 24px;display:flex;flex-direction:column;gap:11px;min-width:0}
+.ner-kpi-label{font:700 10px var(--font-geist-mono);letter-spacing:.11em;color:var(--muted);text-transform:uppercase}
+.ner-overview strong{font-size:clamp(2.1rem,4.4vw,4rem);letter-spacing:-.06em;line-height:1;color:var(--orange);white-space:nowrap}
+.ner-overview strong span{font-size:.45em;letter-spacing:0}
+.ner-overview small{font-size:12px;color:var(--muted);line-height:1.5}
+.ner-toc{display:flex;flex-wrap:wrap;align-items:center;gap:14px 23px;border-top:1px solid var(--line);padding:23px 0 26px}
+.ner-toc>span{color:var(--orange);font:700 10px var(--font-geist-mono);letter-spacing:.11em;margin-right:auto}
+.ner-toc a{font-size:12px;color:var(--paper);transition:color .2s}.ner-toc a:hover{color:var(--orange)}
+.case-section{scroll-margin-top:40px}
+.ner-example{margin:35px 0 0;padding:28px 30px;border:1px solid var(--line);border-radius:18px;background:radial-gradient(circle at 85% 80%,#33180b,transparent 55%),var(--panel)}
+.ner-example-top{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--muted);font:600 10px var(--font-geist-mono);letter-spacing:.07em}
+.ner-example .ner-sentence{max-width:none;font-size:clamp(1.25rem,2.6vw,2rem);line-height:2.5;color:var(--paper);margin:24px 0}
+.ner-token{position:relative;display:inline-block;background:#5c2b0f;border-radius:8px;padding:0 9px;margin:0 2px;color:#ffe2c3}
+.ner-token small{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% - 4px);color:#ffb16f;font:700 10px var(--font-geist-mono)}
+.ner-example>p:last-child{font-size:13px;color:var(--muted)}
+.ner-dataset{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:30px 0 35px}
+.ner-dataset>div{padding:25px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:7px}.ner-dataset>div:last-child{border:0}
+.ner-dataset strong{font-size:clamp(1.5rem,3vw,2.5rem);color:var(--paper);letter-spacing:-.04em}.ner-dataset span{font-size:12px;color:var(--muted)}
+.ner-models dl{margin-top:25px;border-top:1px solid var(--line)}
+.ner-models dl div{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
+.ner-models dt{color:var(--muted)}.ner-models dd{margin:0;color:var(--paper);font-family:var(--font-geist-mono)}
+.case-section .ner-note{font-size:13px}
+.ner-chart{margin:36px 0;border:1px solid var(--line);background:var(--panel);border-radius:20px;padding:30px}
+.ner-chart-legend{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:20px;font-size:12px;color:var(--muted);margin-bottom:32px}
+.ner-chart-legend span{display:flex;gap:9px;align-items:center}.ner-dot{width:10px;height:10px;border-radius:50%;display:inline-block}.ner-dot-light{background:var(--paper)}.ner-dot-orange{background:var(--orange)}
+.ner-metric-row{padding:16px 0 25px;border-top:1px solid var(--line)}
+.ner-metric-row h3{font:700 13px var(--font-geist-sans);margin:0 0 17px}
+.ner-barline{display:flex;align-items:center;gap:12px;margin:10px 0}
+.ner-barline:before{content:"";position:absolute}
+.ner-bar{height:13px;border-radius:0 7px 7px 0;flex-shrink:0;max-width:calc(100% - 76px)}
+.ner-bar-light{background:var(--paper)}.ner-bar-orange{background:var(--orange)}
+.ner-barline span{color:var(--muted);font:600 12px var(--font-geist-mono);white-space:nowrap}
+.ner-chart figcaption{color:var(--muted);font-size:12px;line-height:1.7;border-top:1px solid var(--line);padding-top:22px}
+.ner-insight{border-left:3px solid var(--orange);padding:12px 0 12px 25px;margin:38px 0}
+.ner-insight p{margin:12px 0 0}
+.ner-loss-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:35px 0}
+.ner-loss-panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:25px;min-width:0}
+.ner-loss-head,.ner-loss-axis{display:flex;justify-content:space-between;gap:10px}.ner-loss-head strong{font-size:19px}.ner-loss-head span,.ner-loss-axis{font:500 11px var(--font-geist-mono);color:var(--muted)}
+.ner-loss-svg{display:block;width:100%;height:180px;margin-top:24px;overflow:visible}
+.ner-loss-panel p{font-size:12px!important;margin:25px 0 0}
+.ner-limit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:40px 0}
+.ner-limit-grid>div{border-top:1px solid var(--line);padding:23px 10px 12px 0}
+.ner-limit-grid span{font:600 11px var(--font-geist-mono);color:var(--orange)}
+.ner-limit-grid h3{font:450 25px var(--font-fraunces),Georgia,serif;margin:18px 0 12px}
+.case-section .ner-limit-grid p{font-size:14px;line-height:1.65}
+.ner-conclusion{background:radial-gradient(circle at 90% 100%,#3a1a09,transparent 55%),var(--panel);border:1px solid var(--line);border-radius:20px;padding:35px;margin-top:35px}
+.ner-conclusion h3{font:450 clamp(1.6rem,3vw,2.6rem) var(--font-fraunces),Georgia,serif;line-height:1.2;max-width:760px;margin:17px 0}
+.ner-resources{border:1px solid var(--line);border-radius:20px;padding:35px;display:grid;grid-template-columns:1fr 1fr;gap:35px;margin:20px 0 75px}
+.ner-resources h2{font-size:clamp(2rem,4vw,3rem);margin:14px 0}.ner-resources p:not(.eyebrow){color:var(--muted);font-size:14px;line-height:1.7}
+.ner-resource-links{display:flex;flex-direction:column;justify-content:center}
+.ner-resource-links a{border-bottom:1px solid var(--line);padding:20px 0;font:700 11px var(--font-geist-sans);letter-spacing:.09em}.ner-resource-links a:hover{color:var(--orange)}
+@media(max-width:760px){.ner-overview{grid-template-columns:1fr;gap:10px;margin:-15px 0 40px}.ner-overview>div{padding:22px}.ner-toc>span{width:100%}.ner-loss-grid,.ner-limit-grid,.ner-resources{grid-template-columns:1fr}.ner-chart{padding:20px}.ner-resources{padding:25px}}
+@media(max-width:430px){.ner-dataset strong{font-size:1.35rem}.ner-dataset>div{padding:18px 7px}.ner-example{padding:20px}.ner-example-top{font-size:9px}}
