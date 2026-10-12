@@ -307,3 +307,22 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .tracker-phd-featured strong{font-size:21px;line-height:1.3}
 .tracker-phd-featured small{font-size:12px;color:#bca28b;line-height:1.5}
 @media(max-width:540px){.tracker-phd-featured{grid-template-columns:minmax(0,1fr);padding:0 18px 20px}.tracker-phd-featured a{padding:20px}}
+
+
+/* Calm, clearly structured destructive-action confirmation */
+.tracker-item .tracker-confirm{width:100%;flex:1 0 100%;display:flex;align-items:flex-start;gap:18px;padding:24px 26px;margin-top:8px;border:1px solid #73402f;border-radius:16px;background:linear-gradient(115deg,#23120f 0%,#1a0f0c 100%);box-shadow:inset 3px 0 0 #d8694d}
+.tracker-confirm-icon{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:12px;background:#52291f;color:#ffae92;font-weight:800;font-size:20px}
+.tracker-confirm-body{min-width:0;flex:1}
+.tracker-confirm-eyebrow{display:block;color:#f09b79;font-size:10px;font-weight:800;letter-spacing:.14em;line-height:1.5;margin:0 0 8px}
+.tracker-confirm-body h4{margin:0 0 9px;color:#f8e9db;font-size:19px;line-height:1.35;font-weight:650}
+.tracker-confirm-body p{margin:0 0 20px;color:#cdb3a3;font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+.tracker-confirm-body p strong{color:#fff0e2}
+.tracker-confirm-body p span{color:#f0a18a}
+.tracker-confirm-body .tracker-buttons{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.tracker-confirm-body .tracker-buttons form{margin:0}
+.tracker-confirm-body .tracker-delete-button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:11px 18px;border:1px solid #d45b44;border-radius:10px;background:#b84937;color:#fff5ef;font-size:11px;font-weight:800;letter-spacing:.035em;cursor:pointer;transition:background .15s,border-color .15s}
+.tracker-confirm-body .tracker-delete-button:hover:not(:disabled){background:#d45b44;border-color:#e4755c}
+.tracker-confirm-body .tracker-outline{min-height:42px;border-radius:10px;padding:11px 18px;font-size:11px}
+.tracker-confirm-body button:focus-visible{outline:2px solid #ffa076;outline-offset:3px}
+.tracker-confirm-body button:disabled{opacity:.6;cursor:wait}
+@media(max-width:560px){.tracker-item .tracker-confirm{padding:18px 16px;gap:12px}.tracker-confirm-icon{width:30px;height:30px;flex-basis:30px;border-radius:9px}.tracker-confirm-body h4{font-size:17px}.tracker-confirm-body .tracker-buttons{align-items:stretch;flex-direction:column}.tracker-confirm-body .tracker-buttons form,.tracker-confirm-body .tracker-buttons button{width:100%}}
