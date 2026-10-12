@@ -1,1 +1,20 @@
-import Link from "next/link"; export default function Page(){return <main><nav className="site-nav"><Link href="/" className="brand">ANDREA BIANCO</Link><div className="nav-links"><Link href="/progetti">PROGETTI</Link><Link href="/ricerca">RICERCA</Link><Link href="/scritti">SCRITTI</Link><Link href="/about">ABOUT</Link><Link href="/cv">CV</Link></div></nav><section className="section" style={{minHeight:"75vh",paddingTop:"130px"}}><p className="eyebrow">PORTFOLIO</p><h2 style={{maxWidth:"900px",marginTop:"24px"}}>Tutti i progetti.</h2><p className="large-copy" style={{maxWidth:"720px",marginTop:"40px"}}>Qui raccoglierò i progetti di Data Science, Machine Learning, statistica e sviluppo web. Ogni lavoro avrà una pagina dedicata con problema, metodo, risultati, tecnologie, immagini, codice e demo.</p><Link href="/" className="text-link">← TORNA ALLA HOME</Link></section></main>}
+import type { Metadata } from "next";
+import SiteNav from "../components/SiteNav";
+import ProjectDirectory from "./ProjectDirectory";
+
+export const metadata: Metadata = {
+  title: "Progetti | Andrea Bianco",
+  description: "Portfolio di Data Science, statistica, Machine Learning e NLP: metodi, risultati e codice dei progetti di Andrea Bianco.",
+};
+
+export default function ProjectsPage() {
+  return <main>
+    <SiteNav />
+    <section className="section portfolio-page">
+      <p className="eyebrow">PORTFOLIO / PROGETTI</p>
+      <h1 className="portfolio-title">Dati, modelli,<br/><em>soluzioni.</em></h1>
+      <p className="large-copy portfolio-intro">Una raccolta di progetti di Data Science, statistica e intelligenza artificiale. Ogni lavoro racconta il problema affrontato, le scelte metodologiche e i risultati ottenuti.</p>
+      <ProjectDirectory />
+    </section>
+  </main>;
+}
