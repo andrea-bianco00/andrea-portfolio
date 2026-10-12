@@ -57,3 +57,31 @@ export async function updateStatus(data:FormData) {
   if(!response.ok) throw new Error("Aggiornamento non riuscito");
   revalidatePath("/dashboard");
 }
+
+
+const validId = (id:string) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+export async function editApplication(data:FormData) {
+ const {token}=await requireSession();
+ const id=String(data.get("id")||"");
+ const company=String(data.get("company")||"").trim();
+ const role_title=String(data.get("role_title")||"").trim();
+ const location=String(data.get("location")||"").trim();
+ const applied_on=String(data.get("applied_on")||"");
+ const status=String(data.get("status")||"");
+ if(!validId(id)||!company||company.length>160||!role_title||role_title.length>180||location.length>160||!statuses.includes(status)|| (applied_on&&!/^\d{4}-\d{2}-\d{2}$/.test(applied_on))) throw new Error("Dati non validi");
+ const response=await supabase("/rest/v1/job_applications?id=eq."+encodeURIComponent(id),{method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({company,role_title,location:location||null,applied_on:applied_on||null,status})},token);
+ if(!response.ok) throw new Error("Modifica non riuscita");
+ const rows=await response.json() as unknown[];
+ if(rows.length!==1) throw new Error("Candidatura non trovata");
+ revalidatePath("/dashboard");
+}
+export async function deleteApplication(data:FormData) {
+ const {token}=await requireSession();
+ const id=String(data.get("id")||"");
+ if(!validId(id)) throw new Error("Identificativo non valido");
+ const response=await supabase("/rest/v1/job_applications?id=eq."+encodeURIComponent(id),{method:"DELETE",headers:{Prefer:"return=representation"}},token);
+ if(!response.ok) throw new Error("Eliminazione non riuscita");
+ const rows=await response.json() as unknown[];
+ if(rows.length!==1) throw new Error("Candidatura non trovata o eliminazione non autorizzata");
+ revalidatePath("/dashboard");
+}
