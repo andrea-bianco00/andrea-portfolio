@@ -11,6 +11,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "statistical-learning-optimization",
+    title: "Statistical Learning & Zeroth-Order Optimization",
+    category: "Machine Learning & Optimization",
+    year: 2025,
+    summary: "Dalla teoria del rischio predittivo alla classificazione: sette esperimenti riproducibili per confrontare regressione, gradient descent e ottimizzazione senza gradienti.",
+    tags: ["Python", "Machine Learning", "Statistical Learning", "Optimization"],
+    featured: true,
+    github: "https://github.com/andrea-bianco00/machine-learning-methods",
+  },
+  {
     slug: "named-entity-recognition",
     title: "Named Entity Recognition: BiLSTM vs DistilBERT",
     category: "NLP & Deep Learning",
