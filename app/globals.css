@@ -355,3 +355,15 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .home-hero .home-portrait-curves{z-index:-1;opacity:.95}
 .home-hero .home-portrait-halo{z-index:-1}
 @media(max-width:850px){.home-hero .home-portrait-frame{inset:0}}
+
+/* Final hero composition: portrait floats on the page, not inside a card */
+.home-hero{position:relative;isolation:isolate;grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:clamp(0px,2vw,32px);min-height:710px;overflow:visible}
+.home-hero:before{content:"";position:absolute;inset:0 -5% 0 39%;z-index:-2;pointer-events:none;background:radial-gradient(ellipse at 72% 47%,rgba(111,41,8,.55),rgba(45,17,5,.21) 34%,transparent 69%)}
+.home-hero .home-portrait{align-self:stretch;min-height:590px;overflow:visible;border:0;border-radius:0;background:none;isolation:auto}
+.home-hero .home-portrait-halo{inset:3% -12% 5%;z-index:0;background:radial-gradient(ellipse at 54% 42%,rgba(255,103,18,.21),rgba(110,43,10,.10) 40%,transparent 70%);filter:blur(30px)}
+.home-hero .home-portrait-curves{inset:0 -12% 0 -22%;width:134%;height:100%;z-index:1;opacity:.78;pointer-events:none}
+.home-hero .home-portrait-frame{position:absolute;inset:-2% -8% -1% -8%;z-index:2;overflow:visible;border-radius:0}
+.home-hero .home-portrait-frame img{width:100%;height:100%;object-fit:contain;object-position:center bottom;mask-image:linear-gradient(to bottom,#000 0%,#000 80%,transparent 100%);filter:drop-shadow(0 0 22px rgba(255,111,28,.12))}
+.home-hero .home-portrait-label{display:none}
+@media(max-width:850px){.home-hero{grid-template-columns:1fr;gap:4px;min-height:0;overflow:hidden}.home-hero:before{inset:45% -20% 0 0}.home-hero .home-portrait{width:100%;max-width:560px;min-height:530px;margin:0 auto}.home-hero .home-portrait-frame{inset:0 -5% 0}.home-hero .home-portrait-curves{inset:0 -12%;width:124%}}
+@media(max-width:520px){.home-hero .home-portrait{min-height:440px}.home-hero .home-portrait-frame{inset:0 -4%}.home-hero .home-portrait-halo{inset:0 -10%}}
