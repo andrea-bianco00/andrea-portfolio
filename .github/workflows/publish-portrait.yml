@@ -1,0 +1,40 @@
+name: Publish homepage portrait
+on:
+  push:
+    paths:
+      - '.github/workflows/publish-portrait.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Extract the real JPEG and replace blocked inline data URI
+        shell: python
+        run: |
+          import base64, pathlib, re
+          root = pathlib.Path(".")
+          svg = (root / "public/andrea-portrait.svg").read_text()
+          match = re.search(r'base64,([^"]+)', svg)
+          if not match:
+              raise RuntimeError("No portrait bytes")
+          raw = base64.b64decode(match.group(1), validate=True)
+          if not raw.startswith(bytes.fromhex("ffd8ff")) or not raw.endswith(bytes.fromhex("ffd9")):
+              raise RuntimeError("Invalid JPEG")
+          (root / "public/andrea-portrait.jpg").write_bytes(raw)
+          page = root / "app/page.tsx"
+          source = page.read_text()
+          source, count = re.subn(r'src="data:image/jpeg;base64,[^"]+"', 'src="/andrea-portrait.jpg"', source)
+          if count != 1:
+              raise RuntimeError(f"Expected one inline portrait; found {count}")
+          page.write_text(source)
+      - name: Commit actual JPEG asset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/andrea-portrait.jpg app/page.tsx
+          git diff --cached --quiet || (git commit -m "fix(home): serve real JPEG portrait as static asset" && git push)
