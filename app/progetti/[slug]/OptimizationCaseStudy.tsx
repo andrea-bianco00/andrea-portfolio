@@ -11,6 +11,7 @@ export default function OptimizationCaseStudy() {
       <a href="#problema">Obiettivo</a>
       <a href="#metodo">Metodo</a>
       <a href="#risultati">Risultati</a>
+      <a href="#confronto">Confronto visivo</a>
       <a href="#limiti">Limiti</a>
     </nav>
 
@@ -46,8 +47,24 @@ export default function OptimizationCaseStudy() {
       <p>Negli esperimenti simulati, il modello flessibile Q6 addestrato con ZSGD raggiunge una MSE mediana di circa 0,2461 sul test, contro circa 0,5205 della versione lineare ZSGD, alle condizioni specificate.</p>
     </section>
 
+    <section className="case-section" id="confronto">
+      <p className="eyebrow">04 / CONFRONTO VISIVO</p>
+      <h2>Quando un modello più flessibile fa la differenza.</h2>
+      <p>Nel problema sintetico Q6, la componente non lineare del processo generativo non può essere rappresentata esattamente da una semplice regressione lineare. Con lo stesso tipo di ottimizzazione zeroth-order stocastica, il modello con ReLU ottiene una MSE mediana più bassa sul test.</p>
+      <figure className="ner-chart" aria-label="Confronto MSE Q6 sul test, valori più bassi indicano un errore minore">
+        <div className="ner-chart-legend"><span><i className="ner-dot ner-dot-light"/> Modello lineare</span><span><i className="ner-dot ner-dot-orange"/> Modello flessibile</span></div>
+        <div className="ner-metric-row"><h3>MSE mediana sul test · Q6</h3>
+          <div className="ner-barline"><div className="ner-bar ner-bar-light" style={{width:"78%"}}/><span>0,5205</span></div>
+          <div className="ner-barline"><div className="ner-bar ner-bar-orange" style={{width:"36.9%"}}/><span>0,2461</span></div>
+        </div>
+        <figcaption>Barre con scala comune che parte da zero; valori arrotondati dai risultati Q6. Cinque esecuzioni per metodo, con budget dichiarato nel report. Il confronto non prova superiorità universale.</figcaption>
+      </figure>
+      <div className="ner-insight"><span className="eyebrow">INTERPRETAZIONE</span><p><strong>Circa il 53% di MSE in meno</strong> nel confronto tra le mediane dei due metodi ZSGD. Il vantaggio riflette anche una migliore corrispondenza tra la struttura del modello flessibile e quella dei dati simulati.</p></div>
+      <p>Per la classificazione Q7, invece, la conclusione è più prudente: il metodo senza gradienti raggiunge ROC-AUC vicine alla regressione logistica standard, ma questo non implica un costo computazionale equivalente.</p>
+    </section>
+
     <section className="case-section" id="limiti">
-      <p className="eyebrow">04 / LIMITI E RIPRODUCIBILITÀ</p>
+      <p className="eyebrow">05 / LIMITI E RIPRODUCIBILITÀ</p>
       <h2>I risultati non sono una classifica universale.</h2>
       <div className="ner-limit-grid">
         <div><span>01</span><h3>Budget computazionale</h3><p>Valutazioni di gradienti e valori di funzione non equivalgono a pari tempo di esecuzione. I costi diagnostici sono esclusi dai budget di ottimizzazione.</p></div>
@@ -60,7 +77,7 @@ export default function OptimizationCaseStudy() {
 
     <section className="ner-resources" aria-label="Documentazione e codice">
       <div><p className="eyebrow">ESPLORA IL LAVORO</p><h2>Codice, test e risultati.</h2><p>Repository pubblico con i sette esperimenti, documentazione per domanda e artefatti riproducibili.</p>
-      <a href="https://github.com/andrea-bianco00/machine-learning-methods" target="_blank" rel="noopener noreferrer" className="text-link">APRI IL REPOSITORY GITHUB ↗</a></div>
+      <div className="ner-resource-links"><a href="https://github.com/andrea-bianco00/machine-learning-methods" target="_blank" rel="noopener noreferrer">CODICE SU GITHUB ↗</a><a href="https://github.com/andrea-bianco00/machine-learning-methods/blob/main/docs/ASSIGNMENT_OVERVIEW.md" target="_blank" rel="noopener noreferrer">LE SETTE DOMANDE ↗</a><a href="https://github.com/andrea-bianco00/machine-learning-methods/blob/main/docs/FIGURES_AND_RESULTS.md" target="_blank" rel="noopener noreferrer">GRAFICI E RISULTATI ↗</a><a href="https://github.com/andrea-bianco00/machine-learning-methods/blob/main/docs/METHODOLOGY_AUDIT.md" target="_blank" rel="noopener noreferrer">AUDIT METODOLOGICO ↗</a></div></div>
     </section>
   </>;
 }
