@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SiteNav from "./components/SiteNav";
+import DataConstellation from "./components/DataConstellation";
 import { projects } from "./project-data";
 import type { Metadata } from "next";
 
@@ -31,19 +32,7 @@ export default function Home() {
 
 
       </div>
-      <div className="home-portrait" aria-label="Fotografia di Andrea Bianco">
-        <div className="home-portrait-halo" aria-hidden="true"/><div className="home-hero-mini-chart" aria-hidden="true"><span>● &nbsp; ANALISI</span><span>● &nbsp; MODELLI</span><span>● &nbsp; RISULTATI</span><svg viewBox="0 0 180 75"><path d="M0 68 L24 60 L46 56 L68 44 L87 49 L110 29 L132 34 L153 15 L180 5" fill="none" stroke="#ff7a1a" strokeWidth="1.7"/><path d="M0 70 L24 67 L46 62 L68 54 L87 53 L110 41 L132 43 L153 31 L180 19" fill="none" stroke="#825032" strokeWidth="1.3"/></svg></div>
-        <svg className="home-portrait-curves" viewBox="0 0 500 520" fill="none" aria-hidden="true">
-          <path d="M-20 405 C85 280 135 405 220 270 S370 135 530 110"/>
-          <path d="M-20 445 C95 350 155 430 245 310 S390 205 530 175"/>
-          <path d="M-20 480 C95 390 150 465 260 355 S390 260 530 235"/>
-          <path d="M-20 505 C100 424 162 478 272 387 S418 300 530 280"/>
-          <path d="M-20 376 C95 260 155 353 228 240 S387 113 530 81"/>
-        </svg>
-        <div className="home-portrait-sparks" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
-        
-        <div className="home-portrait-label"><span>ANDREA BIANCO</span><span>DATA SCIENCE / RESEARCH</span></div>
-      </div>
+      <DataConstellation />
     </section>
 
     <div className="home-reference-stats" aria-label="Profilo in breve"><div><span>♧</span><strong>M.Sc. Data Science</strong><small>Università di Bologna</small></div><div><span>▥</span><strong>Research Internship</strong><small>CREST – ENSAI (FR)</small></div><div><span>⌘</span><strong>Progetti Data Science</strong><small>Machine Learning · NLP · Statistica</small></div><div><span>◎</span><strong>C1</strong><small>Inglese professionale</small></div></div>
