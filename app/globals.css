@@ -394,3 +394,48 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 @media(min-width:851px){.home-hero .home-portrait{min-height:620px}.home-hero .home-portrait-frame{inset:-4% -11% -1% -11%}}
 @media(max-width:850px){.home-hero .home-portrait{min-height:500px}.home-hero .home-portrait-frame{inset:0 -5%}.home-hero .home-portrait-sparks i:nth-child(n+9){display:none}}
 @media(max-width:520px){.home-hero{gap:0;padding-bottom:46px}.home-hero .home-portrait{min-height:390px;max-width:430px}.home-hero .home-portrait-frame{inset:0 -5%}.home-hero .home-portrait-curves{inset:0 -18%;width:136%}.home-hero .home-portrait-halo{inset:4% -15%}.home-hero .hero-copy{line-height:1.65}}
+
+/* Reference-matched homepage — isolated from case studies */
+.home-hero{max-width:1480px;min-height:700px;padding:48px 40px 0;grid-template-columns: minmax(0, 1fr) minmax(0, 1.07fr);gap:0;align-items:center}
+.home-hero .home-hero-content{padding-bottom:56px;z-index:5}
+.home-hero .hero-eyebrow{font-size:12px;letter-spacing:.2em}
+.home-hero h1{font-family:var(--font-fraunces),Georgia,serif;font-weight:800;letter-spacing:-.038em;font-size:clamp(3.5rem,5.6vw,6.3rem);line-height:.99;margin:22px 0 20px}
+.home-hero h1 em{font-style:italic;line-height:.95;font-weight:700}
+.home-hero .hero-copy{font-size:16px;line-height:1.6;max-width:575px;color:#c4beb9}
+.home-hero .home-skill-tags{margin-top:19px;gap:9px}
+.home-hero .home-skill-tags span{font-size:11px;padding:10px 13px;background:rgba(11,8,6,.82);border-color:#423023}
+.home-hero .actions{margin-top:27px;gap:13px}
+.home-hero .button{padding:15px 26px;font-size:12px;letter-spacing:0;text-transform:none}
+.home-hero .secondary{border-color:#a64c0e}
+.home-hero .home-portrait{min-height:680px;max-width:none;margin:0;overflow:visible}
+.home-hero .home-portrait-frame{inset:-4% -12% 0 -13%;z-index:3}
+.home-hero .home-portrait-frame img{object-position:center bottom;mask-image:none;filter:drop-shadow(0 0 26px rgba(255,99,16,.12))}
+.home-hero .home-portrait-halo{inset:0 -25% -5% -35%;background:radial-gradient(ellipse at 56% 45%,rgba(171,65,13,.34),rgba(62,21,6,.17) 37%,transparent 68%);filter:blur(34px)}
+.home-hero .home-portrait-curves{inset:8% -25% 0 -55%;width:180%;height:92%;opacity:.72}
+.home-hero .home-portrait-sparks{inset:0 -20% 0 -40%}
+.home-hero-mini-chart{position:absolute;right:0;top:70px;width:194px;height:130px;padding:13px 15px;border:1px solid #483021;border-radius:5px;background:linear-gradient(130deg,rgba(12,9,8,.92),rgba(14,10,7,.58));z-index:5;display:flex;flex-direction:column;gap:6px;box-shadow:0 10px 35px rgba(0,0,0,.22)}
+.home-hero-mini-chart span{font:700 9px var(--font-geist-mono);letter-spacing:.07em;color:#bbb0a7}
+.home-hero-mini-chart span:first-child{color:#e3b28b}
+.home-hero-mini-chart span:nth-child(2){color:#ff7a1a}
+.home-hero-mini-chart svg{position:absolute;inset:auto 0 0;width:100%;height:65px;opacity:.75}
+.home-reference-stats{max-width:1400px;margin:-5px auto 0;padding:22px 38px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #51301c;border-bottom:1px solid #51301c;position:relative;z-index:6;background:#070504}
+.home-reference-stats>div{padding:5px 23px;border-right:1px solid #402718;display:flex;flex-direction:column;gap:4px}
+.home-reference-stats>div:first-child{padding-left:0}
+.home-reference-stats>div:last-child{border-right:0}
+.home-reference-stats span{color:#ff7a1a;font-size:24px;line-height:1.2}
+.home-reference-stats strong{font:500 18px var(--font-fraunces),Georgia,serif;color:#f3e7d3}
+.home-reference-stats small{font-size:12px;color:#a99d92}
+.home-reference-stats+.work{padding-top:35px;border-top:0}
+.home-reference-stats+.work .section-head{margin-bottom:20px}
+.home-reference-stats+.work .section-head h2,.home-reference-stats+.work .home-section-lead{display:none}
+.home-reference-stats+.work .section-head>a{color:#ff7a1a}
+.home-reference-stats+.work .project-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;border-top:0}
+.home-reference-stats+.work .project-row{display:block;border:1px solid #38251b;border-radius:12px;min-height:220px;padding:24px;background:linear-gradient(150deg,#120c09,#080605);position:relative;overflow:hidden}
+.home-reference-stats+.work .project-row:hover{padding:24px;border-color:#ff7a1a;transform:translateY(-3px)}
+.home-reference-stats+.work .project-number{display:none}
+.home-reference-stats+.work .project-row h3{font-size:clamp(1.4rem,2vw,2rem)}
+.home-reference-stats+.work .project-row .arrow{position:absolute;top:18px;right:20px;color:#ff7a1a}
+@media(min-width:851px){.home-hero .home-portrait{min-height:680px}}
+@media(max-width:1050px) and (min-width:851px){.home-hero{padding-inline:24px}.home-hero h1{font-size:clamp(3.2rem,5vw,4.8rem)}.home-hero-mini-chart{right:-8px;transform:scale(.85);transform-origin:top right}}
+@media(max-width:850px){.home-hero{grid-template-columns:1fr;padding:40px 22px 0;gap:0;overflow:hidden}.home-hero .home-hero-content{padding-bottom:0}.home-hero h1{font-size:clamp(3.1rem,9vw,5.5rem)}.home-hero .home-portrait{min-height:540px;max-width:600px;width:100%;margin:0 auto}.home-hero .home-portrait-frame{inset:0 -8%}.home-hero .home-portrait-curves{inset:5% -18%;width:136%;height:95%}.home-hero-mini-chart{top:50px;right:10px;transform:scale(.8);transform-origin:top right}.home-reference-stats{grid-template-columns:repeat(2,1fr);margin:0 20px;padding:20px 0;gap:18px}.home-reference-stats>div{padding:10px 16px}.home-reference-stats>div:nth-child(2){border-right:0}.home-reference-stats>div:first-child{padding-left:16px}.home-reference-stats+.work .project-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.home-hero{padding:32px 20px 0}.home-hero h1{font-size:clamp(2.65rem,11vw,4.2rem)}.home-hero .hero-copy{font-size:14px}.home-hero .home-portrait{min-height:440px}.home-hero .home-portrait-frame{inset:0 -8%}.home-hero-mini-chart{top:22px;right:0;transform:scale(.63)}.home-reference-stats{margin:0 18px;gap:8px}.home-reference-stats strong{font-size:15px}.home-reference-stats small{font-size:10px}.home-reference-stats+.work .project-list{grid-template-columns:1fr}}
