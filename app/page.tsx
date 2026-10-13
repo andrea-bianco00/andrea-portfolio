@@ -19,7 +19,8 @@ const approach = [
 ];
 
 export default function Home() {
-  return <main>
+  return <main className="home-with-network">
+    <DataConstellation />
     <SiteNav />
 
     <section className="hero home-hero">
@@ -32,7 +33,6 @@ export default function Home() {
 
 
       </div>
-      <DataConstellation />
     </section>
 
     <div className="home-reference-stats" aria-label="Profilo in breve"><div><span>♧</span><strong>M.Sc. Data Science</strong><small>Università di Bologna</small></div><div><span>▥</span><strong>Research Internship</strong><small>CREST – ENSAI (FR)</small></div><div><span>⌘</span><strong>Progetti Data Science</strong><small>Machine Learning · NLP · Statistica</small></div><div><span>◎</span><strong>C1</strong><small>Inglese professionale</small></div></div>
