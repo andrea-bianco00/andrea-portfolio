@@ -454,3 +454,21 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 @media(max-width:850px){.home-hero:has(.home-data-network){overflow:visible;gap:30px;padding-bottom:35px}.home-hero:has(.home-data-network) .home-data-network{min-height:390px;max-width:650px;margin:0 auto}}
 @media(max-width:520px){.home-hero:has(.home-data-network){gap:22px}.home-hero:has(.home-data-network) .home-data-network{min-height:320px;border-radius:16px}.home-data-network-label{top:18px;left:18px}.home-data-network-hint{bottom:16px;right:16px;font-size:8px}}
 @media(prefers-reduced-motion:reduce){.home-data-network canvas{transition:none}}
+
+/* Home-only full-viewport interactive network background */
+.home-with-network{position:relative;isolation:isolate;min-height:100vh}
+.home-with-network>.home-data-network{position:fixed;inset:0;width:100%;height:100dvh;min-height:0!important;max-width:none!important;margin:0!important;z-index:-1;border:0;border-radius:0;background:radial-gradient(ellipse at 70% 38%,rgba(75,28,9,.13),transparent 63%),#070504;overflow:hidden;pointer-events:none}
+.home-with-network>.home-data-network:before{background:linear-gradient(90deg,rgba(7,5,4,.7) 0%,rgba(7,5,4,.44) 38%,rgba(7,5,4,.08) 100%);z-index:1}
+.home-with-network>.home-data-network canvas{pointer-events:none}
+.home-with-network>.home-data-network .home-data-network-label,.home-with-network>.home-data-network .home-data-network-hint{display:none}
+.home-with-network>.site-nav,.home-with-network>.hero,.home-with-network>.section,.home-with-network>.home-reference-stats,.home-with-network>footer{position:relative;z-index:1}
+.home-with-network .home-hero{display:flex;align-items:center;max-width:1480px;min-height:620px;padding:65px 40px 80px;overflow:visible}
+.home-with-network .home-hero:before{display:none}
+.home-with-network .home-hero-content{width:min(100%,790px);padding-bottom:0}
+.home-with-network .home-hero h1{max-width:770px}
+.home-with-network .home-reference-stats{background:rgba(7,5,4,.72);backdrop-filter:blur(5px)}
+.home-with-network .section{background:rgba(7,5,4,.44)}
+.home-with-network .project-row{backdrop-filter:blur(5px)}
+.home-with-network .contact{background:var(--orange)}
+@media(max-width:850px){.home-with-network .home-hero{display:flex;min-height:0;padding:65px 22px 85px}.home-with-network .home-hero-content{width:100%}.home-with-network>.home-data-network:before{background:rgba(7,5,4,.43)}}
+@media(max-width:520px){.home-with-network .home-hero{padding:45px 20px 75px}.home-with-network>.home-data-network:before{background:rgba(7,5,4,.56)}}
