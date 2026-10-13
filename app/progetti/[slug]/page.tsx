@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav";
 import NerCaseStudy from "./NerCaseStudy";
+import OptimizationCaseStudy from "./OptimizationCaseStudy";
 import { getProject, projects } from "../../project-data";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -34,6 +35,7 @@ export default async function ProjectPage({ params }: Props) {
         {project.github && <a className="button primary case-github" href={project.github} target="_blank" rel="noopener noreferrer">ESPLORA IL CODICE SU GITHUB ↗</a>}
       </header>
       {slug === "named-entity-recognition" && <NerCaseStudy />}
+      {slug === "statistical-learning-optimization" && <OptimizationCaseStudy />}
       <div className="case-end"><Link href="/progetti" className="text-link">← TORNA AI PROGETTI</Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">REPOSITORY GITHUB ↗</a>}</div>
     </article>
   </main>;
