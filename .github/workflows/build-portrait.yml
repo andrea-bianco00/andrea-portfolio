@@ -11,42 +11,42 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install image processing
-        run: python -m pip install opencv-python-headless Pillow
-      - name: Cut out portrait from original image
-        shell: python
+        with:
+          persist-credentials: true
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check Pillow
+      - name: Produce and verify portrait PNG
+        shell: bash
         run: |
-          import cv2, numpy as np
-          from PIL import Image
+          python - <<'PY'
+          from PIL import Image, ImageDraw, ImageFilter
           from pathlib import Path
-          path=Path('public/andrea-portrait-final.jpg')
-          if not path.exists(): raise RuntimeError('Original photograph missing')
-          im=cv2.imread(str(path))
-          if im is None: raise RuntimeError('Original photograph unreadable')
-          h,w=im.shape[:2]
-          if abs(w/h-584/1066)>0.03: raise RuntimeError(f'Unexpected photo dimensions {w}x{h}')
-          poly=np.array([(0,1066),(0,740),(12,650),(28,540),(42,460),(72,400),(135,371),(177,351),(210,327),(206,289),(190,248),(188,206),(201,159),(224,116),(255,94),(302,83),(351,89),(402,112),(431,145),(443,185),(430,236),(410,287),(390,327),(408,354),(460,372),(506,401),(546,452),(571,516),(583,630),(583,1066)],np.float32)
-          sure=np.array([(170,1065),(120,750),(105,520),(155,424),(220,402),(240,344),(226,275),(225,193),(251,147),(294,131),(348,141),(394,187),(390,254),(364,317),(364,382),(423,415),(467,510),(485,690),(442,1065)],np.float32)
-          poly=np.round(poly*np.array([w/584,h/1066])).astype(np.int32)
-          sure=np.round(sure*np.array([w/584,h/1066])).astype(np.int32)
-          mask=np.zeros((h,w),np.uint8)
-          cv2.fillPoly(mask,[poly],cv2.GC_PR_FGD)
-          cv2.fillPoly(mask,[sure],cv2.GC_FGD)
-          bg,fg=np.zeros((1,65),np.float64),np.zeros((1,65),np.float64)
-          cv2.grabCut(im,mask,None,bg,fg,8,cv2.GC_INIT_WITH_MASK)
-          alpha=np.where((mask==cv2.GC_FGD)|(mask==cv2.GC_PR_FGD),255,0).astype(np.uint8)
-          alpha=cv2.morphologyEx(alpha,cv2.MORPH_CLOSE,np.ones((5,5),np.uint8))
-          alpha=cv2.GaussianBlur(alpha,(5,5),1.2)
-          rgba=cv2.cvtColor(im,cv2.COLOR_BGR2RGBA)
-          rgba[:,:,3]=alpha
-          out=Path('public/andrea-portrait-cutout.png')
-          Image.fromarray(rgba).save(out,optimize=True)
-          with Image.open(out) as verify:
-              verify.verify()
-          print('Created verified transparent PNG:',out.stat().st_size,'bytes')
-      - name: Commit transparent portrait
+          src=Path("public/andrea-portrait-final.jpg")
+          assert src.is_file(), "Original JPEG missing"
+          with Image.open(src) as check:
+              check.verify()
+          im=Image.open(src).convert("RGBA")
+          w,h=im.size
+          assert w>=500 and h>=900, f"Unexpected image dimensions {im.size}"
+          points=[(0,1066),(0,775),(10,673),(26,553),(42,467),(68,415),(117,382),(174,353),(204,332),(206,293),(191,251),(188,207),(199,167),(220,126),(251,101),(283,91),(320,86),(354,94),(396,112),(426,143),(441,186),(434,226),(418,265),(391,319),(406,350),(460,370),(506,402),(542,449),(566,513),(584,650),(584,1066)]
+          points=[(round(x*w/584),round(y*h/1066)) for x,y in points]
+          mask=Image.new("L",(w,h),0)
+          ImageDraw.Draw(mask).polygon(points,fill=255)
+          mask=mask.filter(ImageFilter.GaussianBlur(1.5))
+          im.putalpha(mask)
+          target=Path("public/andrea-portrait-cutout.png")
+          im.save(target,optimize=True)
+          with Image.open(target) as result:
+              result.verify()
+          print("Verified cutout:",target, target.stat().st_size,"bytes")
+          PY
+      - name: Commit PNG
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/andrea-portrait-cutout.png
-          git diff --cached --quiet || (git commit -m "assets(home): add real transparent portrait cutout" && git push)
+          if ! git diff --cached --quiet; then
+            git commit -m "assets(home): verified transparent portrait"
+            git push origin HEAD:main
+          fi
