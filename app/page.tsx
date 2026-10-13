@@ -21,21 +21,25 @@ export default function Home() {
   return <main>
     <SiteNav />
 
-    <section className="hero">
-      <div>
+    <section className="hero home-hero">
+      <div className="home-hero-content">
         <p className="eyebrow hero-eyebrow"><span className="hero-status-dot" aria-hidden="true"/> DATA SCIENTIST · STATISTICA · MACHINE LEARNING</p>
         <h1>CAPIRE I DATI.<br/><em>CAPIRE IL PROBLEMA.</em></h1>
-        <p className="hero-copy">Sono Andrea Bianco, Data Scientist con una formazione in statistica ed esperienza nella ricerca. Uso Machine Learning, AI e analisi quantitativa per trasformare problemi complessi in risultati comprensibili e verificabili.</p>
+        <p className="hero-copy">Sono Andrea Bianco, Data Scientist con una solida formazione statistica ed esperienza di ricerca presso CREST–ENSAI. Sviluppo e valuto modelli di Machine Learning per trasformare problemi complessi in analisi rigorose e risultati utili.</p>
+        <div className="home-skill-tags" aria-label="Competenze principali"><span>Python</span><span>R</span><span>SQL</span><span>Machine Learning</span><span>Statistical Modeling</span></div>
         <div className="actions"><Link href="/progetti" className="button primary">ESPLORA I PROGETTI ↗</Link><Link href="/cv" className="button secondary">IL MIO CV →</Link></div>
         <p className="hero-availability">Interessato a opportunità professionali in Data Science e AI.</p>
         <div className="hero-links"><a href="https://github.com/andrea-bianco00">GITHUB ↗</a><a href="https://www.linkedin.com/in/andreabianco00">LINKEDIN ↗</a><a href="mailto:andrea.bianco00.ab@gmail.com">EMAIL ↗</a></div>
       </div>
-      <div className="hero-card" aria-label="Visualizzazione astratta ispirata all'analisi di dati funzionali">
-        <div className="viz-label"><span>FUNCTIONAL DATA / RESEARCH</span><span>μ(t) · C(s,t)</span></div>
-        <svg className="curves" viewBox="0 0 500 500" role="img">
-          <path d="M15 385 C90 345 120 255 195 295 S305 155 485 115"/><path d="M15 410 C95 375 125 300 200 315 S315 205 485 145"/><path d="M15 355 C100 330 130 220 205 270 S310 110 485 92"/><path d="M15 430 C90 395 145 345 215 335 S330 245 485 175"/>
+      <div className="home-portrait" aria-label="Fotografia di Andrea Bianco">
+        <div className="home-portrait-halo" aria-hidden="true"/>
+        <svg className="home-portrait-curves" viewBox="0 0 500 520" fill="none" aria-hidden="true">
+          <path d="M-20 405 C85 280 135 405 220 270 S370 135 530 110"/>
+          <path d="M-20 445 C95 350 155 430 245 310 S390 205 530 175"/>
+          <path d="M-20 480 C95 390 150 465 260 355 S390 260 530 235"/>
         </svg>
-        <div className="viz-caption"><strong>OSSERVARE</strong><strong>MODELLARE</strong><strong>VERIFICARE</strong></div><span className="viz-watermark" aria-hidden="true">DATA / 01</span>
+        <div className="home-portrait-frame"><img src="/andrea-portrait.svg" alt="Andrea Bianco durante una presentazione" width="410" height="620" loading="eager" /></div>
+        <div className="home-portrait-label"><span>ANDREA BIANCO</span><span>DATA SCIENCE / RESEARCH</span></div>
       </div>
     </section>
 
