@@ -1,4 +1,18 @@
 const repo = "https://github.com/andrea-bianco00/machine-learning-methods";
+const figures = "https://raw.githubusercontent.com/andrea-bianco00/machine-learning-methods/main/public-figures";
+
+function ExperimentFigure({file, title, caption}:{file:string;title:string;caption:string}) {
+  return <figure style={{margin:"30px 0 38px",padding:"clamp(16px,3vw,28px)",border:"1px solid rgba(255,255,255,.15)",borderRadius:18,background:"linear-gradient(145deg,#171411,#221a15)"}}>
+    <p className="eyebrow" style={{marginBottom:14}}>GRAFICO ORIGINALE · ESPERIMENTO PYTHON</p>
+    <div style={{borderRadius:10,overflow:"hidden",background:"#fff",padding:"clamp(6px,1.5vw,16px)"}}>
+      <a href={`${figures}/${file}`} target="_blank" rel="noopener noreferrer" title="Apri il grafico originale a grandezza naturale">
+        <img src={`${figures}/${file}`} alt={title} loading="lazy" style={{display:"block",width:"100%",height:"auto",objectFit:"contain"}} />
+      </a>
+    </div>
+    <figcaption style={{marginTop:16,color:"#d7c7b9",lineHeight:1.7,fontSize:14}}>{caption} <a href={`${figures}/${file}`} target="_blank" rel="noopener noreferrer" style={{color:"#ff8b43",textDecoration:"underline",whiteSpace:"nowrap"}}>Ingrandisci ↗</a></figcaption>
+  </figure>;
+}
+
 
 function BarComparison({ title, items, max, note }: { title: string; items: { label: string; value: number; display: string; highlight?: boolean }[]; max: number; note: string }) {
   return <figure className="ner-chart">
@@ -51,7 +65,9 @@ export default function OptimizationCaseStudy() {
         </svg>
         <p>Schema illustrativo, non un grafico di osservazioni sperimentali. Serve a vedere perché una singola retta non riproduce esattamente un effetto con soglia.</p>
       </div>
+      <ExperimentFigure file="q2_signals.png" title="Segnale lineare e segnale non lineare ReLU" caption="Come leggerlo: il primo segnale cresce in modo lineare, il secondo presenta una soglia. È il motivo per cui una retta da sola non può rappresentare perfettamente il fenomeno." />
       <p>Ho quindi confrontato due modelli addestrati con lo stesso tipo di algoritmo senza gradienti: uno lineare e uno che include una componente ReLU. La metrica è la <strong>MSE</strong>, l'errore quadratico medio sulle previsioni: più è bassa, meglio è.</p>
+      <ExperimentFigure file="q6_comparison.png" title="Confronto originale Q6: curve di ottimizzazione e errore sul test dei modelli lineare e ReLU" caption="A sinistra, il percorso di ottimizzazione; a destra, quanto bene i modelli prevedono osservazioni mai viste. Il modello flessibile addestrato con ZSGD riduce l'errore rispetto al modello lineare, nel budget di questo esperimento." />
       <BarComparison title="Errore di previsione sul test · Q6" max={0.6} items={[{label:"Modello lineare · ZSGD",value:0.520539,display:"0,5205"},{label:"Modello con ReLU · ZSGD",value:0.246118,display:"0,2461",highlight:true}]} note="Mediane su cinque esecuzioni, dati simulati e test separato. Scala da 0 a 0,6 MSE. Fonte: report Q6 del repository."/>
       <div className="ner-insight"><span className="eyebrow">COSA CI DICE IL GRAFICO</span><p>Nel test, l'errore mediano del modello flessibile è <strong>circa il 53% più basso</strong>. Non significa che i modelli complessi siano sempre migliori: qui la componente ReLU rappresenta proprio la struttura usata per generare i dati.</p></div>
       <p>Il passaggio precedente del progetto mostra anche che la regressione lineare ha un errore di approssimazione teorico non nullo: aumentare il campione riduce l'incertezza della stima, ma non elimina da solo questa limitazione del modello.</p>
@@ -76,8 +92,10 @@ export default function OptimizationCaseStudy() {
         </svg>
       </div>
       <p>Nel progetto ho implementato e confrontato questi algoritmi controllando il numero di valutazioni richieste. Ho anche studiato come cambiano i risultati al variare del passo di aggiornamento e delle direzioni casuali utilizzate.</p>
+      <ExperimentFigure file="q4_convergence.png" title="Curve originali Q4: Gradient Descent e Stochastic Gradient Descent" caption="L'asse orizzontale rappresenta il budget di gradienti individuali, non il tempo. Le curve mostrano come due strategie diverse si avvicinano al minimo della funzione di training." />
       <BarComparison title="Quanto si avvicinano al minimo? · Q4" max={0.36} items={[{label:"Minimo OLS (riferimento)",value:0.346020375,display:"0,346020"},{label:"Gradient Descent (GD)",value:0.3460224578,display:"0,346022",highlight:true},{label:"Stochastic GD (media di 5 run)",value:0.3461215602,display:"0,346122",highlight:true}]} note="Valore finale della funzione obiettivo sul training, non errore su dati nuovi. Budget di 30.000 valutazioni di gradienti individuali per metodo. Le differenze sono molto piccole e una scala da zero le rende quasi invisibili: è una scelta intenzionale per non esagerarle." />
       <p>Qui i tre valori sono praticamente sovrapposti: entrambi i metodi arrivano vicino al minimo OLS. Le <strong>curve di convergenza</strong> nel repository raccontano invece come ci arrivano: GD con pochi aggiornamenti completi e SGD con molti aggiornamenti rumorosi.</p>
+      <ExperimentFigure file="q5_convergence.png" title="Curve originali Q5: GD, SGD e metodi zeroth-order con instabilità visibili" caption="La scala logaritmica è intenzionale: alcune traiettorie senza gradienti diventano molto instabili. Non è un errore grafico, ma un risultato importante da interpretare." />
       <div className="ner-insight"><span className="eyebrow">IL RISULTATO PIÙ ISTRUTTIVO</span><p><strong>Una stima del gradiente matematicamente corretta non garantisce un addestramento stabile.</strong> Alcune configurazioni zeroth-order divergono. Ho mantenuto e documentato anche questi casi: capire i fallimenti è parte del lavoro sperimentale.</p></div>
       <p className="ner-note">I budget di valutazioni di gradienti e di valori della funzione sono dichiarati separatamente: non equivalgono automaticamente allo stesso tempo di calcolo. I dettagli e le curve delle esecuzioni sono disponibili nel <a href={`${repo}/blob/main/docs/Q5_RESULTS.md`} target="_blank" rel="noopener noreferrer" style={{color:"var(--orange)",textDecoration:"underline"}}>report sull'ottimizzazione</a>.</p>
     </section>
@@ -87,6 +105,7 @@ export default function OptimizationCaseStudy() {
       <h2>Un metodo senza gradienti può competere con un ottimizzatore standard?</h2>
       <p>Per la domanda bonus ho utilizzato il dataset pubblico <strong>UCI MAGIC Gamma Telescope</strong>: 19.020 eventi simulati descritti da dieci variabili numeriche. L'obiettivo è distinguere eventi gamma da eventi hadron.</p>
       <p>Per isolare il più possibile l'effetto dell'ottimizzazione, ho confrontato <strong>la stessa famiglia di modelli</strong>, la regressione logistica, addestrata con L-BFGS oppure con ZSGD. I dati sono divisi in training, validation e test; la standardizzazione viene appresa soltanto sul training.</p>
+      <ExperimentFigure file="q7_comparison.png" title="Grafico originale Q7: ottimizzazione, ROC-AUC e falsi positivi sul dataset MAGIC" caption="Tre letture complementari: andamento dell'addestramento, capacità di distinguere le classi e frequenza con cui eventi hadron vengono scambiati per gamma. La sola ROC-AUC non basta per valutare un classificatore." />
       <BarComparison title="Capacità di distinguere le classi · ROC-AUC sul test" max={1} items={[{label:"Regressione logistica · L-BFGS",value:0.8305,display:"0,8305"},{label:"Regressione logistica · ZSGD (min)",value:0.8266,display:"0,8266",highlight:true},{label:"Regressione logistica · ZSGD (max)",value:0.8334,display:"0,8334",highlight:true}]} note="ROC-AUC: 0,5 indica discriminazione casuale; 1,0 è il valore ideale. La barra parte da zero per non amplificare le differenze. ZSGD: intervallo dei risultati osservati su tre seed, non intervallo di confidenza."/>
       <BarComparison title="Un altro punto di vista: falsi positivi a soglia 0,5" max={100} items={[{label:"L-BFGS · hadron scambiati per gamma",value:43.8714,display:"43,87%"},{label:"ZSGD · mediana dei tre seed",value:44.6188,display:"44,62%",highlight:true}]} note="Percentuale di eventi hadron del test classificati erroneamente come gamma. Valori più bassi sono migliori. Stesso test set e soglia di classificazione fissata a 0,5; i dati sono eventi simulati." />
       <p>Questo secondo grafico chiarisce perché non basta dire «ROC-AUC circa 0,83»: quando si decide concretamente quali eventi classificare come gamma, <strong>la soglia scelta</strong> cambia il tipo e la quantità degli errori.</p>
