@@ -347,3 +347,11 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 @media(max-width:850px){.home-hero{grid-template-columns:1fr;gap:34px;padding-top:44px}.home-portrait{min-height:470px;max-width:550px;width:100%;margin-inline:auto}.home-hero h1{font-size:clamp(3rem,10vw,5rem)}}
 @media(max-width:520px){.home-hero{padding-bottom:68px}.home-hero h1{font-size:clamp(2.8rem,12vw,4.2rem)}.home-portrait{min-height:390px}.home-portrait-frame{inset:3% 4% 42px}.home-portrait-label{left:16px;right:16px;font-size:8px}.home-skill-tags span{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.home-portrait *{animation:none!important;transition:none!important}}
+
+/* Portrait integrated into the hero, no visible photo rectangle */
+.home-hero .home-portrait{background:radial-gradient(ellipse at 57% 40%,#351506 0%,#160a05 47%,#070403 86%);border-color:rgba(255,125,32,.12);overflow:hidden}
+.home-hero .home-portrait-frame{inset:0 0 0;align-items:flex-end;overflow:visible;border-radius:0}
+.home-hero .home-portrait-frame img{width:100%;height:100%;object-fit:contain;object-position:center bottom;mask-image:linear-gradient(to bottom,#000 0%,#000 79%,transparent 100%);filter:drop-shadow(0 0 35px rgba(246,108,22,.17));}
+.home-hero .home-portrait-curves{z-index:-1;opacity:.95}
+.home-hero .home-portrait-halo{z-index:-1}
+@media(max-width:850px){.home-hero .home-portrait-frame{inset:0}}
