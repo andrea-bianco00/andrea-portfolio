@@ -101,8 +101,8 @@ export default function DataConstellation() {
     const resizer = new ResizeObserver(resize);
     resizer.observe(host);
     observer.observe(host);
-    host.addEventListener("pointermove", onMove);
-    host.addEventListener("pointerleave", onLeave);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("blur", onLeave);
     const onMediaChange = () => draw();
     media.addEventListener("change", onMediaChange);
     resize();
@@ -113,8 +113,8 @@ export default function DataConstellation() {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
       resizer.disconnect();
-      host.removeEventListener("pointermove", onMove);
-      host.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("blur", onLeave);
       media.removeEventListener("change", onMediaChange);
     };
   }, []);
