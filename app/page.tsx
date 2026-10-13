@@ -27,12 +27,12 @@ export default function Home() {
         <h1>CAPIRE I DATI.<br/><em>CAPIRE IL PROBLEMA.</em></h1>
         <p className="hero-copy">Sono Andrea Bianco, Data Scientist con una solida formazione statistica ed esperienza di ricerca presso CREST–ENSAI. Sviluppo e valuto modelli di Machine Learning per trasformare problemi complessi in analisi rigorose e risultati utili.</p>
         <div className="home-skill-tags" aria-label="Competenze principali"><span>Python</span><span>R</span><span>SQL</span><span>Machine Learning</span><span>Statistical Modeling</span></div>
-        <div className="actions"><Link href="/progetti" className="button primary">ESPLORA I PROGETTI ↗</Link><Link href="/cv" className="button secondary">IL MIO CV →</Link></div>
-        <p className="hero-availability">Interessato a opportunità professionali in Data Science e AI.</p>
-        <div className="hero-links"><a href="https://github.com/andrea-bianco00">GITHUB ↗</a><a href="https://www.linkedin.com/in/andreabianco00">LINKEDIN ↗</a><a href="mailto:andrea.bianco00.ab@gmail.com">EMAIL ↗</a></div>
+        <div className="actions"><Link href="/progetti" className="button primary">→　Scopri i miei progetti</Link><Link href="/cv" className="button secondary">▤　Scarica CV</Link></div>
+
+
       </div>
       <div className="home-portrait" aria-label="Fotografia di Andrea Bianco">
-        <div className="home-portrait-halo" aria-hidden="true"/>
+        <div className="home-portrait-halo" aria-hidden="true"/><div className="home-hero-mini-chart" aria-hidden="true"><span>● &nbsp; ANALISI</span><span>● &nbsp; MODELLI</span><span>● &nbsp; RISULTATI</span><svg viewBox="0 0 180 75"><path d="M0 68 L24 60 L46 56 L68 44 L87 49 L110 29 L132 34 L153 15 L180 5" fill="none" stroke="#ff7a1a" strokeWidth="1.7"/><path d="M0 70 L24 67 L46 62 L68 54 L87 53 L110 41 L132 43 L153 31 L180 19" fill="none" stroke="#825032" strokeWidth="1.3"/></svg></div>
         <svg className="home-portrait-curves" viewBox="0 0 500 520" fill="none" aria-hidden="true">
           <path d="M-20 405 C85 280 135 405 220 270 S370 135 530 110"/>
           <path d="M-20 445 C95 350 155 430 245 310 S390 205 530 175"/>
@@ -46,8 +46,10 @@ export default function Home() {
       </div>
     </section>
 
+    <div className="home-reference-stats" aria-label="Profilo in breve"><div><span>♧</span><strong>M.Sc. Data Science</strong><small>Università di Bologna</small></div><div><span>▥</span><strong>Research Internship</strong><small>CREST – ENSAI (FR)</small></div><div><span>⌘</span><strong>Progetti Data Science</strong><small>Machine Learning · NLP · Statistica</small></div><div><span>◎</span><strong>C1</strong><small>Inglese professionale</small></div></div>
+
     <section className="section work" id="progetti-in-evidenza">
-      <div className="section-head"><div><p className="eyebrow">PROGETTI / IN EVIDENZA</p><h2>Il lavoro, <em>non solo le parole.</em></h2><p className="home-section-lead">Esperimenti, codice e risultati: progetti raccontati con metodo e attenzione ai limiti.</p></div><Link href="/progetti">ESPLORA IL PORTFOLIO ↗</Link></div>
+      <div className="section-head"><div><p className="eyebrow">PROGETTI IN EVIDENZA</p><h2>Il lavoro, <em>non solo le parole.</em></h2><p className="home-section-lead">Esperimenti, codice e risultati: progetti raccontati con metodo e attenzione ai limiti.</p></div><Link href="/progetti">Vedi tutti i progetti →</Link></div>
       <div className="project-list">{featured.map(p=><Link href={p.href} className="project-row" key={p.title}><span className="project-number">{p.n}</span><div><p className="project-meta">{p.category}</p><h3>{p.title}</h3><p className="project-description">{p.text}</p><div className="tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div></div><span className="arrow">↗</span></Link>)}</div>
     </section>
 
