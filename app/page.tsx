@@ -37,7 +37,10 @@ export default function Home() {
           <path d="M-20 405 C85 280 135 405 220 270 S370 135 530 110"/>
           <path d="M-20 445 C95 350 155 430 245 310 S390 205 530 175"/>
           <path d="M-20 480 C95 390 150 465 260 355 S390 260 530 235"/>
+          <path d="M-20 505 C100 424 162 478 272 387 S418 300 530 280"/>
+          <path d="M-20 376 C95 260 155 353 228 240 S387 113 530 81"/>
         </svg>
+        <div className="home-portrait-sparks" aria-hidden="true"><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/><i/></div>
         <div className="home-portrait-frame"><img src="/andrea-portrait-final-Photoroom.png" alt="Andrea Bianco" width="584" height="1066" loading="eager" decoding="async" /></div>
         <div className="home-portrait-label"><span>ANDREA BIANCO</span><span>DATA SCIENCE / RESEARCH</span></div>
       </div>
