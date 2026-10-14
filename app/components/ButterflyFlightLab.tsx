@@ -84,15 +84,15 @@ export default function ButterflyFlightLab(){
     const scale=H/4,px=W*.25,origin=current.x;
     const toX=(x:number)=>px+(x-origin)*scale;
     const toY=(y:number)=>H-y*scale;
-    ctx.fillStyle="#341d13";ctx.fillRect(0,0,W,14);ctx.fillRect(0,H-14,W,14);
-    ctx.fillStyle="#ff8129";ctx.fillRect(0,13,W,2);ctx.fillRect(0,H-15,W,2);
+    ctx.fillStyle="#2d1b17";ctx.fillRect(0,0,W,7);
+    ctx.fillStyle="#a85b2b";ctx.fillRect(0,7,W,2);
     for(const [gx,gc,gh] of current.gates){
       const x=toX(gx),width=.38*scale;
       if(x<-width||x>W+width)continue;
       const top=toY(gc+gh),bottom=toY(gc-gh);
-      ctx.fillStyle="#7e3c21";ctx.fillRect(x-width/2,0,width,top);ctx.fillRect(x-width/2,bottom,width,H-bottom);
-      ctx.fillStyle="#ff8740";ctx.fillRect(x-width/2,Math.max(0,top-8),width,8);ctx.fillRect(x-width/2,bottom,width,8);
-      ctx.strokeStyle="rgba(255,174,96,.4)";ctx.strokeRect(x-width/2,0,width,top);ctx.strokeRect(x-width/2,bottom,width,H-bottom);
+      ctx.fillStyle="#19171b";ctx.fillRect(x-width/2,0,width,top);ctx.fillRect(x-width/2,bottom,width,H-bottom);
+      ctx.fillStyle="#49332a";ctx.fillRect(x-width/2,Math.max(0,top-9),width,9);ctx.fillRect(x-width/2,bottom,width,9);
+      ctx.strokeStyle="rgba(240,128,48,.5)";ctx.strokeRect(x-width/2,0,width,top);ctx.strokeRect(x-width/2,bottom,width,H-bottom);
     }
     const trail=ep.frames.slice(Math.max(0,step-32),step+1);
     trail.forEach((f,i)=>{const a=i/trail.length;ctx.fillStyle="rgba(255,128,37,"+(a*.32)+")";ctx.beginPath();ctx.arc(toX(f.x),toY(f.y),1+a*3,0,Math.PI*2);ctx.fill()});
