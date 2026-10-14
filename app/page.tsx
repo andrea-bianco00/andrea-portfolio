@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SiteNav from "./components/SiteNav";
 import DataConstellation from "./components/DataConstellation";
-import ButterflyLearningTimelapse from "./components/ButterflyLearningTimelapse";
+import ButterflySwarm from "./components/ButterflySwarm";
 import { projects } from "./project-data";
 import type { Metadata } from "next";
 
@@ -34,7 +34,7 @@ export default function Home() {
 
 
       </div>
-      <ButterflyLearningTimelapse />
+      <ButterflySwarm />
     </section>
 
     <div className="home-reference-stats" aria-label="Profilo in breve"><div><span>♧</span><strong>M.Sc. Data Science</strong><small>Università di Bologna</small></div><div><span>▥</span><strong>Research Internship</strong><small>CREST – ENSAI (FR)</small></div><div><span>⌘</span><strong>Progetti Data Science</strong><small>Machine Learning · NLP · Statistica</small></div><div><span>◎</span><strong>C1</strong><small>Inglese professionale</small></div></div>
