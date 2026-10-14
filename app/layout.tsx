@@ -22,7 +22,7 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: "Andrea Bianco | Data Scientist",
   description: "Portfolio di Andrea Bianco: progetti di Data Science, Machine Learning, NLP e ricerca statistica.",
-  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
+  icons: { icon: [{ url: "/fox-512.png", type: "image/png", sizes: "512x512" }], shortcut: "/fox-512.png", apple: [{ url: "/fox-512.png", sizes: "512x512", type: "image/png" }] },
 };
 
 export default function RootLayout({
