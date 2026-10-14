@@ -7,8 +7,8 @@ type Frame={step:number;x:number;gates:Gate[];alive:Alive[]};
 type Outcome={id:number;steps:number;passed:number;crashed:boolean};
 type Stage={label:string;model:string;training_steps_approx:number|null;frames:Frame[];outcomes:Outcome[]};
 type Swarm={source:string;count:number;scenario:string;course_seed:number;checkpoints:Stage[]};
-const URL="https://raw.githubusercontent.com/andrea-bianco00/butterfly-rl/main/data/replays/swarm-v5-1729.json";
-const LABELS:Record<string,string>={Untrained:"PRIMI TENTATIVI",Wide:"PRIME ALI",Normal:"OSTACOLI",Dense:"PRECISIONE",Windy:"VENTO",Storm:"TEMPESTA",Best:"MODELLO SELEZIONATO"};
+const URL="https://raw.githubusercontent.com/andrea-bianco00/butterfly-rl/main/data/replays/swarm-v6-1729.json";
+const LABELS:Record<string,string>={};
 function scene(ctx:CanvasRenderingContext2D,frame:Frame,step:number){
  const W=720,H=390,scale=H/4,px=180;
  const xCoord=(x:number)=>px+(x-frame.x)*scale;
@@ -47,31 +47,42 @@ function scene(ctx:CanvasRenderingContext2D,frame:Frame,step:number){
 export default function ButterflySwarm(){
  const [data,setData]=useState<Swarm|null>(null);
  const [stage,setStage]=useState(0),[tick,setTick]=useState(0);
+ const [clock,setClock]=useState(0);
  const [playing,setPlaying]=useState(true),[automatic,setAutomatic]=useState(true);
  const canvas=useRef<HTMLCanvasElement>(null);
  useEffect(()=>{let alive=true;fetch(URL,{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Not published");return r.json()}).then((d:Swarm)=>{
    if(!alive)return;
-   if(d.count!==100||d.checkpoints?.length!==7||d.checkpoints.some(c=>!c.frames?.length||c.outcomes?.length!==100))throw Error("Invalid swarm");
+   if(d.count!==100||d.checkpoints?.length<2||d.checkpoints.some(c=>!c.frames?.length||c.outcomes?.length!==100))throw Error("Invalid swarm");
    setData(d);
  }).catch(()=>{if(alive)setData(null)});return()=>{alive=false}},[]);
  const cp=data?.checkpoints[stage],frame=cp?.frames[Math.min(tick,(cp?.frames.length||1)-1)];
- useEffect(()=>{if(!playing||!data)return;const timer=window.setInterval(()=>{
-   setTick(t=>{
-     const current=data.checkpoints[stage],last=Math.min(current.frames.length-1,stage===6?900:500);
-     if(t>=last){if(automatic)setStage(s=>(s+1)%data.checkpoints.length);return automatic?0:last}
-     return Math.min(t+4,last);
-   });
- },40);return()=>window.clearInterval(timer)},[data,stage,playing,automatic]);
+ // Exactly 60 seconds per loop: 42 seconds for early policies,
+ // 18 seconds for the final policy. All recorded steps remain genuine.
+ useEffect(()=>{if(!playing||!data||!automatic)return;
+   const timer=window.setInterval(()=>setClock(t=>(t+1)%600),100);
+   return()=>window.clearInterval(timer);
+ },[playing,data,automatic]);
+ useEffect(()=>{if(!data||!automatic)return;
+   const n=data.checkpoints.length;
+   const early=Math.max(1,n-1);
+   const index=clock<420?Math.min(early-1,Math.floor(clock/420*early)):n-1;
+   const segmentStart=index===n-1?420:Math.floor(index*420/early);
+   const segmentEnd=index===n-1?600:Math.floor((index+1)*420/early);
+   const fraction=Math.min(1,(clock-segmentStart)/Math.max(1,segmentEnd-segmentStart));
+   const frames=data.checkpoints[index].frames;
+   setStage(index);
+   setTick(Math.min(frames.length-1,Math.floor(fraction*(frames.length-1))));
+ },[clock,data,automatic]);
  useEffect(()=>{const c=canvas.current;if(!c||!frame)return;const ctx=c.getContext("2d");if(!ctx)return;
    c.width=720;c.height=390;ctx.imageSmoothingEnabled=false;scene(ctx,frame,tick);
  },[frame,tick]);
  if(!data)return <ButterflyLearningTimelapse/>;
  return <section className="butterfly-swarm" aria-label="Cento farfalle controllate da PPO in un ambiente condiviso">
-   <div className="butterfly-swarm-head"><span>LEARNING TO FLY</span><span>100 AGENTI · PPO</span></div>
+   <div className="butterfly-swarm-head"><span>LEARNING TO FLY</span><span>{automatic?Math.floor(clock/10)+"/60 s":"REPLAY MANUALE"} · 100 PPO</span></div>
    <div className="butterfly-swarm-screen"><canvas ref={canvas} aria-label="100 farfalle reali, scompaiono alla collisione"/><div className="butterfly-swarm-count">{frame?.alive.length??0}<small>/ 100 IN VOLO</small></div></div>
-   <div className="butterfly-learning-track">{data.checkpoints.map((item,i)=><button key={item.model} type="button" className={stage===i?"active":""} title={LABELS[item.label]||item.label} onClick={()=>{setStage(i);setTick(0);setAutomatic(false)}} aria-label={"Mostra "+(LABELS[item.label]||item.label)}/>)}</div>
-   <div className="butterfly-learning-bottom"><div><strong>{LABELS[cp?.label||""]||cp?.label}</strong><small>{cp?.training_steps_approx===null?"Checkpoint scelto tramite validazione":cp?.training_steps_approx===0?"Non addestrato":cp?.training_steps_approx.toLocaleString("it-IT")+" passi di addestramento"} · stesso percorso, 100 voli veri</small></div>
-   <div className="butterfly-learning-buttons"><button type="button" onClick={()=>setPlaying(p=>!p)} aria-label={playing?"Pausa":"Riprendi"}>{playing?"Ⅱ":"▶"}</button><button type="button" onClick={()=>{setStage(0);setTick(0);setAutomatic(true);setPlaying(true)}} aria-label="Ricomincia il timelapse">↻</button></div></div>
+   <div className="butterfly-learning-track">{data.checkpoints.map((item,i)=><button key={item.model} type="button" className={stage===i?"active":""} title={"PPO · "+item.training_steps_approx+" passi"} onClick={()=>{setStage(i);setTick(0);setAutomatic(false)}} aria-label={"Mostra checkpoint a "+item.training_steps_approx+" passi"}/>)}</div>
+   <div className="butterfly-learning-bottom"><div><strong>{stage===0?"PRIMI TENTATIVI":stage===data.checkpoints.length-1?"ULTIMO CHECKPOINT":"TENTATIVO "+(stage+1)}</strong><small>{cp?.training_steps_approx===0?"Non addestrato":cp?.training_steps_approx?.toLocaleString("it-IT")+" passi PPO"} · "+cp?.outcomes.filter(o=>o.passed>=12).length+"/100 raggiungono 12 ostacoli"</small></div>
+   <div className="butterfly-learning-buttons"><button type="button" onClick={()=>setPlaying(p=>!p)} aria-label={playing?"Pausa":"Riprendi"}>{playing?"Ⅱ":"▶"}</button><button type="button" onClick={()=>{setStage(0);setTick(0);setClock(0);setAutomatic(true);setPlaying(true)}} aria-label="Ricomincia il timelapse">↻</button></div></div>
    <a className="butterfly-game-code" href="https://github.com/andrea-bianco00/butterfly-rl" target="_blank" rel="noopener noreferrer">Replay PPO verificabili ↗</a>
  </section>;
 }
