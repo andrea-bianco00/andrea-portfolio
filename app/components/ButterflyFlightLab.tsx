@@ -100,18 +100,18 @@ export default function ButterflyFlightLab(){
     if(current.crashed){ctx.fillStyle="#ffb391";ctx.font="bold 18px monospace";ctx.textAlign="center";ctx.fillText("COLLISION",W/2,42)}
   },[current,ep,step]);
   const available=Array.from(new Set(data?.episodes.map(e=>e.scenario)||[]));
-  return <section className="butterfly-lab" aria-label="Esperimento di apprendimento per rinforzo">
-    <div className="butterfly-lab-top"><div><span className="butterfly-lab-kicker">BUTTERFLY RL</span><h2>Learning <em>to fly.</em></h2><p>Una farfalla, un ambiente, una rete neurale. Il volo si impara per tentativi: qui riproduciamo solo decisioni realmente registrate dal modello PPO.</p></div><div className="butterfly-lab-status"><span className={"butterfly-lab-dot "+(data?"ready":"")}/>{data?"REPLAY VERIFICABILE":"IN ATTESA DEI DATI"}</div></div>
-    <div className="butterfly-lab-screen"><canvas ref={canvas} aria-label={data?"Riproduzione di una traiettoria PPO registrata":"Anteprima grafica della farfalla, senza risultati di addestramento"}/><div className="butterfly-lab-screen-label">BUTTERFLY RL <span>SIMULATION V5 · PPO</span></div></div>
-    {data&&ep?<div className="butterfly-lab-controls">
-      <label>Scenario<select value={scenario} onChange={e=>setScenario(e.target.value)}>{available.map(s=><option value={s} key={s}>{NAMES[s]||s}</option>)}</select></label>
-      <label>Episodio<select value={episodeIndex} onChange={e=>{setEpisodeIndex(Number(e.target.value));setStep(0)}}>{episodes.map((e,i)=><option key={i} value={i}>Seed {e.seed} · {e.passed} ostacoli · {e.crashed?"collisione":"fine episodio"}</option>)}</select></label>
-      <button type="button" onClick={()=>setPlaying(p=>!p)}>{playing?"Ⅱ Pausa":"▶ Riprendi"}</button>
-      <button type="button" onClick={()=>{setStep(0);setPlaying(true)}}>↺ Replay</button>
-      <button type="button" onClick={()=>setSpeed(s=>s===1?2:s===2?4:1)}>{speed}×</button>
-      <input type="range" min={0} max={Math.max(0,ep.frames.length-1)} value={step} onChange={e=>{setStep(Number(e.target.value));setPlaying(false)}} aria-label="Scorri il replay"/>
-    </div>:<div className="butterfly-lab-wait"><strong>Il laboratorio è pronto. Aspettiamo le traiettorie vere.</strong><span>La farfalla visibile sopra è soltanto un'anteprima grafica, non una dimostrazione di apprendimento.</span></div>}
-    <div className="butterfly-lab-footer"><span>{ep&&current?`STEP ${current.step} · OSTACOLI SUPERATI ${current.passed} · VENTO ${current.wind.toFixed(2)}`:"NO METRICS UNTIL TRAINING COMPLETES"}</span><a href="https://github.com/andrea-bianco00/butterfly-rl" target="_blank" rel="noopener noreferrer">CODICE E METODO ↗</a></div>
-    <p className="butterfly-lab-disclaimer">PPO controlla la portanza in un simulatore 2D semplificato, non la fisica aerodinamica reale. Le ali animate sono una rappresentazione artistica; posizione, azione, ostacoli e collisioni provengono dai replay registrati.</p>
+  return <section className="butterfly-game" aria-label="Flappy Butterfly, apprendimento per rinforzo">
+    <div className="butterfly-game-screen">
+      <canvas ref={canvas} aria-label={data?"Replay di una traiettoria registrata dal modello PPO":"Anteprima grafica in attesa dei replay reali"}/>
+      {ep&&current?<div className="butterfly-game-score">{current.passed}</div>:<div className="butterfly-game-preview">ANTEPRIMA · REPLAY NON CARICATO</div>}
+    </div>
+    {data&&ep&&<div className="butterfly-game-controls">
+      <select aria-label="Scenario" value={scenario} onChange={e=>setScenario(e.target.value)}>{available.map(s=><option value={s} key={s}>{NAMES[s]||s}</option>)}</select>
+      <select aria-label="Episodio" value={episodeIndex} onChange={e=>{setEpisodeIndex(Number(e.target.value));setStep(0)}}>{episodes.map((e,i)=><option key={i} value={i}>Tentativo {i+1}</option>)}</select>
+      <button type="button" onClick={()=>setPlaying(p=>!p)} aria-label={playing?"Pausa":"Riprendi"}>{playing?"Ⅱ":"▶"}</button>
+      <button type="button" onClick={()=>{setStep(0);setPlaying(true)}} aria-label="Ricomincia">↻</button>
+      <input type="range" min={0} max={Math.max(0,ep.frames.length-1)} value={step} onChange={e=>{setStep(Number(e.target.value));setPlaying(false)}} aria-label="Scorri replay"/>
+    </div>}
+    <a className="butterfly-game-code" href="https://github.com/andrea-bianco00/butterfly-rl" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
   </section>;
 }
