@@ -89,7 +89,7 @@ export default function ButterflyFlightLab(){
   },[current,ep,step]);
   const available=Array.from(new Set(data?.episodes.map(e=>e.scenario)||[]));
   return <section className="butterfly-lab" aria-label="Esperimento di apprendimento per rinforzo">
-    <div className="butterfly-lab-top"><div><span className="butterfly-lab-kicker">LIVE EXPERIMENT / REINFORCEMENT LEARNING</span><h2>Learning <em>to fly.</em></h2><p>Una farfalla, un ambiente, una rete neurale. Il volo si impara per tentativi: qui riproduciamo solo decisioni realmente registrate dal modello PPO.</p></div><div className="butterfly-lab-status"><span className={"butterfly-lab-dot "+(data?"ready":"")}/>{data?"REPLAY VERIFICABILE":"IN ATTESA DEI DATI"}</div></div>
+    <div className="butterfly-lab-top"><div><span className="butterfly-lab-kicker">BUTTERFLY RL</span><h2>Learning <em>to fly.</em></h2><p>Una farfalla, un ambiente, una rete neurale. Il volo si impara per tentativi: qui riproduciamo solo decisioni realmente registrate dal modello PPO.</p></div><div className="butterfly-lab-status"><span className={"butterfly-lab-dot "+(data?"ready":"")}/>{data?"REPLAY VERIFICABILE":"IN ATTESA DEI DATI"}</div></div>
     <div className="butterfly-lab-screen"><canvas ref={canvas} aria-label={data?"Riproduzione di una traiettoria PPO registrata":"Anteprima grafica della farfalla, senza risultati di addestramento"}/><div className="butterfly-lab-screen-label">BUTTERFLY RL <span>SIMULATION V5 · PPO</span></div></div>
     {data&&ep?<div className="butterfly-lab-controls">
       <label>Scenario<select value={scenario} onChange={e=>setScenario(e.target.value)}>{available.map(s=><option value={s} key={s}>{NAMES[s]||s}</option>)}</select></label>
