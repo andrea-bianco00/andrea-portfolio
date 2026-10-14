@@ -59,10 +59,22 @@ export default function ButterflyFlightLab(){
     const dpr=Math.min(window.devicePixelRatio||1,2);
     const W=720,H=390;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
     ctx.clearRect(0,0,W,H);
-    const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,"#160c0b");bg.addColorStop(1,"#090709");ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    ctx.strokeStyle="rgba(255,132,51,.065)";ctx.lineWidth=1;
-    for(let x=0;x<W;x+=36){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
-    for(let y=0;y<H;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
+    // Warm midnight pixel-art landscape, matching the portfolio palette.
+    const bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,"#090609");bg.addColorStop(.68,"#21110e");bg.addColorStop(1,"#3b1b10");
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    for(let i=0;i<48;i++){
+      const sx=(i*137+39)%W,sy=(i*83+17)%(H-90);
+      ctx.fillStyle=i%4===0?"#f99b4b":"#774229";ctx.fillRect(sx,sy,i%6===0?3:2,2);
+    }
+    ctx.fillStyle="#261713";ctx.beginPath();ctx.moveTo(0,H-55);
+    for(let x=0;x<=W;x+=8)ctx.lineTo(x,H-100-22*Math.sin(x*.012)-11*Math.sin(x*.031));
+    ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
+    ctx.fillStyle="#3a2017";ctx.beginPath();ctx.moveTo(0,H-38);
+    for(let x=0;x<=W;x+=8)ctx.lineTo(x,H-70-13*Math.sin(x*.02+2));
+    ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
+    ctx.fillStyle="#5e321b";ctx.fillRect(0,H-18,W,18);
+    ctx.fillStyle="#ff8a31";ctx.fillRect(0,H-20,W,2);
     if(!ep||!current){
       ctx.textAlign="center";ctx.fillStyle="#ffa65a";ctx.font="600 17px monospace";ctx.fillText("AWAITING REAL PPO FLIGHT DATA",W/2,H*.78);
       butterfly(ctx,W*.5,H*.42,51,0);
