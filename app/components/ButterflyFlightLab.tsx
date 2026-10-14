@@ -34,7 +34,7 @@ export default function ButterflyFlightLab(){
   const [playing,setPlaying]=useState(true);
   const [step,setStep]=useState(0);
   const [speed,setSpeed]=useState(1);
-  const [replayUrl,setReplayUrl]=useState("/butterfly/flights.json");
+  const [replayUrl,setReplayUrl]=useState("https://raw.githubusercontent.com/andrea-bianco00/butterfly-rl/main/data/replays/v5-1729.json");
   useEffect(()=>{
     let alive=true;
     fetch(replayUrl,{cache:"no-store"}).then(async r=>{if(!r.ok)throw Error("No replay");return r.json()}).then((v:Replay)=>{
