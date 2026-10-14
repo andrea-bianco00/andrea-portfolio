@@ -79,7 +79,7 @@ export default function ButterflySwarm(){
  useEffect(()=>{const c=canvas.current;if(!c||!frame)return;const ctx=c.getContext("2d");if(!ctx)return;
    c.width=720;c.height=390;ctx.imageSmoothingEnabled=false;scene(ctx,frame,tick);
  },[frame,tick]);
- if(!data)return <ButterflyLearningTimelapse/>;
+ if(!data)return <section className="butterfly-swarm"><div className="butterfly-swarm-screen" style={{padding:"100px 24px",textAlign:"center"}}>Preparazione dei voli PPO autentici...</div></section>;
  return <section className="butterfly-swarm" aria-label="Cento farfalle controllate da PPO in un ambiente condiviso">
    <div className="butterfly-swarm-head"><span>100 FARFALLE · IMPARARE A VOLARE</span><span>{automatic?Math.floor(clock/10)+"/60 s":"REPLAY MANUALE"} · PPO REALE</span></div>
    <div className="butterfly-swarm-screen"><canvas ref={canvas} aria-label="Cento farfalle controllate da PPO: ogni volo proviene da un checkpoint autentico"/><div className="butterfly-swarm-count">{frame?.alive.length??0}<small>/ 100 IN VOLO</small></div></div>
