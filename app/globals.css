@@ -472,3 +472,37 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .home-with-network .contact{background:var(--orange)}
 @media(max-width:850px){.home-with-network .home-hero{display:flex;min-height:0;padding:65px 22px 85px}.home-with-network .home-hero-content{width:100%}.home-with-network>.home-data-network:before{background:rgba(7,5,4,.43)}}
 @media(max-width:520px){.home-with-network .home-hero{padding:45px 20px 75px}.home-with-network>.home-data-network:before{background:rgba(7,5,4,.56)}}
+
+
+/* Butterfly PPO replay lab: isolated from full-screen particle network. */
+.home-with-network .home-hero{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:clamp(24px,4vw,70px);align-items:center;min-height:690px}
+.home-with-network .home-hero-content{width:100%;min-width:0}
+.home-with-network .home-hero h1{font-size:clamp(3rem,4.5vw,5.5rem)}
+.butterfly-lab{min-width:0;position:relative;padding:20px;border:1px solid rgba(255,126,41,.22);border-radius:19px;background:linear-gradient(135deg,rgba(24,13,10,.93),rgba(8,6,6,.91));box-shadow:0 28px 80px rgba(0,0,0,.3),inset 0 1px rgba(255,150,73,.09);backdrop-filter:blur(15px);color:#e9d7c7}
+.butterfly-lab-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:18px}
+.butterfly-lab-kicker{font:600 9px var(--font-geist-mono),monospace;letter-spacing:.14em;color:#ff964c}
+.butterfly-lab-top h2{font:700 clamp(27px,2.7vw,43px)/1.1 var(--font-fraunces),Georgia,serif;margin:9px 0;color:#fff0e0}
+.butterfly-lab-top h2 em{color:#ff872f}
+.butterfly-lab-top p{font-size:11px;line-height:1.65;color:#bca89a;max-width:360px;margin:0}
+.butterfly-lab-status{flex:none;display:flex;align-items:center;gap:6px;font:600 8px var(--font-geist-mono),monospace;letter-spacing:.06em;color:#b9a28e;margin-top:2px}
+.butterfly-lab-dot{width:6px;height:6px;border-radius:50%;background:#c58b4d;box-shadow:0 0 8px #a75d28}
+.butterfly-lab-dot.ready{background:#8adbb1;box-shadow:0 0 9px #8adbb1}
+.butterfly-lab-screen{position:relative;border:1px solid #422a20;border-radius:11px;overflow:hidden;background:#0c0809}
+.butterfly-lab-screen canvas{width:100%;height:auto;display:block;aspect-ratio:720/390}
+.butterfly-lab-screen-label{position:absolute;top:13px;left:13px;right:13px;display:flex;justify-content:space-between;gap:10px;color:#ffc58e;font:700 9px var(--font-geist-mono),monospace;letter-spacing:.12em;pointer-events:none}
+.butterfly-lab-screen-label span{color:#b3907b}
+.butterfly-lab-wait{display:flex;flex-direction:column;gap:6px;margin:15px 0;color:#f2caa7;font-size:12px}
+.butterfly-lab-wait span{font-size:11px;color:#a98e7d;line-height:1.6}
+.butterfly-lab-controls{display:flex;align-items:end;flex-wrap:wrap;gap:8px;margin:13px 0}
+.butterfly-lab-controls label{display:flex;flex-direction:column;gap:5px;font:600 9px var(--font-geist-mono),monospace;color:#ba9981}
+.butterfly-lab-controls select,.butterfly-lab-controls button{border:1px solid #68422b;background:#1e110d;color:#f2d6bd;border-radius:7px;padding:9px;font-size:11px;max-width:220px}
+.butterfly-lab-controls button{cursor:pointer;white-space:nowrap}
+.butterfly-lab-controls button:hover{border-color:#ff8b32}
+.butterfly-lab-controls input[type=range]{width:100%;accent-color:#ff7a1a}
+.butterfly-lab-footer{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid #39251b;margin-top:13px;padding-top:13px;font:600 9px var(--font-geist-mono),monospace;color:#c29b80;letter-spacing:.04em}
+.butterfly-lab-footer a{color:#ff9549;text-decoration:none;white-space:nowrap}
+.butterfly-lab-disclaimer{margin:12px 0 0;font-size:10px;line-height:1.55;color:#8f796b}
+@media(max-width:1100px){.home-with-network .home-hero{gap:25px}.home-with-network .home-hero h1{font-size:clamp(2.8rem,4.3vw,4.5rem)}.butterfly-lab{padding:14px}.butterfly-lab-status{font-size:7px}}
+@media(max-width:850px){.home-with-network .home-hero{display:flex;flex-direction:column;align-items:stretch;gap:32px;padding:45px 22px 65px}.home-with-network .home-hero h1{font-size:clamp(3rem,9vw,5rem)}.butterfly-lab{width:100%;max-width:690px;margin:0 auto}}
+@media(max-width:520px){.home-with-network .home-hero{padding:35px 18px 55px;gap:26px}.butterfly-lab{padding:12px;border-radius:14px}.butterfly-lab-top{flex-wrap:wrap}.butterfly-lab-screen-label{font-size:7px}.butterfly-lab-footer{flex-wrap:wrap;font-size:8px}.butterfly-lab-top h2{font-size:31px}}
+@media(prefers-reduced-motion:reduce){.butterfly-lab *{scroll-behavior:auto!important}}
