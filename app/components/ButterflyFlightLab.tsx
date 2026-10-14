@@ -56,9 +56,9 @@ export default function ButterflyFlightLab(){
   useEffect(()=>{
     const c=canvas.current;if(!c)return;
     const ctx=c.getContext("2d");if(!ctx)return;
-    const dpr=Math.min(window.devicePixelRatio||1,2);
+    const dpr=1;
     const W=720,H=390;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
-    ctx.clearRect(0,0,W,H);
+    ctx.imageSmoothingEnabled=false;ctx.clearRect(0,0,W,H);
     // Warm midnight pixel-art landscape, matching the portfolio palette.
     const bg=ctx.createLinearGradient(0,0,0,H);
     bg.addColorStop(0,"#090609");bg.addColorStop(.68,"#21110e");bg.addColorStop(1,"#3b1b10");
@@ -76,9 +76,9 @@ export default function ButterflyFlightLab(){
     ctx.fillStyle="#5e321b";ctx.fillRect(0,H-18,W,18);
     ctx.fillStyle="#ff8a31";ctx.fillRect(0,H-20,W,2);
     if(!ep||!current){
-      ctx.textAlign="center";ctx.fillStyle="#ffa65a";ctx.font="600 17px monospace";ctx.fillText("AWAITING REAL PPO FLIGHT DATA",W/2,H*.78);
+      ctx.textAlign="center";ctx.fillStyle="#ffa65a";ctx.font="600 17px monospace";ctx.fillText("IL VOLO INIZIA PRESTO",W/2,H*.78);
       butterfly(ctx,W*.5,H*.42,51,0);
-      ctx.fillStyle="#a38b7b";ctx.font="13px monospace";ctx.fillText("Visual preview · no trained policy loaded",W/2,H*.87);
+      ctx.fillStyle="#a38b7b";ctx.font="13px monospace";
       return;
     }
     const scale=H/4,px=W*.25,origin=current.x;
