@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import MicrosoftClarity from "./clarity";
+import foxIcon from "./fox-512.png";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,7 +23,11 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: "Andrea Bianco | Data Scientist",
   description: "Portfolio di Andrea Bianco: progetti di Data Science, Machine Learning, NLP e ricerca statistica.",
-  icons: { icon: [{ url: "/fox-512.png", type: "image/png", sizes: "512x512" }], shortcut: "/fox-512.png", apple: [{ url: "/fox-512.png", sizes: "512x512", type: "image/png" }] },
+  icons: {
+    icon: [{ url: foxIcon.src, type: "image/png", sizes: "512x512" }],
+    shortcut: foxIcon.src,
+    apple: [{ url: foxIcon.src, sizes: "512x512", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
