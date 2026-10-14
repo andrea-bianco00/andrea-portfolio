@@ -506,3 +506,18 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 @media(max-width:850px){.home-with-network .home-hero{display:flex;flex-direction:column;align-items:stretch;gap:32px;padding:45px 22px 65px}.home-with-network .home-hero h1{font-size:clamp(3rem,9vw,5rem)}.butterfly-lab{width:100%;max-width:690px;margin:0 auto}}
 @media(max-width:520px){.home-with-network .home-hero{padding:35px 18px 55px;gap:26px}.butterfly-lab{padding:12px;border-radius:14px}.butterfly-lab-top{flex-wrap:wrap}.butterfly-lab-screen-label{font-size:7px}.butterfly-lab-footer{flex-wrap:wrap;font-size:8px}.butterfly-lab-top h2{font-size:31px}}
 @media(prefers-reduced-motion:reduce){.butterfly-lab *{scroll-behavior:auto!important}}
+
+/* Flappy Butterfly: the game itself is the visual hero. */
+.butterfly-game{position:relative;min-width:0;width:100%;align-self:center}
+.butterfly-game-screen{position:relative;overflow:hidden;border:1px solid rgba(255,134,54,.2);border-radius:14px;background:#090609;box-shadow:0 20px 75px rgba(0,0,0,.25),0 0 55px rgba(255,101,28,.035)}
+.butterfly-game-screen canvas{display:block;width:100%;height:auto;aspect-ratio:720/390;image-rendering:pixelated}
+.butterfly-game-score{position:absolute;top:17px;left:50%;transform:translateX(-50%);font:900 34px monospace;color:#fff2d8;text-shadow:2px 3px #462419}
+.butterfly-game-preview{position:absolute;bottom:14px;left:0;right:0;text-align:center;font:700 9px monospace;letter-spacing:.07em;color:#ffae6d;text-shadow:0 2px 5px #090609}
+.butterfly-game-controls{display:flex;align-items:center;gap:8px;padding:10px 0;flex-wrap:wrap}
+.butterfly-game-controls select,.butterfly-game-controls button{background:#170d0a;border:1px solid rgba(255,133,54,.27);border-radius:6px;color:#eac4a7;font:600 10px monospace;padding:7px 8px}
+.butterfly-game-controls select{max-width:145px}
+.butterfly-game-controls button{cursor:pointer;min-width:30px}
+.butterfly-game-controls input{flex:1;min-width:60px;accent-color:#ff8129}
+.butterfly-game-code{display:block;text-align:right;margin-top:7px;color:#a97754;text-decoration:none;font:600 10px monospace}
+.butterfly-game-code:hover{color:#ff8a3d}
+@media(max-width:850px){.butterfly-game{max-width:680px;margin:auto}}
