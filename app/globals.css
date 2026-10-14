@@ -536,3 +536,12 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .butterfly-learning-buttons{display:flex;gap:6px}
 .butterfly-learning-buttons button{background:#22120d;border:1px solid #67412d;color:#ffc18c;border-radius:7px;min-width:35px;height:34px;cursor:pointer}
 @media(max-width:850px){.butterfly-learning{max-width:680px;margin:auto}}
+
+/* Verified hundred-agent swarm: game-first, no extra dashboard. */
+.butterfly-swarm{width:100%;min-width:0;align-self:center;color:#f5d8bf}
+.butterfly-swarm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:#ff9c53;font:700 10px var(--font-geist-mono),monospace;letter-spacing:.12em}
+.butterfly-swarm-screen{position:relative;overflow:hidden;border:1px solid rgba(255,142,58,.28);border-radius:12px;background:#09090d;box-shadow:0 25px 65px rgba(0,0,0,.32)}
+.butterfly-swarm-screen canvas{width:100%;height:auto;aspect-ratio:720/390;display:block;image-rendering:pixelated}
+.butterfly-swarm-count{position:absolute;top:12px;right:14px;text-align:right;color:#ffe4c1;font:800 24px var(--font-geist-mono),monospace;text-shadow:0 2px 7px #000}
+.butterfly-swarm-count small{display:block;font:700 9px var(--font-geist-mono),monospace;color:#ffad70;letter-spacing:.07em}
+@media(max-width:850px){.butterfly-swarm{max-width:680px;margin:auto}}
