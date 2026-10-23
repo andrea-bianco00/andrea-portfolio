@@ -18,7 +18,12 @@ export async function POST(request:NextRequest){
  if(origin&&origin!==new URL(request.url).origin&&origin!=="https://andrea-bianco.com"&&origin!=="https://www.andrea-bianco.com")return json({error:"Origine non consentita"},403);
  if(Number(request.headers.get("content-length")||0)>180000)return json({error:"Dati troppo grandi"},413);
  let body:Record<string,unknown>;
- try{body=await request.json()}catch{return json({error:"Richiesta non valida"},400)}
+ try{
+  // Enforce the actual body size even when Content-Length is absent or dishonest.
+  const raw=await request.text();
+  if(Buffer.byteLength(raw,"utf8")>180000)return json({error:"Dati troppo grandi"},413);
+  body=JSON.parse(raw);
+ }catch{return json({error:"Richiesta non valida"},400)}
  if(!body||typeof body!=="object")return json({error:"Richiesta non valida"},400);
  if(body.action==="start"){
   const seed=randomBytes(4).readUInt32BE(0),now=Date.now(),nonce=randomBytes(16).toString("hex");
@@ -33,11 +38,14 @@ export async function POST(request:NextRequest){
  const seed=Number(parts[0]),started=Number(parts[1]),elapsed=Date.now()-started;
  if(!Number.isInteger(seed)||seed<0||seed>4294967295||!Number.isFinite(started)||elapsed<1000||elapsed>300000)return json({error:"Sessione scaduta"},400);
  const game=initial(seed);let ticks=0;
+ const maxTicks=Math.min(36000,Math.floor((elapsed+1500)/(STEP*1000)));
  if(body.moves.length>36000)return json({error:"Replay troppo lungo"},400);
  for(const move of body.moves){
   if(!Array.isArray(move)||move.length!==3)return json({error:"Replay non valido"},400);
   const [x,y,count]=move;
   if(!Number.isInteger(x)||!Number.isInteger(y)||Math.abs(x)>1000||Math.abs(y)>1000||!Number.isInteger(count)||count<1||count>36000)return json({error:"Movimento non valido"},400);
+  // Reject excessive work before simulating any ticks from this run.
+  if(ticks+count>maxTicks)return json({error:"Replay troppo lungo per la durata della sessione"},400);
   for(let i=0;i<count;i++){
    if(game.dead)return json({error:"Replay non valido dopo la collisione"},400);
    update(game,STEP,x/1000,y/1000);ticks++;
