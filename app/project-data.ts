@@ -12,10 +12,10 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "matrix-completion-movielens",
-    title: "Matrix Completion: cosa funziona davvero sui rating?",
+    title: "Matrix Completion su MovieLens",
     category: "Machine Learning & Recommender Systems",
     year: 2026,
-    summary: "Tre metodi low-rank, due baseline e un confronto su MovieLens: il modello più semplice ha vinto. Scelte sperimentali, RMSE e limiti verificabili.",
+    summary: "Un confronto tra SVP, SVT, una variante di ADMiRA e due baseline per stimare i rating mancanti. Nel nostro esperimento, una baseline regolarizzata ha ottenuto i risultati migliori.",
     tags: ["Python", "NumPy", "Matrix Completion", "Model Evaluation"],
     featured: true,
     github: "https://github.com/andrea-bianco00/matrix-completion-movielens",
