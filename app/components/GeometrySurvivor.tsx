@@ -211,6 +211,7 @@ export default function GeometrySurvivor(){
    {publishState&&<p role="status" style={{marginTop:8,color:"#f5c4a0"}}>{publishState}</p>}
    {!session.current&&<p style={{marginTop:8}}>Pubblicazione temporaneamente disattivata. Il record personale rimane salvato.</p>}
   </form>}
+  <p style={{marginTop:12,marginBottom:12,color:"#d9bda9",fontSize:14,lineHeight:1.6}}>Vuoi scoprire come funziona l’AI che gioca? <a href="https://github.com/andrea-bianco00/geometry-survivor-rl" target="_blank" rel="noopener noreferrer" style={{color:"#ffad70",textDecoration:"underline",textUnderlineOffset:3}}>Scopri il progetto su GitHub ↗</a></p>
   <div className="geometry-game-bottom"><span>{aiMode?"DEMO AI · SOLO OSSERVAZIONI VISIBILI · NESSUNA CLASSIFICA":"EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO"}</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else void reset(aiModeRef.current?"ai":"manual")}}>{status==="playing"?"PAUSA":status==="paused"?"▶ RIPRENDI":"START"}</button><button type="button" onClick={()=>void reset(aiModeRef.current?"ai":"manual")}>RESET</button><button type="button" onClick={()=>void reset(aiMode?"manual":"ai")}>{aiMode?"GIOCA TU":"GUARDA L’AI GIOCARE"}</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>TOP 10</button></div></div>
  </section>;
 }
