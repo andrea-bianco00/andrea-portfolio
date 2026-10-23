@@ -81,7 +81,7 @@ function draw(ctx:CanvasRenderingContext2D,g:Game,now:number){
  if(g.dead){
   ctx.fillStyle="rgba(8,6,8,.69)";ctx.fillRect(0,0,W,H);
   ctx.textAlign="center";ctx.fillStyle="#ffe0c0";ctx.font="bold 40px Arial";ctx.fillText("GAME OVER",W/2,H/2-10);
-  ctx.font="16px monospace";ctx.fillStyle="#f6a66e";ctx.fillText((g.t).toFixed(1)+" SECONDİ",W/2,H/2+24);
+  ctx.font="16px monospace";ctx.fillStyle="#f6a66e";ctx.fillText((g.t).toFixed(1)+" SECONDI",W/2,H/2+24);
  }
  // Subtle visual pulse, not a gameplay or AI effect.
  void now;
