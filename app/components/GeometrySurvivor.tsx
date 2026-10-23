@@ -53,6 +53,11 @@ export default function GeometrySurvivor(){
  const [status,setStatus]=useState<"ready"|"playing"|"paused"|"dead">("ready");
  const [seconds,setSeconds]=useState(0),[best,setBest]=useState(0),[nearMisses,setNearMisses]=useState(0);
  const [bestLoaded,setBestLoaded]=useState(false);
+ const session=useRef<{token:string;seed:number}|null>(null);
+ const moves=useRef<number[][]>([]);
+ const [nickname,setNickname]=useState("");
+ const [publishState,setPublishState]=useState("");
+ const [publishing,setPublishing]=useState(false);
  const [rankingOpen,setRankingOpen]=useState(false);
  const [ranking,setRanking]=useState<{nickname:string;duration_ms:number}[]>([]);
  const [rankingLoading,setRankingLoading]=useState(false);
@@ -69,7 +74,19 @@ export default function GeometrySurvivor(){
  },[rankingOpen]);
  useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
  useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
- const reset=useCallback(()=>{game.current=initial();keys.current.clear();touch.current=null;last.current=0;accum.current=0;setSeconds(0);setNearMisses(0);setStatus("playing");running.current=true},[]);
+ const reset=useCallback(async()=>{
+  running.current=false;session.current=null;moves.current=[];setPublishState("");setSeconds(0);setNearMisses(0);setStatus("ready");
+  try{
+   const response=await fetch("/api/geometry-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"start"})});
+   if(!response.ok)throw Error("unavailable");
+   const data=await response.json();
+   if(typeof data.seed!=="number"||typeof data.session!=="string")throw Error("invalid");
+   session.current={seed:data.seed,token:data.session};game.current=initial(data.seed);
+  }catch{
+   game.current=initial();setPublishState("Modalità offline: puoi giocare e salvare il record personale, ma la pubblicazione mondiale non è ancora disponibile.");
+  }
+  keys.current.clear();touch.current=null;last.current=0;accum.current=0;setStatus("playing");running.current=true;
+ },[]);
  useEffect(()=>{
   const down=(e:KeyboardEvent)=>{
    const el=document.activeElement;
@@ -96,7 +113,16 @@ export default function GeometrySurvivor(){
     if(touch.current){ax=touch.current.x-g.x;ay=touch.current.y-g.y;if(Math.hypot(ax,ay)<18){ax=0;ay=0}}
     accum.current+=dt;
     let ticks=0;
-    while(accum.current>=STEP&&ticks<8&&!g.dead){update(g,STEP,ax,ay);accum.current-=STEP;ticks++}
+    while(accum.current>=STEP&&ticks<8&&!g.dead){
+     const mx=Math.round(ax/(Math.hypot(ax,ay)||1)*1000);
+     const my=Math.round(ay/(Math.hypot(ax,ay)||1)*1000);
+     if(session.current){
+      const previous=moves.current[moves.current.length-1];
+      if(previous&&previous[0]===mx&&previous[1]===my)previous[2]++;
+      else moves.current.push([mx,my,1]);
+     }
+     update(g,STEP,mx/1000,my/1000);accum.current-=STEP;ticks++;
+    }
     if(ticks===8)accum.current=0;
     const whole=Math.floor(g.t);
     setSeconds(old=>old===whole?old:whole);
@@ -130,6 +156,28 @@ export default function GeometrySurvivor(){
    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><strong>CLASSIFICA MONDIALE · TOP 10</strong><button type="button" onClick={()=>setRankingOpen(false)}>✕</button></div>
    {rankingLoading?<p>Caricamento…</p>:rankingError?<p role="status">{rankingError}</p>:ranking.length===0?<p>Nessun punteggio pubblicato. I risultati saranno accettati soltanto dopo la verifica delle partite.</p>:ranking.map((entry,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid rgba(255,139,48,.14)"}}><span>{i+1}. {entry.nickname}</span><strong>{(entry.duration_ms/1000).toFixed(1)}s</strong></div>)}
   </div>}
+  {status==="dead"&&<form onSubmit={async e=>{
+    e.preventDefault();if(!session.current||publishing)return;
+    if(!/^[A-Za-z0-9_-]{2,20}$/.test(nickname)){setPublishState("Usa da 2 a 20 caratteri: lettere, numeri, _ oppure -.");return}
+    setPublishing(true);setPublishState("Verifica della partita in corso…");
+    try{
+     let playerId=localStorage.getItem("geometry-survivor:player:v1");
+     if(!playerId){playerId=crypto.randomUUID();localStorage.setItem("geometry-survivor:player:v1",playerId)}
+     const response=await fetch("/api/geometry-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"finish",nickname,playerId,session:session.current.token,moves:moves.current})});
+     const result=await response.json();
+     if(!response.ok)throw Error(result.error||"Errore di pubblicazione");
+     setPublishState("Record verificato e inviato!");setRankingOpen(false);setTimeout(()=>setRankingOpen(true),150);
+    }catch(error){setPublishState(error instanceof Error?error.message:"Errore di pubblicazione")}
+    finally{setPublishing(false)}
+   }} style={{marginTop:8,padding:12,border:"1px solid rgba(255,139,48,.3)",borderRadius:8}}>
+   <strong style={{display:"block",marginBottom:8}}>PUBBLICA IL TUO RECORD NELLA TOP 10</strong>
+   <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+    <input aria-label="Nickname" value={nickname} onChange={e=>setNickname(e.target.value)} placeholder="Nickname (2–20 caratteri)" maxLength={20} style={{minWidth:180,flex:1,background:"#180f0c",color:"#f9d3b2",border:"1px solid #a66b43",padding:9,borderRadius:5}}/>
+    <button type="submit" disabled={publishing||!session.current}>{publishing?"VERIFICA…":"PUBBLICA RECORD"}</button>
+   </div>
+   {publishState&&<p role="status" style={{marginTop:8,color:"#f5c4a0"}}>{publishState}</p>}
+   {!session.current&&<p style={{marginTop:8}}>Pubblicazione temporaneamente disattivata. Il record personale rimane salvato.</p>}
+  </form>}
   <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>★ TOP 10</button></div></div>
  </section>;
 }
