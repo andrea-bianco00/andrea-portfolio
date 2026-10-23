@@ -3,7 +3,7 @@ export type Enemy={x:number;y:number;vx:number;vy:number;r:number;kind:0|1|2;ang
 type Particle={x:number;y:number;vx:number;vy:number;life:number};
 type Ring={x:number;y:number;r:number;life:number;max:number};
 export type Game={rings:Ring[];near:Set<Enemy>;nearCount:number;deathAge:number;x:number;y:number;vx:number;vy:number;t:number;score:number;enemies:Enemy[];particles:Particle[];spawn:number;seed:number;dead:boolean;trail:{x:number;y:number}[]};
-export const initial=():Game=>({rings:[],near:new Set<Enemy>(),nearCount:0,deathAge:0,x:W/2,y:H/2,vx:0,vy:0,t:0,score:0,enemies:[],particles:[],spawn:1.15,seed:271828,dead:false,trail:[]});
+export const initial=(seed=271828):Game=>({rings:[],near:new Set<Enemy>(),nearCount:0,deathAge:0,x:W/2,y:H/2,vx:0,vy:0,t:0,score:0,enemies:[],particles:[],spawn:1.15,seed,dead:false,trail:[]});
 function rand(g:Game){g.seed=(Math.imul(g.seed,1664525)+1013904223)>>>0;return g.seed/4294967296}
 function spawn(g:Game){
  const kind=Math.floor(rand(g)*3) as 0|1|2,edge=Math.floor(rand(g)*4);
