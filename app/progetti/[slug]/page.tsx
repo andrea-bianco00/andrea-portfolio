@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav";
 import NerCaseStudy from "./NerCaseStudy";
 import OptimizationCaseStudy from "./OptimizationCaseStudy";
+import MatrixCompletionCaseStudy from "./MatrixCompletionCaseStudy";
 import { getProject, projects } from "../../project-data";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -36,6 +37,7 @@ export default async function ProjectPage({ params }: Props) {
       </header>
       {slug === "named-entity-recognition" && <NerCaseStudy />}
       {slug === "statistical-learning-optimization" && <OptimizationCaseStudy />}
+      {slug === "matrix-completion-movielens" && <MatrixCompletionCaseStudy />}
       <div className="case-end"><Link href="/progetti" className="text-link">← TORNA AI PROGETTI</Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">REPOSITORY GITHUB ↗</a>}</div>
     </article>
   </main>;
