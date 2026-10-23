@@ -58,6 +58,7 @@ export default function GeometrySurvivor(){
  const [nickname,setNickname]=useState("");
  const [publishState,setPublishState]=useState("");
  const [publishing,setPublishing]=useState(false);
+ const [published,setPublished]=useState(false);
  const [rankingOpen,setRankingOpen]=useState(false);
  const [ranking,setRanking]=useState<{nickname:string;duration_ms:number}[]>([]);
  const [rankingLoading,setRankingLoading]=useState(false);
@@ -75,7 +76,7 @@ export default function GeometrySurvivor(){
  useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
  useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
  const reset=useCallback(async()=>{
-  running.current=false;session.current=null;moves.current=[];setPublishState("");setSeconds(0);setNearMisses(0);setStatus("ready");
+  running.current=false;session.current=null;moves.current=[];setPublishState("");setPublished(false);setSeconds(0);setNearMisses(0);setStatus("ready");
   try{
    const response=await fetch("/api/geometry-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"start"})});
    if(!response.ok)throw Error("unavailable");
@@ -156,7 +157,8 @@ export default function GeometrySurvivor(){
    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><strong>CLASSIFICA MONDIALE · TOP 10</strong><button type="button" onClick={()=>setRankingOpen(false)}>✕</button></div>
    {rankingLoading?<p>Caricamento…</p>:rankingError?<p role="status">{rankingError}</p>:ranking.length===0?<p>Nessun punteggio pubblicato. I risultati saranno accettati soltanto dopo la verifica delle partite.</p>:ranking.map((entry,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid rgba(255,139,48,.14)"}}><span>{i+1}. {entry.nickname}</span><strong>{(entry.duration_ms/1000).toFixed(1)}s</strong></div>)}
   </div>}
-  {status==="dead"&&<form onSubmit={async e=>{
+  {status==="dead"&&published&&<div role="status" style={{marginTop:8,padding:"14px 16px",border:"1px solid rgba(255,139,48,.45)",borderRadius:8,background:"#17100c",color:"#f7cfa9",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}><strong style={{color:"#ff9a42"}}>✓ RECORD PUBBLICATO</strong><span>Partita verificata. Il tuo risultato è stato registrato nella classifica mondiale.</span></div>}
+  {status==="dead"&&!published&&<form onSubmit={async e=>{
     e.preventDefault();if(!session.current||publishing)return;
     if(!/^[A-Za-z0-9_-]{2,20}$/.test(nickname)){setPublishState("Usa da 2 a 20 caratteri: lettere, numeri, _ oppure -.");return}
     setPublishing(true);setPublishState("Verifica della partita in corso…");
@@ -166,14 +168,14 @@ export default function GeometrySurvivor(){
      const response=await fetch("/api/geometry-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"finish",nickname,playerId,session:session.current.token,moves:moves.current})});
      const result=await response.json();
      if(!response.ok)throw Error(result.error||"Errore di pubblicazione");
-     setPublishState("Record verificato e inviato!");setRankingOpen(false);setTimeout(()=>setRankingOpen(true),150);
+     setPublishState("Record verificato e inviato!");setPublished(true);setRankingOpen(false);setTimeout(()=>setRankingOpen(true),150);
     }catch(error){setPublishState(error instanceof Error?error.message:"Errore di pubblicazione")}
     finally{setPublishing(false)}
    }} style={{marginTop:8,padding:12,border:"1px solid rgba(255,139,48,.3)",borderRadius:8}}>
    <strong style={{display:"block",marginBottom:8}}>PUBBLICA IL TUO RECORD NELLA TOP 10</strong>
    <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
     <input aria-label="Nickname" value={nickname} onChange={e=>setNickname(e.target.value)} placeholder="Nickname (2–20 caratteri)" maxLength={20} style={{minWidth:180,flex:1,background:"#180f0c",color:"#f9d3b2",border:"1px solid #a66b43",padding:9,borderRadius:5}}/>
-    <button type="submit" disabled={publishing||!session.current}>{publishing?"VERIFICA…":"PUBBLICA RECORD"}</button>
+    <button type="submit" disabled={publishing||!session.current} style={{background:publishing||!session.current?"#6b5344":"#ff8b32",color:"#180d06",fontWeight:900,padding:"10px 16px",border:"1px solid #ffb26d",borderRadius:6,cursor:publishing||!session.current?"not-allowed":"pointer",boxShadow:publishing||!session.current?"none":"0 3px 14px rgba(255,139,50,.22)",transition:"transform .15s,background .15s"}}>{publishing?"⏳ VERIFICA…":"★ PUBBLICA RECORD ↗"}</button>
    </div>
    {publishState&&<p role="status" style={{marginTop:8,color:"#f5c4a0"}}>{publishState}</p>}
    {!session.current&&<p style={{marginTop:8}}>Pubblicazione temporaneamente disattivata. Il record personale rimane salvato.</p>}
