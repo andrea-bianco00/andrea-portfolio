@@ -108,21 +108,21 @@ const pseudocode: Record<string, {text?: string; tex?: string}[]> = {
 export default function AlgorithmExplorer() {
   const [selected, setSelected] = useState<(typeof algorithms)[number]["id"]>("bias");
   const current = algorithms.find(a => a.id === selected)!;
-  return <div style={{border:"1px solid var(--line)",borderRadius:20,background:"linear-gradient(145deg,#19110b,#0d0907)",padding:"clamp(18px,3vw,32px)",margin:"32px 0"}}>
+  return <div className="mc-algorithm-explorer" style={{border:"1px solid var(--line)",borderRadius:20,background:"linear-gradient(145deg,#19110b,#0d0907)",padding:"clamp(18px,3vw,32px)",margin:"32px 0"}}>
     <div style={{display:"flex",justifyContent:"space-between",gap:16,alignItems:"baseline",flexWrap:"wrap",marginBottom:20}}>
       <strong style={{fontSize:18}}>Esplora gli algoritmi</strong>
       <span style={{fontSize:12,color:"var(--muted)"}}>Seleziona un metodo per vedere come ragiona</span>
     </div>
-    <div role="group" aria-label="Scegli un algoritmo" style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:30}}>
+    <div className="mc-method-tabs" role="group" aria-label="Scegli un algoritmo" style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:30}}>
       {algorithms.map(a=><button key={a.id} type="button" aria-pressed={selected===a.id} onClick={()=>setSelected(a.id)} style={{border:"1px solid "+(selected===a.id?"var(--orange)":"var(--line)"),background:selected===a.id?"var(--orange)":"#241910",color:selected===a.id?"#140a03":"var(--paper)",borderRadius:999,padding:"11px 15px",fontSize:12,fontWeight:700,cursor:"pointer"}}>{a.name}</button>)}
     </div>
-    <div aria-live="polite">
+    <div className="mc-algorithm-content" aria-live="polite">
       <div style={{display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap",alignItems:"start"}}>
         <div><span style={{fontSize:10,letterSpacing:".13em",color:"var(--orange)",fontWeight:750}}>{current.group.toUpperCase()}</span><h3 style={{fontSize:"clamp(1.5rem,3vw,2.2rem)",margin:"9px 0 12px",fontFamily:"Georgia,serif",fontWeight:450}}>{current.name}</h3></div>
         <div style={{textAlign:"right"}}><strong style={{fontSize:26,color:"var(--orange)"}}>{current.rmse}</strong><div style={{fontSize:11,color:"var(--muted)"}}>RMSE validation ↓</div></div>
       </div>
       <p style={{color:"var(--paper)",fontSize:16,lineHeight:1.7,maxWidth:730}}>{current.idea}</p>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))",gap:25,marginTop:24}}>
+      <div className="mc-algorithm-columns" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))",gap:25,marginTop:24}}>
         <div>
           <span style={{fontSize:11,color:"var(--orange)",fontWeight:750}}>COME FUNZIONA, IN TRE PASSAGGI</span>
           <ol style={{paddingLeft:22,color:"var(--muted)",lineHeight:1.75,fontSize:14}}>{current.steps.map((step,i)=><li key={i} style={{marginTop:9}}>{step}</li>)}</ol>
