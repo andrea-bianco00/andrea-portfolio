@@ -665,3 +665,24 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
   .mc-rating-grid{max-width:220px}
   .mc-method-tabs button{font-size:11px!important}
 }
+
+/* Keep the complete 6-film example visible instead of clipping the last columns. */
+.mc-source-matrix{min-width:0;max-width:100%;box-sizing:border-box}
+.mc-source-matrix-scroll{max-width:100%;min-width:0}
+@media(max-width:640px){
+  .mc-source-matrix{padding:14px 12px!important;margin:24px 0!important;border-radius:14px!important}
+  .mc-source-matrix-scroll{margin-top:16px!important;overflow-x:visible!important}
+  .mc-source-matrix-grid{
+    grid-template-columns:minmax(46px,1.3fr) repeat(6,minmax(0,1fr))!important;
+    gap:4px!important;min-width:0!important;max-width:100%!important;width:100%;
+  }
+  .mc-source-film{font-size:clamp(9px,2.5vw,12px)!important;white-space:nowrap}
+  .mc-source-user{font-size:clamp(9px,2.5vw,12px)!important;line-height:1.2}
+  .mc-source-cell{height:clamp(34px,10vw,46px)!important;min-width:0;font-size:clamp(13px,4vw,18px);border-radius:5px!important}
+  .mc-source-matrix figcaption{margin-top:14px!important}
+}
+@media(max-width:360px){
+  .mc-source-matrix{padding:12px 9px!important}
+  .mc-source-matrix-grid{grid-template-columns:minmax(40px,1.3fr) repeat(6,minmax(0,1fr))!important;gap:3px!important}
+  .mc-source-film,.mc-source-user{font-size:9px!important}
+}
