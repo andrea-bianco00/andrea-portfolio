@@ -586,3 +586,29 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .geometry-game-stage{box-shadow:0 24px 65px rgba(0,0,0,.3),0 0 35px rgba(250,105,32,.045)}
 .geometry-game-stage canvas{user-select:none;-webkit-user-select:none}
 @media(max-width:520px){.geometry-game-score small{font-size:8px}.geometry-game-progress{width:84px}}
+
+/* Mobile-only Geometry Survivor: more screen space; desktop is unchanged. */
+@media (max-width: 600px) {
+  .geometry-game {
+    width: calc(100vw - 20px);
+    max-width: none;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .geometry-game-stage canvas {
+    aspect-ratio: 3 / 2;
+    height: auto;
+  }
+  .geometry-game-score { top: 13px; left: 14px; }
+  .geometry-game-score > span { font-size: 28px; }
+  .geometry-game-score small { font-size: 10px; }
+  .geometry-game-progress { width: 110px; }
+  .geometry-game-overlay strong { font-size: clamp(29px, 9vw, 44px); }
+  .geometry-game-overlay p { font-size: 12px; }
+  .geometry-game-overlay button, .geometry-game-restart button {
+    padding: 12px 18px;
+    min-height: 44px;
+  }
+  .geometry-game-bottom button { min-height: 38px; }
+}
