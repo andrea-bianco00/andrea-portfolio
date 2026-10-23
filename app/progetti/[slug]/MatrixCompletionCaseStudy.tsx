@@ -104,7 +104,7 @@ export default function MatrixCompletionCaseStudy() {
       <MatrixIterationDemo />
       <SplitFigure />
       <p>Il criterio di confronto è l&apos;<strong>RMSE</strong>, la radice dell&apos;errore quadratico medio. Penalizza maggiormente gli errori grandi: se prevediamo 4 stelle quando il voto reale è 2, l&apos;errore pesa più di una previsione sbagliata di mezza stella.</p>
-      <div style={{...card,textAlign:"center"}}>
+      <div className="mc-rmse-card" style={{...card,textAlign:"center"}}>
         <span style={label}>LA METRICA UTILIZZATA</span>
         <div style={{margin:"22px 0"}}><MathFormula display tex={String.raw`\operatorname{RMSE}=\sqrt{\frac{1}{n}\sum\limits_{i=1}^{n}(\hat y_i-y_i)^2}`} ariaLabel="Radice della media degli errori quadratici tra previsioni e voti osservati" /></div>
         <p style={{...muted,margin:"0 auto",maxWidth:620}}>Tutti i modelli sono stati confrontati sugli stessi rating di validation. Abbiamo poi valutato una sola volta sul test il modello selezionato.</p>
