@@ -150,9 +150,9 @@ export default function GeometrySurvivor(){
   <div className="geometry-game-stage">
    <canvas ref={canvas} width={W} height={H} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);pointer(e)}} onPointerMove={e=>{if(e.buttons)pointer(e)}} onPointerUp={()=>touch.current=null} onPointerCancel={()=>touch.current=null} aria-label="Arena di Geometry Survivor. Usa frecce, WASD o trascina sullo schermo."/>
    <div className="geometry-game-score"><span>{seconds}s</span><small>BEST {best.toFixed(1)}s · NEAR MISS {nearMisses}</small><div className="geometry-game-progress"><i style={{width:((seconds%20)/20*100)+"%"}}/></div></div>
-   {status==="ready"&&<div className="geometry-game-overlay"><strong>SURVIVE.</strong><p>Schiva le forme. Resisti più a lungo che puoi.</p><button type="button" onClick={reset}>▶ INIZIA A GIOCARE</button><small>WASD / FRECCE · TRASCINA SU MOBILE</small></div>}
-   {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;accum.current=0;setStatus("playing")}}>▶ RIPRENDI</button></div>}
-   {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={reset}>↻ RIGIOCA</button></div>}
+   {status==="ready"&&<div className="geometry-game-overlay"><strong>SURVIVE.</strong><p>Schiva le forme. Resisti più a lungo che puoi.</p><button type="button" onClick={reset}>INIZIA A GIOCARE</button><small>WASD / FRECCE · TRASCINA SU MOBILE</small></div>}
+   {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;accum.current=0;setStatus("playing")}}>RIPRENDI</button></div>}
+   {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={reset}>RIGIOCA</button></div>}
   </div>
   {rankingOpen&&<div style={{padding:"14px 16px",background:"#120d0c",border:"1px solid rgba(255,139,48,.35)",borderRadius:8,marginTop:8,color:"#f5d4b7"}}>
    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><strong>CLASSIFICA MONDIALE · TOP 10</strong><button type="button" onClick={()=>setRankingOpen(false)}>✕</button></div>
@@ -177,11 +177,11 @@ export default function GeometrySurvivor(){
    <strong style={{display:"block",marginBottom:8}}>PUBBLICA IL TUO RECORD NELLA TOP 10</strong>
    <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
     <input aria-label="Nickname" value={nickname} onChange={e=>setNickname(e.target.value)} placeholder="Nickname (2–20 caratteri)" maxLength={20} style={{minWidth:180,flex:1,background:"#180f0c",color:"#f9d3b2",border:"1px solid #a66b43",padding:9,borderRadius:5}}/>
-    <button type="submit" disabled={publishing||!session.current} style={{background:publishing||!session.current?"#6b5344":"#ff8b32",color:"#180d06",fontWeight:900,padding:"10px 16px",border:"1px solid #ffb26d",borderRadius:6,cursor:publishing||!session.current?"not-allowed":"pointer",boxShadow:publishing||!session.current?"none":"0 3px 14px rgba(255,139,50,.22)",transition:"transform .15s,background .15s"}}>{publishing?"⏳ VERIFICA…":"★ PUBBLICA RECORD ↗"}</button>
+    <button type="submit" disabled={publishing||!session.current} style={{background:publishing||!session.current?"#6b5344":"#ff8b32",color:"#180d06",fontWeight:900,padding:"10px 16px",border:"1px solid #ffb26d",borderRadius:6,cursor:publishing||!session.current?"not-allowed":"pointer",boxShadow:publishing||!session.current?"none":"0 3px 14px rgba(255,139,50,.22)",transition:"transform .15s,background .15s"}}>{publishing?"VERIFICA…":"PUBBLICA RECORD →"}</button>
    </div>
    {publishState&&<p role="status" style={{marginTop:8,color:"#f5c4a0"}}>{publishState}</p>}
    {!session.current&&<p style={{marginTop:8}}>Pubblicazione temporaneamente disattivata. Il record personale rimane salvato.</p>}
   </form>}
-  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>★ TOP 10</button></div></div>
+  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"PAUSA":status==="paused"?"▶ RIPRENDI":"START"}</button><button type="button" onClick={reset}>RESET</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>TOP 10</button></div></div>
  </section>;
 }
