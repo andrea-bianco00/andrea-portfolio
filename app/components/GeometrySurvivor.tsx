@@ -1,63 +1,7 @@
 "use client";
 import {useCallback,useEffect,useRef,useState} from "react";
+import {W,H,STEP,initial,update,type Game} from "../lib/geometry-core";
 
-const W=720,H=405,PLAYER_R=10,MAX_DT=1/30;
-type Enemy={x:number;y:number;vx:number;vy:number;r:number;kind:0|1|2;angle:number};
-type Particle={x:number;y:number;vx:number;vy:number;life:number};
-type Ring={x:number;y:number;r:number;life:number;max:number};
-type Game={rings:Ring[];near:Set<Enemy>;nearCount:number;deathAge:number;x:number;y:number;vx:number;vy:number;t:number;score:number;enemies:Enemy[];particles:Particle[];spawn:number;seed:number;dead:boolean;trail:{x:number;y:number}[]};
-const initial=():Game=>({rings:[],near:new Set<Enemy>(),nearCount:0,deathAge:0,x:W/2,y:H/2,vx:0,vy:0,t:0,score:0,enemies:[],particles:[],spawn:1.15,seed:271828,dead:false,trail:[]});
-function rand(g:Game){g.seed=(Math.imul(g.seed,1664525)+1013904223)>>>0;return g.seed/4294967296}
-function spawn(g:Game){
- const kind=Math.floor(rand(g)*3) as 0|1|2,edge=Math.floor(rand(g)*4);
- const x=edge===0?-24:edge===1?W+24:rand(g)*W;
- const y=edge===2?-24:edge===3?H+24:rand(g)*H;
- const dx=g.x-x,dy=g.y-y,aim=Math.atan2(dy,dx);
- // Obstacles target only the player's position at spawn. No homing or surprise turns.
- const spread=(rand(g)-.5)*(kind===2?.26:1.25);
- const a=aim+spread,speed=(kind===1?60:kind===2?112:85)*(1+Math.min(g.t,75)/110);
- const r=kind===1?15:kind===2?12:11;
- g.enemies.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r,kind,angle:rand(g)*6.28});
-}
-function collide(g:Game,e:Enemy){
- // Conservative bounding circles; same geometry for every obstacle.
- const dx=g.x-e.x,dy=g.y-e.y;
- return dx*dx+dy*dy<(PLAYER_R+e.r-2)**2;
-}
-function update(g:Game,dt:number,ax:number,ay:number){
- if(g.dead)return;
- g.t+=dt;g.score=Math.floor(g.t*10);
- const norm=Math.hypot(ax,ay)||1,acc=740,drag=Math.exp(-7*dt);
- g.vx=(g.vx+ax/norm*acc*dt)*drag;g.vy=(g.vy+ay/norm*acc*dt)*drag;
- const speed=Math.hypot(g.vx,g.vy),max=255;
- if(speed>max){g.vx*=max/speed;g.vy*=max/speed}
- g.x=Math.max(PLAYER_R+5,Math.min(W-PLAYER_R-5,g.x+g.vx*dt));
- g.y=Math.max(PLAYER_R+5,Math.min(H-PLAYER_R-5,g.y+g.vy*dt));
- if(g.x<=PLAYER_R+5||g.x>=W-PLAYER_R-5)g.vx=0;
- if(g.y<=PLAYER_R+5||g.y>=H-PLAYER_R-5)g.vy=0;
- g.trail.push({x:g.x,y:g.y});if(g.trail.length>24)g.trail.shift();
- g.spawn-=dt;
- if(g.spawn<=0){
-  spawn(g);
-  // Spawn rate increases smoothly, then caps. One seeded sequence per run.
-  const interval=Math.max(.24,1.05-g.t*.010);
-  g.spawn+=interval*(.78+rand(g)*.45);
- }
- for(const e of g.enemies){e.x+=e.vx*dt;e.y+=e.vy*dt;e.angle+=dt*(e.kind===1?1.1:2)}
- g.enemies=g.enemies.filter(e=>e.x>-70&&e.x<W+70&&e.y>-70&&e.y<H+70);
- for(const e of g.enemies){
-  const distance=Math.hypot(g.x-e.x,g.y-e.y),contact=PLAYER_R+e.r-2;
-  if(distance>contact+3&&distance<contact+17&&!g.near.has(e)){
-   g.near.add(e);g.nearCount++;g.rings.push({x:g.x,y:g.y,r:9,life:.42,max:.42});
-   for(let j=0;j<7;j++){const a=j*Math.PI*2/7;g.particles.push({x:g.x,y:g.y,vx:Math.cos(a)*62,vy:Math.sin(a)*62,life:.25})}
-  }
-  if(!collide(g,e))continue;
-  g.dead=true;
-  for(let i=0;i<38;i++){const a=rand(g)*Math.PI*2,s=30+rand(g)*170;g.particles.push({x:g.x,y:g.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:.45+rand(g)*.45})}
-  g.rings.push({x:g.x,y:g.y,r:14,life:.9,max:.9});
-  break;
- }
-}
 function draw(ctx:CanvasRenderingContext2D,g:Game,now:number){
  ctx.clearRect(0,0,W,H);
  const bg=ctx.createRadialGradient(W*.5,H*.45,20,W*.5,H*.5,W*.75);
@@ -105,13 +49,13 @@ function draw(ctx:CanvasRenderingContext2D,g:Game,now:number){
 }
 export default function GeometrySurvivor(){
  const canvas=useRef<HTMLCanvasElement>(null),game=useRef<Game>(initial()),keys=useRef(new Set<string>());
- const touch=useRef<{x:number;y:number}|null>(null),last=useRef(0),raf=useRef(0),running=useRef(false);
+ const touch=useRef<{x:number;y:number}|null>(null),last=useRef(0),raf=useRef(0),running=useRef(false),accum=useRef(0);
  const [status,setStatus]=useState<"ready"|"playing"|"paused"|"dead">("ready");
  const [seconds,setSeconds]=useState(0),[best,setBest]=useState(0),[nearMisses,setNearMisses]=useState(0);
  const [bestLoaded,setBestLoaded]=useState(false);
  useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
  useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
- const reset=useCallback(()=>{game.current=initial();keys.current.clear();touch.current=null;last.current=0;setSeconds(0);setNearMisses(0);setStatus("playing");running.current=true},[]);
+ const reset=useCallback(()=>{game.current=initial();keys.current.clear();touch.current=null;last.current=0;accum.current=0;setSeconds(0);setNearMisses(0);setStatus("playing");running.current=true},[]);
  useEffect(()=>{
   const down=(e:KeyboardEvent)=>{
    const el=document.activeElement;
@@ -130,15 +74,16 @@ export default function GeometrySurvivor(){
   const c=canvas.current;if(!c)return;
   const ctx=c.getContext("2d");if(!ctx)return;
   const loop=(time:number)=>{
-   const dt=last.current?Math.min(MAX_DT,(time-last.current)/1000):0;last.current=time;
+   const dt=last.current?Math.min(1/15,(time-last.current)/1000):0;last.current=time;
    const g=game.current;
    if(running.current&&!g.dead){
     const k=keys.current;let ax=Number(k.has("d")||k.has("arrowright"))-Number(k.has("a")||k.has("arrowleft"));
     let ay=Number(k.has("s")||k.has("arrowdown"))-Number(k.has("w")||k.has("arrowup"));
     if(touch.current){ax=touch.current.x-g.x;ay=touch.current.y-g.y;if(Math.hypot(ax,ay)<18){ax=0;ay=0}}
-    // Substeps prevent high-speed objects tunnelling through collisions.
-    const steps=Math.max(1,Math.ceil(dt/(1/120)));
-    for(let i=0;i<steps;i++)update(g,dt/steps,ax,ay);
+    accum.current+=dt;
+    let ticks=0;
+    while(accum.current>=STEP&&ticks<8&&!g.dead){update(g,STEP,ax,ay);accum.current-=STEP;ticks++}
+    if(ticks===8)accum.current=0;
     const whole=Math.floor(g.t);
     setSeconds(old=>old===whole?old:whole);
     setNearMisses(old=>old===g.nearCount?old:g.nearCount);
@@ -164,7 +109,7 @@ export default function GeometrySurvivor(){
    <canvas ref={canvas} width={W} height={H} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);pointer(e)}} onPointerMove={e=>{if(e.buttons)pointer(e)}} onPointerUp={()=>touch.current=null} onPointerCancel={()=>touch.current=null} aria-label="Arena di Geometry Survivor. Usa frecce, WASD o trascina sullo schermo."/>
    <div className="geometry-game-score"><span>{seconds}s</span><small>BEST {best.toFixed(1)}s · NEAR MISS {nearMisses}</small><div className="geometry-game-progress"><i style={{width:((seconds%20)/20*100)+"%"}}/></div></div>
    {status==="ready"&&<div className="geometry-game-overlay"><strong>SURVIVE.</strong><p>Schiva le forme. Resisti più a lungo che puoi.</p><button type="button" onClick={reset}>▶ INIZIA A GIOCARE</button><small>WASD / FRECCE · TRASCINA SU MOBILE</small></div>}
-   {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;setStatus("playing")}}>▶ RIPRENDI</button></div>}
+   {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;accum.current=0;setStatus("playing")}}>▶ RIPRENDI</button></div>}
    {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={reset}>↻ RIGIOCA</button></div>}
   </div>
   <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button></div></div>
