@@ -25,6 +25,25 @@ export async function POST(request:NextRequest){
   body=JSON.parse(raw);
  }catch{return json({error:"Richiesta non valida"},400)}
  if(!body||typeof body!=="object")return json({error:"Richiesta non valida"},400);
+ if(body.action==="start"||body.action==="finish"){
+  // Vercel supplies this header at the trusted edge. Never trust client-supplied
+  // X-Forwarded-For or a user-controlled player ID as a rate-limit identity.
+  const edgeIp=request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+  if(!edgeIp||edgeIp.length>64)return json({error:"Identificazione della richiesta non disponibile"},503);
+  const clientHash=createHmac("sha256",secret).update("geometry-rate-limit:"+edgeIp).digest("hex");
+  try{
+   const limitResponse=await fetch(SUPABASE+"/rest/v1/rpc/geometry_check_rate_limit",{
+    method:"POST",cache:"no-store",signal:AbortSignal.timeout(5000),
+    headers:{"Content-Type":"application/json","apikey":dbKey},
+    body:JSON.stringify({p_token:secret,p_client:clientHash,p_action:body.action})
+   });
+   if(!limitResponse.ok)return json({error:"Controllo delle richieste temporaneamente non disponibile"},503);
+   if(await limitResponse.json()!==true)return NextResponse.json(
+    {error:"Troppe richieste. Attendi un minuto e riprova."},
+    {status:429,headers:{"Cache-Control":"no-store","Retry-After":"60"}}
+   );
+  }catch{return json({error:"Controllo delle richieste temporaneamente non disponibile"},503)}
+ }
  if(body.action==="start"){
   const seed=randomBytes(4).readUInt32BE(0),now=Date.now(),nonce=randomBytes(16).toString("hex");
   const payload=[seed,now,nonce].join(".");
