@@ -73,6 +73,7 @@ export default function GeometrySurvivor(){
    .catch(()=>{if(!controller.signal.aborted){setRankingError("Classifica temporaneamente non disponibile");setRankingLoading(false)}});
   return()=>controller.abort();
  },[rankingOpen]);
+ useEffect(()=>{try{const saved=window.localStorage.getItem("geometry-survivor:nickname:v1");if(saved&&/^[A-Za-z0-9_-]{2,20}$/.test(saved))setNickname(saved)}catch{}},[]);
  useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
  useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
  const reset=useCallback(async()=>{
@@ -168,6 +169,7 @@ export default function GeometrySurvivor(){
      const response=await fetch("/api/geometry-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"finish",nickname,playerId,session:session.current.token,moves:moves.current})});
      const result=await response.json();
      if(!response.ok)throw Error(result.error||"Errore di pubblicazione");
+     try{localStorage.setItem("geometry-survivor:nickname:v1",nickname)}catch{}
      setPublishState("Record verificato e inviato!");setPublished(true);setRankingOpen(false);setTimeout(()=>setRankingOpen(true),150);
     }catch(error){setPublishState(error instanceof Error?error.message:"Errore di pubblicazione")}
     finally{setPublishing(false)}
