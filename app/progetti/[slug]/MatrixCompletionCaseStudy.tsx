@@ -27,18 +27,18 @@ function RatingMatrix() {
     [5, null, null, 3, null, 4],
     [null, 4, 2, null, null, null],
   ];
-  return <figure style={card}>
+  return <figure className="mc-source-matrix" style={card}>
     <div style={{display:"flex",justifyContent:"space-between",gap:12,flexWrap:"wrap"}}>
       <span style={label}>COME SI PRESENTANO I DATI</span>
       <span style={muted}>Esempio inventato, non estratto da MovieLens</span>
     </div>
-    <div style={{overflowX:"auto",marginTop:22}}>
-      <div style={{display:"grid",gridTemplateColumns:"65px repeat(6,minmax(38px,1fr))",gap:7,minWidth:370,maxWidth:650}}>
+    <div className="mc-source-matrix-scroll" style={{overflowX:"auto",marginTop:22}}>
+      <div className="mc-source-matrix-grid" style={{display:"grid",gridTemplateColumns:"65px repeat(6,minmax(38px,1fr))",gap:7,minWidth:370,maxWidth:650}}>
         <div />
-        {Array.from({length:6},(_,j)=><div key={j} style={{textAlign:"center",...muted}}>Film {j+1}</div>)}
+        {Array.from({length:6},(_,j)=><div className="mc-source-film" key={j} style={{textAlign:"center",...muted}}>Film {j+1}</div>)}
         {example.map((row,i)=><div key={i} style={{display:"contents"}}>
-          <div style={{...muted,alignSelf:"center"}}>Utente {i+1}</div>
-          {row.map((v,j)=><div key={j} style={{height:49,display:"grid",placeItems:"center",borderRadius:7,border:"1px solid "+(v===null?"#493023":"#ad5a22"),background:v===null?"#100c09":"#4b250e",color:v===null?"#8d7766":"#ffe0bf",fontWeight:700}}>{v===null?"?":v}</div>)}
+          <div className="mc-source-user" style={{...muted,alignSelf:"center"}}>Utente {i+1}</div>
+          {row.map((v,j)=><div className="mc-source-cell" key={j} style={{height:49,display:"grid",placeItems:"center",borderRadius:7,border:"1px solid "+(v===null?"#493023":"#ad5a22"),background:v===null?"#100c09":"#4b250e",color:v===null?"#8d7766":"#ffe0bf",fontWeight:700}}>{v===null?"?":v}</div>)}
         </div>)}
       </div>
     </div>
