@@ -1,6 +1,7 @@
 "use client";
 import {useCallback,useEffect,useRef,useState} from "react";
 import {W,H,STEP,initial,update,type Game} from "../lib/geometry-core";
+import {observeForMpc,mpcAction,MPC_ACTIONS} from "../lib/geometry-mpc";
 
 function draw(ctx:CanvasRenderingContext2D,g:Game,now:number){
  ctx.clearRect(0,0,W,H);
@@ -51,6 +52,7 @@ export default function GeometrySurvivor(){
  const canvas=useRef<HTMLCanvasElement>(null),game=useRef<Game>(initial()),keys=useRef(new Set<string>());
  const touch=useRef<{x:number;y:number}|null>(null),last=useRef(0),raf=useRef(0),running=useRef(false),accum=useRef(0);
  const [status,setStatus]=useState<"ready"|"playing"|"paused"|"dead">("ready");
+ const [aiMode,setAiMode]=useState(false),aiModeRef=useRef(false),aiTicks=useRef(0),aiAction=useRef(0);
  const [seconds,setSeconds]=useState(0),[best,setBest]=useState(0),[nearMisses,setNearMisses]=useState(0);
  const [bestLoaded,setBestLoaded]=useState(false);
  const session=useRef<{token:string;seed:number}|null>(null);
@@ -76,8 +78,15 @@ export default function GeometrySurvivor(){
  useEffect(()=>{try{const saved=window.localStorage.getItem("geometry-survivor:nickname:v1");if(saved&&/^[A-Za-z0-9_-]{2,20}$/.test(saved))setNickname(saved)}catch{}},[]);
  useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
  useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
- const reset=useCallback(async()=>{
-  running.current=false;session.current=null;moves.current=[];setPublishState("");setPublished(false);setSeconds(0);setNearMisses(0);setStatus("ready");
+ const reset=useCallback(async(mode:"manual"|"ai"="manual")=>{
+  running.current=false;aiModeRef.current=mode==="ai";setAiMode(mode==="ai");aiTicks.current=0;aiAction.current=0;
+  session.current=null;moves.current=[];setPublishState("");setPublished(false);setSeconds(0);setNearMisses(0);setStatus("ready");
+  if(mode==="ai"){
+   // AI uses a fresh game, but never creates a leaderboard session or stores a human best.
+   game.current=initial(Math.floor(Math.random()*0x100000000));
+   keys.current.clear();touch.current=null;last.current=0;accum.current=0;
+   setStatus("playing");running.current=true;return;
+  }
   try{
    const response=await fetch("/api/geometry-session",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"start"})});
    if(!response.ok)throw Error("unavailable");
@@ -93,6 +102,7 @@ export default function GeometrySurvivor(){
   const down=(e:KeyboardEvent)=>{
    const el=document.activeElement;
    if(el instanceof HTMLElement&&(el.isContentEditable||["INPUT","TEXTAREA","SELECT","BUTTON"].includes(el.tagName)))return;
+   if(aiModeRef.current)return;
    if(!running.current&&e.key!==" ")return;
    if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault();
    keys.current.add(e.key.toLowerCase());if(e.key===" "&&game.current.dead)reset();
@@ -112,10 +122,15 @@ export default function GeometrySurvivor(){
    if(running.current&&!g.dead){
     const k=keys.current;let ax=Number(k.has("d")||k.has("arrowright"))-Number(k.has("a")||k.has("arrowleft"));
     let ay=Number(k.has("s")||k.has("arrowdown"))-Number(k.has("w")||k.has("arrowup"));
-    if(touch.current){ax=touch.current.x-g.x;ay=touch.current.y-g.y;if(Math.hypot(ax,ay)<18){ax=0;ay=0}}
+    if(!aiModeRef.current&&touch.current){ax=touch.current.x-g.x;ay=touch.current.y-g.y;if(Math.hypot(ax,ay)<18){ax=0;ay=0}}
     accum.current+=dt;
     let ticks=0;
     while(accum.current>=STEP&&ticks<8&&!g.dead){
+     if(aiModeRef.current){
+      // Replan at 20 Hz, independently of the browser render frame rate.
+      if(aiTicks.current%6===0)aiAction.current=mpcAction(observeForMpc(g));
+      [ax,ay]=MPC_ACTIONS[aiAction.current];aiTicks.current++;
+     }
      const mx=Math.round(ax/(Math.hypot(ax,ay)||1)*1000);
      const my=Math.round(ay/(Math.hypot(ax,ay)||1)*1000);
      if(session.current){
@@ -129,7 +144,7 @@ export default function GeometrySurvivor(){
     const whole=Math.floor(g.t);
     setSeconds(old=>old===whole?old:whole);
     setNearMisses(old=>old===g.nearCount?old:g.nearCount);
-    if(g.dead){running.current=false;setStatus("dead");setBest(old=>Math.max(old,g.t))}
+    if(g.dead){running.current=false;setStatus("dead");if(!aiModeRef.current)setBest(old=>Math.max(old,g.t))}
    }
    if(g.dead)g.deathAge+=dt;
    for(const ring of g.rings)ring.life-=dt;
@@ -141,18 +156,19 @@ export default function GeometrySurvivor(){
   raf.current=requestAnimationFrame(loop);return()=>cancelAnimationFrame(raf.current);
  },[]);
  const pointer=(e:React.PointerEvent<HTMLCanvasElement>)=>{
+  if(aiModeRef.current)return;
   const c=canvas.current;if(!c)return;
   const r=c.getBoundingClientRect();
   touch.current={x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H};
  };
  return <section className="geometry-game" aria-label="Geometry Survivor, gioco geometrico interattivo">
-  <div className="geometry-game-top"><span>GEOMETRY SURVIVOR</span><span>PLAY MODE · NO AI YET</span></div>
+  <div className="geometry-game-top"><span>GEOMETRY SURVIVOR</span><span>{aiMode?"AI DEMO · FROZEN MPC":"PLAY MODE · HUMAN"}</span></div>
   <div className="geometry-game-stage">
    <canvas ref={canvas} width={W} height={H} onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);pointer(e)}} onPointerMove={e=>{if(e.buttons)pointer(e)}} onPointerUp={()=>touch.current=null} onPointerCancel={()=>touch.current=null} aria-label="Arena di Geometry Survivor. Usa frecce, WASD o trascina sullo schermo."/>
    <div className="geometry-game-score"><span>{seconds}s</span><small>BEST {best.toFixed(1)}s · NEAR MISS {nearMisses}</small><div className="geometry-game-progress"><i style={{width:((seconds%20)/20*100)+"%"}}/></div></div>
-   {status==="ready"&&<div className="geometry-game-overlay"><strong>SURVIVE.</strong><p>Schiva le forme. Resisti più a lungo che puoi.</p><button type="button" onClick={reset}>INIZIA A GIOCARE</button><small>WASD / FRECCE · TRASCINA SU MOBILE</small></div>}
+   {status==="ready"&&<div className="geometry-game-overlay"><strong>SURVIVE.</strong><p>Schiva le forme. Resisti più a lungo che puoi.</p><button type="button" onClick={()=>void reset("manual")}>INIZIA A GIOCARE</button><button type="button" onClick={()=>void reset("ai")}>GUARDA L’AI GIOCARE</button><small>WASD / FRECCE · TRASCINA SU MOBILE</small></div>}
    {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;accum.current=0;setStatus("playing")}}>RIPRENDI</button></div>}
-   {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={reset}>RIGIOCA</button></div>}
+   {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={()=>void reset(aiModeRef.current?"ai":"manual")}>{aiMode?"RIGUARDA L’AI":"RIGIOCA"}</button></div>}
   </div>
   {rankingOpen&&<div style={{padding:"14px 16px",background:"#120d0c",border:"1px solid rgba(255,139,48,.35)",borderRadius:8,marginTop:8,color:"#f5d4b7"}}>
    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><strong>CLASSIFICA MONDIALE · TOP 10</strong><button type="button" onClick={()=>setRankingOpen(false)}>✕</button></div>
@@ -171,8 +187,8 @@ export default function GeometrySurvivor(){
     </div>;
    })}
   </div>}
-  {status==="dead"&&published&&<div role="status" style={{marginTop:8,padding:"14px 16px",border:"1px solid rgba(255,139,48,.45)",borderRadius:8,background:"#17100c",color:"#f7cfa9",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}><strong style={{color:"#ff9a42"}}>✓ RECORD PUBBLICATO</strong><span>Partita verificata. Il tuo risultato è stato registrato nella classifica mondiale.</span></div>}
-  {status==="dead"&&!published&&<form onSubmit={async e=>{
+  {status==="dead"&&!aiMode&&published&&<div role="status" style={{marginTop:8,padding:"14px 16px",border:"1px solid rgba(255,139,48,.45)",borderRadius:8,background:"#17100c",color:"#f7cfa9",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}><strong style={{color:"#ff9a42"}}>✓ RECORD PUBBLICATO</strong><span>Partita verificata. Il tuo risultato è stato registrato nella classifica mondiale.</span></div>}
+  {status==="dead"&&!aiMode&&!published&&<form onSubmit={async e=>{
     e.preventDefault();if(!session.current||publishing)return;
     if(!/^[A-Za-z0-9_-]{2,20}$/.test(nickname)){setPublishState("Usa da 2 a 20 caratteri: lettere, numeri, _ oppure -.");return}
     setPublishing(true);setPublishState("Verifica della partita in corso…");
@@ -195,6 +211,6 @@ export default function GeometrySurvivor(){
    {publishState&&<p role="status" style={{marginTop:8,color:"#f5c4a0"}}>{publishState}</p>}
    {!session.current&&<p style={{marginTop:8}}>Pubblicazione temporaneamente disattivata. Il record personale rimane salvato.</p>}
   </form>}
-  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"PAUSA":status==="paused"?"▶ RIPRENDI":"START"}</button><button type="button" onClick={reset}>RESET</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>TOP 10</button></div></div>
+  <div className="geometry-game-bottom"><span>{aiMode?"DEMO AI · SOLO OSSERVAZIONI VISIBILI · NESSUNA CLASSIFICA":"EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO"}</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else void reset(aiModeRef.current?"ai":"manual")}}>{status==="playing"?"PAUSA":status==="paused"?"▶ RIPRENDI":"START"}</button><button type="button" onClick={()=>void reset(aiModeRef.current?"ai":"manual")}>RESET</button><button type="button" onClick={()=>void reset(aiMode?"manual":"ai")}>{aiMode?"GIOCA TU":"GUARDA L’AI GIOCARE"}</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>TOP 10</button></div></div>
  </section>;
 }
