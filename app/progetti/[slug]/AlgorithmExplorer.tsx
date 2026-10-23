@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import MathFormula from "../../components/MathFormula";
 
 const algorithms = [
   {
@@ -60,6 +61,50 @@ const algorithms = [
   },
 ] as const;
 
+
+const pseudocode: Record<string, {text?: string; tex?: string}[]> = {
+  mean: [
+    {tex:String.raw`\mu \leftarrow \frac{1}{|\Omega|}\sum_{(u,i)\in\Omega} M_{ui}`},
+    {text:"Per ogni coppia utente–film:"},
+    {tex:String.raw`\hat r_{ui}\leftarrow\mu`},
+  ],
+  bias: [
+    {tex:String.raw`\mu\leftarrow \operatorname{media}(M_{\Omega})`},
+    {tex:String.raw`b_u,b_i\leftarrow 0`},
+    {text:"Ripeti fino al criterio di arresto:"},
+    {tex:String.raw`b_u\leftarrow \frac{\sum_{i\in\Omega_u}(M_{ui}-\mu-b_i)}{\lambda+|\Omega_u|}`},
+    {tex:String.raw`b_i\leftarrow \frac{\sum_{u\in\Omega_i}(M_{ui}-\mu-b_u)}{\lambda+|\Omega_i|}`},
+    {text:"Controlla la variazione dei parametri."},
+    {tex:String.raw`\hat r_{ui}\leftarrow\mu+b_u+b_i`},
+  ],
+  svp: [
+    {tex:String.raw`X_0\leftarrow 0`},
+    {text:"Ripeti per t = 0, 1, …:"},
+    {tex:String.raw`E_t\leftarrow P_{\Omega}(M-X_t)`},
+    {tex:String.raw`Z_t\leftarrow X_t+\eta E_t`},
+    {tex:String.raw`X_{t+1}\leftarrow P_r(Z_t)`},
+    {text:"Controlla la variazione relativa."},
+  ],
+  svt: [
+    {tex:String.raw`X_0\leftarrow 0`},
+    {text:"Ripeti per t = 0, 1, …:"},
+    {tex:String.raw`E_t\leftarrow P_{\Omega}(M-X_t)`},
+    {tex:String.raw`Z_t\leftarrow X_t+\eta E_t`},
+    {tex:String.raw`Z_t=U\Sigma V^{\top}`},
+    {tex:String.raw`X_{t+1}\leftarrow U\,\operatorname{diag}((\sigma_j-\eta\lambda)_+)\,V^{\top}`},
+    {text:"Controlla la variazione relativa."},
+  ],
+  admira: [
+    {tex:String.raw`X_0\leftarrow 0`},
+    {text:"Ripeti per t = 0, 1, …:"},
+    {tex:String.raw`E_t\leftarrow P_{\Omega}(M-X_t)`},
+    {text:"Seleziona fino a 2r direzioni singolari del residuo."},
+    {text:"Unisci le direzioni al sottospazio corrente."},
+    {text:"Stima i coefficienti sui rating osservati."},
+    {tex:String.raw`X_{t+1}\leftarrow P_r(\widetilde X_{t+1})`},
+  ],
+};
+
 export default function AlgorithmExplorer() {
   const [selected, setSelected] = useState<(typeof algorithms)[number]["id"]>("bias");
   const current = algorithms.find(a => a.id === selected)!;
@@ -94,7 +139,7 @@ export default function AlgorithmExplorer() {
       <section style={{marginTop:28,padding:22,border:"1px solid var(--line)",borderRadius:14,background:"#0a0807"}}>
         <strong style={{fontSize:15}}>Pseudocodice e notazione matematica</strong>
         <p style={{fontSize:12,color:"var(--muted)",lineHeight:1.6}}>I passaggi principali, semplificati a partire dal codice del progetto. μ è la media globale, λ la penalizzazione, η il passo, PΩ conserva solo le posizioni osservate e Pᵣ tronca la matrice al rango r.</p>
-        <ol style={{paddingLeft:28,fontFamily:"var(--font-math), Cambria Math, serif",fontSize:"clamp(13px,1.45vw,16px)",lineHeight:2.1,overflowX:"auto"}}>{current.pseudo.map((line,i)=><li key={i} style={{whiteSpace:"pre",paddingLeft:5}}>{line}</li>)}</ol>
+        <ol className="portfolio-pseudocode-math" style={{paddingLeft:28,lineHeight:1.9}}>{pseudocode[current.id].map((line,i)=><li key={i}>{line.tex ? <MathFormula tex={line.tex} /> : <span style={{color:"var(--muted)"}}>{line.text}</span>}</li>)}</ol>
         <p style={{fontSize:12,color:"var(--muted)",lineHeight:1.6}}>Le implementazioni includono ulteriori controlli numerici e criteri di arresto. SVT usa una variante prossimale; ADMiRA è una variante didattica, non l'algoritmo canonico.</p>
       </section>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:14,marginTop:22}}>
