@@ -14,7 +14,15 @@ function svdShrink(a:M, threshold:number, rankOnly:boolean):{matrix:M,singular:n
     const sigma=Math.sqrt(lambda);
     if(sigma<1e-10)return;
     let v0=q,v1=lambda-p;
-    if(Math.abs(v0)+Math.abs(v1)<1e-10){v0=lambda===p?1:0;v1=lambda===p?0:1;}
+    // For diagonal A^T A, use the correct coordinate eigenvectors.
+    // In the repeated-eigenvalue case choose an orthogonal basis.
+    if(Math.abs(q)<1e-10){
+      const firstIsX=p>=s;
+      v0=(i===0?firstIsX:!firstIsX)?1:0;
+      v1=v0===1?0:1;
+    }else if(Math.abs(v0)+Math.abs(v1)<1e-10){
+      v0=1;v1=0;
+    }
     const norm=Math.hypot(v0,v1);v0/=norm;v1/=norm;
     const av0=x*v0+y*v1,av1=z*v0+w*v1;
     const newSigma=rankOnly?(i===0?sigma:0):Math.max(0,sigma-threshold);
