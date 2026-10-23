@@ -1,3 +1,4 @@
+import MathFormula from "../../components/MathFormula";
 import MatrixIterationDemo from "./MatrixIterationDemo";
 import AlgorithmExplorer from "./AlgorithmExplorer";
 
@@ -68,7 +69,7 @@ function ValidationChart() {
     <div style={{marginTop:26}}>
       {results.map(r=><div key={r.name} style={{marginBottom:23}}>
         <div style={{display:"flex",justifyContent:"space-between",gap:14,alignItems:"baseline",marginBottom:8}}>
-          <span style={{fontSize:13,fontWeight:r.winner?750:500,color:"var(--paper)"}}>{r.name.includes("lambda = 5") ? <>Bias utente–film (<span className="math-symbol" aria-label="lambda uguale a cinque">𝜆 = 5</span>)</> : r.name}</span>
+          <span style={{fontSize:13,fontWeight:r.winner?750:500,color:"var(--paper)"}}>{r.name.includes("lambda = 5") ? <>Bias utente–film (<MathFormula tex={String.raw`\lambda=5`} />)</> : r.name}</span>
           <strong style={{fontVariantNumeric:"tabular-nums",fontSize:15,color:r.winner?"var(--orange)":"var(--paper)"}}>{r.rmse.toFixed(3).replace(".",",")}</strong>
         </div>
         <div style={{height:15,background:"#33241b",borderRadius:5,overflow:"hidden"}}>
@@ -105,7 +106,7 @@ export default function MatrixCompletionCaseStudy() {
       <p>Il criterio di confronto è l&apos;<strong>RMSE</strong>, la radice dell&apos;errore quadratico medio. Penalizza maggiormente gli errori grandi: se prevediamo 4 stelle quando il voto reale è 2, l&apos;errore pesa più di una previsione sbagliata di mezza stella.</p>
       <div style={{...card,textAlign:"center"}}>
         <span style={label}>LA METRICA UTILIZZATA</span>
-        <div style={{margin:"22px 0"}}><div className="math-formula" dangerouslySetInnerHTML={{__html: "<math display=\"block\" aria-label=\"RMSE uguale alla radice quadrata della somma degli errori quadratici divisa per n\"><mrow><mi mathvariant=\"normal\">RMSE</mi><mo>=</mo><msqrt><mfrac><mrow><munderover><mo movablelimits=\"false\">∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo>(</mo><msub><mover><mi>y</mi><mo>^</mo></mover><mi>i</mi></msub><mo>−</mo><msub><mi>y</mi><mi>i</mi></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow><mi>n</mi></mfrac></msqrt></mrow></math>"}} /></div>
+        <div style={{margin:"22px 0"}}><MathFormula display tex={String.raw`\operatorname{RMSE}=\sqrt{\frac{1}{n}\sum\limits_{i=1}^{n}(\hat y_i-y_i)^2}`} ariaLabel="Radice della media degli errori quadratici tra previsioni e voti osservati" />
         <p style={{...muted,margin:"0 auto",maxWidth:620}}>Tutti i modelli sono stati confrontati sugli stessi rating di validation. Abbiamo poi valutato una sola volta sul test il modello selezionato.</p>
       </div>
     </section>
