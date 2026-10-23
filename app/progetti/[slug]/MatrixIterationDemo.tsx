@@ -30,9 +30,6 @@ function next(x:M, method:Method):M {
     return [[mu,mu],[mu,mu]];
   }
   if(method==="bias"){
-    const mu=11/3, lambda=1;
-    // Coordinate descent on regularized user and item effects.
-    // Reconstruct current effects from the stored model state separately below.
     return [[mu,mu],[mu,mu]];
   }
   if(method==="admira"){
@@ -83,7 +80,7 @@ export default function MatrixIterationDemo(){
     <div style={{fontSize:11,color:"var(--orange)",fontWeight:700,letterSpacing:".1em"}}>LABORATORIO INTERATTIVO</div>
     <h4 style={{fontSize:21,margin:"10px 0"}}>Un aggiornamento alla volta</h4>
     <p style={{fontSize:13,lineHeight:1.7,color:"var(--muted)"}}>Qui i numeri sono calcolati nel browser su una matrice sintetica 2×2. Non sono i risultati di MovieLens. Puoi provare tutti e cinque i metodi: a ogni clic viene calcolato un nuovo aggiornamento. I parametri sono scelti per questo esempio, non quelli ottimizzati su MovieLens.</p>
-    <p style={{fontSize:13,lineHeight:1.7,color:"var(--paper)",padding:"12px 15px",borderLeft:"3px solid var(--orange)",background:"#21150e"}}><strong>Come usarlo:</strong> scegli SVP o SVT, poi premi «Iterazione successiva». A ogni passo confronta la stima con i tre voti conosciuti. Il quarto voto è nascosto: il modello lo deve stimare senza conoscere il valore vero.</p>
+    <p style={{fontSize:13,lineHeight:1.7,color:"var(--paper)",padding:"12px 15px",borderLeft:"3px solid var(--orange)",background:"#21150e"}}><strong>Come usarlo:</strong> scegli uno dei cinque metodi, poi premi «Iterazione successiva». A ogni passo confronta la stima con i tre voti conosciuti. Il quarto voto è nascosto: il modello lo deve stimare senza conoscere il valore vero.</p>
     <div role="group" aria-label="Metodo per la simulazione" style={{display:"flex",gap:8,margin:"16px 0",flexWrap:"wrap"}}>
       {(["mean","bias","svp","svt","admira"] as const).map(m=><button key={m} type="button" aria-pressed={method===m} onClick={()=>reset(m)} style={{cursor:"pointer",borderRadius:99,padding:"9px 16px",background:method===m?"var(--orange)":"#291b12",color:method===m?"#170b03":"var(--paper)",border:"1px solid var(--line)",fontWeight:700}}>{({mean:"Media globale",bias:"Bias utente–film",svp:"SVP",svt:"SVT",admira:"ADMiRA-inspired"} as const)[m]}</button>)}
     </div>
@@ -93,15 +90,15 @@ export default function MatrixIterationDemo(){
       <div><strong style={{fontSize:13}}>Stima dopo {step} aggiornamenti</strong><div style={{marginTop:12}}>{grid(x,true)}</div><p style={{fontSize:12,color:"var(--muted)"}}>La cella arancione è il voto da stimare.</p></div>
     </div>
     <div style={{display:"flex",flexWrap:"wrap",alignItems:"center",gap:12,marginBottom:18}}>
-      <button type="button" disabled={step>=20} onClick={()=>method==="bias"?setBiasHistory(h=>[...h,updateBias(h[h.length-1])]):setHistory(h=>[...h,next(h[h.length-1],method)])} style={{cursor:"pointer",padding:"11px 16px",borderRadius:9,border:0,background:"var(--orange)",color:"#1a0a00",fontWeight:750,opacity:history.length>=21?.5:1}}>Iterazione successiva →</button>
+      <button type="button" disabled={step>=20} onClick={()=>method==="bias"?setBiasHistory(h=>[...h,updateBias(h[h.length-1])]):setHistory(h=>[...h,next(h[h.length-1],method)])} style={{cursor:"pointer",padding:"11px 16px",borderRadius:9,border:0,background:"var(--orange)",color:"#1a0a00",fontWeight:750,opacity:step>=20?.5:1}}>Iterazione successiva →</button>
       <button type="button" disabled={step===0} onClick={()=>method==="bias"?setBiasHistory(h=>h.slice(0,-1)):setHistory(h=>h.slice(0,-1))} style={{cursor:step===0?"not-allowed":"pointer",padding:"11px 16px",borderRadius:9,border:"1px solid var(--line)",background:"transparent",color:"var(--paper)",opacity:step===0?.45:1}}>← Passo precedente</button>
       <button type="button" onClick={()=>reset(method)} style={{cursor:"pointer",padding:"11px 16px",borderRadius:9,border:"1px solid var(--line)",background:"transparent",color:"var(--paper)"}}>Ricomincia</button>
       <span style={{fontSize:12,color:"var(--muted)"}}>Passo {step}/20 · Errore sui tre voti conosciuti: <strong style={{color:"var(--paper)"}}>{fmt(error)}</strong></span>
     </div>
     <div style={{fontSize:13,lineHeight:1.8,color:"var(--muted)",borderTop:"1px solid var(--line)",paddingTop:14}}>
-      <strong style={{color:"var(--paper)"}}>Cosa farà il prossimo clic? Dal passo {step} al passo {step+1}</strong>
-      <p style={{margin:"6px 0"}}>1. Calcoliamo la differenza tra voto reale e previsione nelle tre celle note. Con passo pari a 1, correggiamo quelle tre celle fino al valore osservato. La cella sconosciuta resta com’era.</p>
-      <div style={{margin:"16px 0",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(175px,1fr))",gap:16}}><div><strong style={{color:"var(--paper)",fontSize:12}}>Matrice dopo la correzione degli errori</strong><div style={{marginTop:10}}>{grid(corrected,true)}</div></div><div><strong style={{color:"var(--paper)",fontSize:12}}>Risultato del prossimo aggiornamento</strong><div style={{marginTop:10}}>{grid(after,true)}</div></div></div>
+      <strong style={{color:"var(--paper)"}}>{step>=20?"Limite dimostrativo raggiunto":"Cosa farà il prossimo clic? Dal passo "+step+" al passo "+(step+1)}</strong>
+      <p style={{margin:"6px 0"}}>1. {method==="svp"||method==="svt"?"Calcoliamo gli errori sui tre voti noti. Con passo 1 correggiamo le tre celle osservate, lasciando invariata quella sconosciuta.":method==="mean"?"Calcoliamo la media dei tre voti osservati: (5 + 4 + 2) / 3 = 3,67.":"Partiamo dai tre voti noti e aggiorniamo i parametri del modello senza usare il voto nascosto."}</p>
+      <div style={{margin:"16px 0",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(175px,1fr))",gap:16}}><div><strong style={{color:"var(--paper)",fontSize:12}}>{method==="svp"||method==="svt"?"Matrice dopo la correzione degli errori":"Stima attuale"}</strong><div style={{marginTop:10}}>{grid(method==="svp"||method==="svt"?corrected:x,true)}</div></div><div><strong style={{color:"var(--paper)",fontSize:12}}>Risultato del prossimo aggiornamento</strong><div style={{marginTop:10}}>{grid(after,true)}</div></div></div>
       <p style={{margin:"6px 0"}}>2. {method==="svp"||method==="svt"?"La matrice corretta ha valori singolari "+fmt(before[0])+" e "+fmt(before[1])+". Misurano il peso delle componenti SVD.":"Questo metodo non usa la soglia sui valori singolari di SVT."}</p>
       <p style={{margin:"6px 0"}}>3. {({mean:"La media globale assegna lo stesso valore a tutte le celle. Dopo il primo passo la stima non cambia più.",bias:"Aggiorniamo prima gli effetti degli utenti e poi quelli dei film, penalizzando gli effetti troppo grandi.",svp:"SVP mantiene la componente maggiore ed elimina la seconda: rango 1.",svt:"SVT sottrae 0,8 a ogni valore singolare, con minimo zero.",admira:"Questa variante illustrativa seleziona la componente principale del residuo, combina quella direzione con la stima precedente usando minimi quadrati sui tre voti noti e tronca a rango 1."} as const)[method]}</p>
       <p style={{margin:"8px 0",color:"var(--paper)"}}>Se premi il pulsante, l’errore sui tre voti conosciuti passerà da {fmt(error)} a {fmt(errorAfter)}. {errorAfter>error+1e-8?"In questo passo aumenta: non è garantito che diminuisca a ogni iterazione.":"Questo non misura la qualità della previsione del voto nascosto."}</p>
