@@ -612,3 +612,11 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
   }
   .geometry-game-bottom button { min-height: 38px; }
 }
+
+/* Mathematical notation: a consistent TeX-style math face across the portfolio. */
+math,.math-notation,.math-symbol{font-family:var(--font-math),"STIX Two Math","Cambria Math",serif;font-weight:400;font-style:normal;letter-spacing:normal;text-transform:none}
+math{font-size:1.16em;color:var(--paper)}
+math[display="block"]{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;padding:.3em .1em;font-size:clamp(1.3rem,3.2vw,2rem)}
+math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
+.math-symbol{font-size:1.12em}
+@media(max-width:520px){math[display="block"]{font-size:1.32rem}}
