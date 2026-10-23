@@ -53,6 +53,20 @@ export default function GeometrySurvivor(){
  const [status,setStatus]=useState<"ready"|"playing"|"paused"|"dead">("ready");
  const [seconds,setSeconds]=useState(0),[best,setBest]=useState(0),[nearMisses,setNearMisses]=useState(0);
  const [bestLoaded,setBestLoaded]=useState(false);
+ const [rankingOpen,setRankingOpen]=useState(false);
+ const [ranking,setRanking]=useState<{nickname:string;duration_ms:number}[]>([]);
+ const [rankingLoading,setRankingLoading]=useState(false);
+ const [rankingError,setRankingError]=useState("");
+ useEffect(()=>{
+  if(!rankingOpen)return;
+  const controller=new AbortController();
+  setRankingLoading(true);setRankingError("");
+  fetch("/api/geometry-leaderboard",{signal:controller.signal})
+   .then(async response=>{if(!response.ok)throw new Error("Unavailable");return response.json()})
+   .then(data=>{setRanking(Array.isArray(data.scores)?data.scores:[]);setRankingLoading(false)})
+   .catch(()=>{if(!controller.signal.aborted){setRankingError("Classifica temporaneamente non disponibile");setRankingLoading(false)}});
+  return()=>controller.abort();
+ },[rankingOpen]);
  useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
  useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
  const reset=useCallback(()=>{game.current=initial();keys.current.clear();touch.current=null;last.current=0;accum.current=0;setSeconds(0);setNearMisses(0);setStatus("playing");running.current=true},[]);
@@ -112,6 +126,10 @@ export default function GeometrySurvivor(){
    {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;accum.current=0;setStatus("playing")}}>▶ RIPRENDI</button></div>}
    {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={reset}>↻ RIGIOCA</button></div>}
   </div>
-  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button></div></div>
+  {rankingOpen&&<div style={{padding:"14px 16px",background:"#120d0c",border:"1px solid rgba(255,139,48,.35)",borderRadius:8,marginTop:8,color:"#f5d4b7"}}>
+   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><strong>CLASSIFICA MONDIALE · TOP 10</strong><button type="button" onClick={()=>setRankingOpen(false)}>✕</button></div>
+   {rankingLoading?<p>Caricamento…</p>:rankingError?<p role="status">{rankingError}</p>:ranking.length===0?<p>Nessun punteggio pubblicato. I risultati saranno accettati soltanto dopo la verifica delle partite.</p>:ranking.map((entry,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid rgba(255,139,48,.14)"}}><span>{i+1}. {entry.nickname}</span><strong>{(entry.duration_ms/1000).toFixed(1)}s</strong></div>)}
+  </div>}
+  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button><button type="button" onClick={()=>setRankingOpen(value=>!value)}>★ TOP 10</button></div></div>
  </section>;
 }
