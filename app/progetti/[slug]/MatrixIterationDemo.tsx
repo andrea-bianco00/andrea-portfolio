@@ -29,9 +29,6 @@ function next(x:M, method:Method):M {
     const mu=(5+4+2)/3;
     return [[mu,mu],[mu,mu]];
   }
-  if(method==="bias"){
-    return [[mu,mu],[mu,mu]];
-  }
   if(method==="admira"){
     // Small illustrative pursuit: dominant residual atom + current estimate,
     // observed-entry least squares, then rank-one truncation.
