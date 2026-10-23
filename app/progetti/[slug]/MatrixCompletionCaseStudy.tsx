@@ -1,3 +1,4 @@
+import MatrixIterationDemo from "./MatrixIterationDemo";
 import AlgorithmExplorer from "./AlgorithmExplorer";
 
 const results = [
@@ -99,6 +100,7 @@ export default function MatrixCompletionCaseStudy() {
       <h2>Confrontare i modelli senza usare il test per sceglierli</h2>
       <p>Abbiamo confrontato <strong>SVP</strong>, <strong>SVT</strong> e una variante didattica ispirata ad <strong>ADMiRA</strong>. A questi abbiamo affiancato due riferimenti semplici: la media globale dei rating e un modello che tiene conto degli effetti dei singoli utenti e film.</p>
       <AlgorithmExplorer />
+      <MatrixIterationDemo />
       <SplitFigure />
       <p>Il criterio di confronto è l&apos;<strong>RMSE</strong>, la radice dell&apos;errore quadratico medio. Penalizza maggiormente gli errori grandi: se prevediamo 4 stelle quando il voto reale è 2, l&apos;errore pesa più di una previsione sbagliata di mezza stella.</p>
       <div style={{...card,textAlign:"center"}}>
