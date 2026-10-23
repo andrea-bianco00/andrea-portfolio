@@ -576,3 +576,13 @@ footer{max-width:1280px;margin:auto;padding:35px 32px 50px;display:flex;justify-
 .geometry-game-bottom button{background:#1c100e;border:1px solid #67412d;color:#ffbc87;border-radius:6px;padding:8px 10px;font:700 10px monospace;cursor:pointer;white-space:nowrap}
 .geometry-game-bottom button:hover{border-color:#ff973e}
 @media(max-width:520px){.geometry-game-top{font-size:9px}.geometry-game-top span:last-child{font-size:8px}.geometry-game-bottom{font-size:8px;flex-wrap:wrap}.geometry-game-overlay{gap:8px}.geometry-game-overlay p{font-size:10px}.geometry-game-overlay button{padding:9px 14px}.geometry-game-score{font-size:18px;top:9px;left:10px}}
+
+/* Geometry Survivor visual upgrade: restrained arcade HUD and phase indicator. */
+.geometry-game-score{gap:5px}
+.geometry-game-score>span{font-size:clamp(22px,2.4vw,32px);letter-spacing:-.05em;line-height:1}
+.geometry-game-score small{font-size:10px;letter-spacing:.045em;text-shadow:0 2px 7px #000}
+.geometry-game-progress{width:118px;height:3px;border-radius:6px;overflow:hidden;background:rgba(255,153,83,.17);margin-top:4px}
+.geometry-game-progress i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#ff7d2b,#ffd4a5);box-shadow:0 0 8px #ff883b;transition:width .3s linear}
+.geometry-game-stage{box-shadow:0 24px 65px rgba(0,0,0,.3),0 0 35px rgba(250,105,32,.045)}
+.geometry-game-stage canvas{user-select:none;-webkit-user-select:none}
+@media(max-width:520px){.geometry-game-score small{font-size:8px}.geometry-game-progress{width:84px}}
