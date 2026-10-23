@@ -60,7 +60,7 @@ export default function GeometrySurvivor(){
  const [publishing,setPublishing]=useState(false);
  const [published,setPublished]=useState(false);
  const [rankingOpen,setRankingOpen]=useState(false);
- const [ranking,setRanking]=useState<{nickname:string;duration_ms:number}[]>([]);
+ const [ranking,setRanking]=useState<{nickname:string;duration_ms:number;marker:string}[]>([]);
  const [rankingLoading,setRankingLoading]=useState(false);
  const [rankingError,setRankingError]=useState("");
  useEffect(()=>{
@@ -156,7 +156,20 @@ export default function GeometrySurvivor(){
   </div>
   {rankingOpen&&<div style={{padding:"14px 16px",background:"#120d0c",border:"1px solid rgba(255,139,48,.35)",borderRadius:8,marginTop:8,color:"#f5d4b7"}}>
    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}><strong>CLASSIFICA MONDIALE · TOP 10</strong><button type="button" onClick={()=>setRankingOpen(false)}>✕</button></div>
-   {rankingLoading?<p>Caricamento…</p>:rankingError?<p role="status">{rankingError}</p>:ranking.length===0?<p>Nessun punteggio pubblicato. I risultati saranno accettati soltanto dopo la verifica delle partite.</p>:ranking.map((entry,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",padding:"6px 0",borderBottom:"1px solid rgba(255,139,48,.14)"}}><span>{i+1}. {entry.nickname}</span><strong>{(entry.duration_ms/1000).toFixed(1)}s</strong></div>)}
+   {rankingLoading?<p>Caricamento…</p>:rankingError?<p role="status">{rankingError}</p>:ranking.length===0?<p>Nessun punteggio pubblicato. I risultati saranno accettati soltanto dopo la verifica delle partite.</p>:ranking.map((entry,i)=>{
+    const duplicate=ranking.some((other,j)=>j!==i&&other.nickname.toLowerCase()===entry.nickname.toLowerCase());
+    const marker=Number.parseInt(entry.marker?.slice(0,6)||"0",16);
+    const shapes=["circle","diamond","square"] as const;
+    const shape=shapes[marker%shapes.length];
+    const colors=["#ffb16e","#e9c4a2","#e6a08d","#f7d7a6"];
+    return <div key={entry.marker||i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"6px 0",borderBottom:"1px solid rgba(255,139,48,.14)"}}>
+     <span style={{display:"inline-flex",alignItems:"center",gap:7,minWidth:0}}>
+      <span>{i+1}. {entry.nickname}</span>
+      {duplicate&&<span aria-label="Giocatore distinto con lo stesso nickname" title="Giocatore distinto con lo stesso nickname" style={{width:8,height:8,display:"inline-block",flexShrink:0,background:colors[Math.floor(marker/3)%colors.length],borderRadius:shape==="circle"?"50%":"1px",transform:shape==="diamond"?"rotate(45deg)":undefined,boxShadow:"0 0 6px rgba(255,139,48,.18)"}}/>}
+     </span>
+     <strong>{(entry.duration_ms/1000).toFixed(1)}s</strong>
+    </div>;
+   })}
   </div>}
   {status==="dead"&&published&&<div role="status" style={{marginTop:8,padding:"14px 16px",border:"1px solid rgba(255,139,48,.45)",borderRadius:8,background:"#17100c",color:"#f7cfa9",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}><strong style={{color:"#ff9a42"}}>✓ RECORD PUBBLICATO</strong><span>Partita verificata. Il tuo risultato è stato registrato nella classifica mondiale.</span></div>}
   {status==="dead"&&!published&&<form onSubmit={async e=>{
