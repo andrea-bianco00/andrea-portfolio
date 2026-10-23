@@ -2,7 +2,7 @@ import MatrixIterationDemo from "./MatrixIterationDemo";
 import AlgorithmExplorer from "./AlgorithmExplorer";
 
 const results = [
-  { name: "Bias utente–film (λ = 5)", rmse: 0.860652, type: "Baseline", winner: true },
+  { name: "Bias utente–film (lambda = 5)", rmse: 0.860652, type: "Baseline", winner: true },
   { name: "Media globale", rmse: 1.035442, type: "Baseline" },
   { name: "SVP (rango 5)", rmse: 1.38950, type: "Matrix completion" },
   { name: "ADMiRA, variante didattica (rango 2)", rmse: 1.49071, type: "Matrix completion" },
@@ -68,7 +68,7 @@ function ValidationChart() {
     <div style={{marginTop:26}}>
       {results.map(r=><div key={r.name} style={{marginBottom:23}}>
         <div style={{display:"flex",justifyContent:"space-between",gap:14,alignItems:"baseline",marginBottom:8}}>
-          <span style={{fontSize:13,fontWeight:r.winner?750:500,color:"var(--paper)"}}>{r.name}</span>
+          <span style={{fontSize:13,fontWeight:r.winner?750:500,color:"var(--paper)"}}>{r.name.includes("lambda = 5") ? <>Bias utente–film (<math aria-label="lambda uguale a cinque"><mi>λ</mi><mo>=</mo><mn>5</mn></math>)</> : r.name}</span>
           <strong style={{fontVariantNumeric:"tabular-nums",fontSize:15,color:r.winner?"var(--orange)":"var(--paper)"}}>{r.rmse.toFixed(3).replace(".",",")}</strong>
         </div>
         <div style={{height:15,background:"#33241b",borderRadius:5,overflow:"hidden"}}>
