@@ -1,0 +1,95 @@
+"use client";
+
+import { useState } from "react";
+
+const algorithms = [
+  {
+    id: "mean", name: "Media globale", group: "Baseline",
+    idea: "Prevede sempre lo stesso voto: la media dei rating presenti nel training.",
+    example: "Se la media nel training fosse 3,6, prevederebbe 3,6 per ogni coppia utente–film.",
+    steps: ["Calcola la media dei rating osservati nel training.", "Usa quel valore per tutte le previsioni.", "Non distingue né gli utenti né i film."],
+    strength: "È un riferimento minimo, facile da interpretare.",
+    limit: "Non considera le differenze tra utenti o film.",
+    rmse: "1,035", color: "#b9a38d",
+    cells: [3.6,3.6,3.6,3.6,3.6,3.6,3.6,3.6,3.6],
+  },
+  {
+    id: "bias", name: "Bias utente–film", group: "Baseline",
+    idea: "Parte dalla media generale e la corregge in base all'utente e al film.",
+    example: "Un utente tende a dare voti alti? Un film riceve spesso voti bassi? Il modello tiene conto di entrambe le tendenze.",
+    steps: ["Stima la media globale sul training.", "Stima un effetto per ciascun utente e ciascun film.", "Regolarizza gli effetti per ridurre il rischio di adattarsi troppo ai dati."],
+    strength: "Cattura differenze sistematiche con pochi elementi interpretabili.",
+    limit: "Non rappresenta direttamente le interazioni personali tra un utente e uno specifico film.",
+    rmse: "0,861", color: "#ff7a1a",
+    cells: [3.2,3.7,4.1,2.6,3.1,3.5,3.7,4.2,4.6],
+  },
+  {
+    id: "svp", name: "SVP", group: "Matrix completion",
+    idea: "Cerca una matrice che riproduca i voti osservati, mantenendo un rango fissato.",
+    example: "Invece di imparare un parametro indipendente per ogni voto, prova a descrivere le preferenze con poche dimensioni latenti.",
+    steps: ["Parte da una stima della matrice.", "Aggiorna la stima per ridurre l'errore sui rating osservati.", "La riporta a un rango prestabilito e ripete."],
+    strength: "Impone direttamente una struttura a rango basso.",
+    limit: "La scelta del rango conta; nel nostro esperimento non è stata certificata la convergenza.",
+    rmse: "1,390", color: "#d4aa78",
+    cells: [3.0,3.6,4.1,2.8,3.4,3.9,2.5,3.1,3.6],
+  },
+  {
+    id: "svt", name: "SVT", group: "Matrix completion",
+    idea: "Favorisce una matrice semplice riducendo progressivamente i valori singolari.",
+    example: "Le componenti più piccole vengono attenuate o azzerate: così il modello tende a usare meno struttura.",
+    steps: ["Aggiorna la matrice in base agli errori sui rating osservati.", "Applica una soglia ai valori singolari.", "Ripete alternando correzione e riduzione."],
+    strength: "Controlla la complessità in modo più graduale di un rango fissato.",
+    limit: "La soglia influisce sul risultato; qui usiamo una variante a gradiente prossimale, non necessariamente il SVT duale originale.",
+    rmse: "1,719", color: "#b8a08c",
+    cells: [3.1,3.3,3.5,3.0,3.2,3.4,2.9,3.1,3.3],
+  },
+  {
+    id: "admira", name: "ADMiRA-inspired", group: "Matrix completion",
+    idea: "Costruisce una soluzione a rango basso selezionando e aggiornando componenti promettenti.",
+    example: "Prova a individuare quali direzioni della matrice aiutano maggiormente a spiegare i voti osservati.",
+    steps: ["Individua componenti candidate a partire dagli errori.", "Aggiorna una soluzione usando le componenti selezionate.", "Riduce nuovamente la soluzione al rango richiesto."],
+    strength: "Esplora un approccio iterativo di tipo pursuit.",
+    limit: "La nostra è una variante didattica: non la presentiamo come implementazione verificata dell'ADMiRA canonico.",
+    rmse: "1,491", color: "#c8a188",
+    cells: [3.3,3.9,3.4,2.8,3.4,2.9,3.1,3.7,3.2],
+  },
+] as const;
+
+export default function AlgorithmExplorer() {
+  const [selected, setSelected] = useState<(typeof algorithms)[number]["id"]>("bias");
+  const current = algorithms.find(a => a.id === selected)!;
+  return <div style={{border:"1px solid var(--line)",borderRadius:20,background:"linear-gradient(145deg,#19110b,#0d0907)",padding:"clamp(18px,3vw,32px)",margin:"32px 0"}}>
+    <div style={{display:"flex",justifyContent:"space-between",gap:16,alignItems:"baseline",flexWrap:"wrap",marginBottom:20}}>
+      <strong style={{fontSize:18}}>Esplora gli algoritmi</strong>
+      <span style={{fontSize:12,color:"var(--muted)"}}>Seleziona un metodo per vedere come ragiona</span>
+    </div>
+    <div role="group" aria-label="Scegli un algoritmo" style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:30}}>
+      {algorithms.map(a=><button key={a.id} type="button" aria-pressed={selected===a.id} onClick={()=>setSelected(a.id)} style={{border:"1px solid "+(selected===a.id?"var(--orange)":"var(--line)"),background:selected===a.id?"var(--orange)":"#241910",color:selected===a.id?"#140a03":"var(--paper)",borderRadius:999,padding:"11px 15px",fontSize:12,fontWeight:700,cursor:"pointer"}}>{a.name}</button>)}
+    </div>
+    <div aria-live="polite">
+      <div style={{display:"flex",justifyContent:"space-between",gap:16,flexWrap:"wrap",alignItems:"start"}}>
+        <div><span style={{fontSize:10,letterSpacing:".13em",color:"var(--orange)",fontWeight:750}}>{current.group.toUpperCase()}</span><h3 style={{fontSize:"clamp(1.5rem,3vw,2.2rem)",margin:"9px 0 12px",fontFamily:"Georgia,serif",fontWeight:450}}>{current.name}</h3></div>
+        <div style={{textAlign:"right"}}><strong style={{fontSize:26,color:"var(--orange)"}}>{current.rmse}</strong><div style={{fontSize:11,color:"var(--muted)"}}>RMSE validation ↓</div></div>
+      </div>
+      <p style={{color:"var(--paper)",fontSize:16,lineHeight:1.7,maxWidth:730}}>{current.idea}</p>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))",gap:25,marginTop:24}}>
+        <div>
+          <span style={{fontSize:11,color:"var(--orange)",fontWeight:750}}>COME FUNZIONA, IN TRE PASSAGGI</span>
+          <ol style={{paddingLeft:22,color:"var(--muted)",lineHeight:1.75,fontSize:14}}>{current.steps.map((step,i)=><li key={i} style={{marginTop:9}}>{step}</li>)}</ol>
+          <p style={{fontSize:13,color:"var(--muted)",lineHeight:1.75}}><strong style={{color:"var(--paper)"}}>Esempio:</strong> {current.example}</p>
+        </div>
+        <figure style={{margin:0,padding:18,borderRadius:14,border:"1px solid var(--line)",background:"#0c0907"}}>
+          <div style={{fontSize:11,color:"var(--muted)",marginBottom:15}}>Come potrebbe apparire una piccola matrice di previsioni</div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gap:7,maxWidth:285}}>
+            {current.cells.map((v,i)=><div key={i} style={{height:58,borderRadius:7,background:`rgba(255,122,26,${0.08+(v-2)*0.17})`,border:"1px solid #704122",display:"grid",placeItems:"center",fontSize:16,fontWeight:700,color:"#ffe4cb"}}>{v.toFixed(1).replace(".",",")}</div>)}
+          </div>
+          <figcaption style={{fontSize:11,lineHeight:1.65,color:"var(--muted)",marginTop:15}}>Illustrazione inventata per mostrare la logica del metodo: <strong>non</strong> sono previsioni prodotte dal codice del progetto. I valori reali di RMSE sono riportati sopra.</figcaption>
+        </figure>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:14,marginTop:22}}>
+        <div style={{padding:16,borderLeft:"2px solid var(--orange)",background:"#21150d"}}><strong style={{fontSize:12}}>Punto di forza</strong><p style={{fontSize:13,color:"var(--muted)",lineHeight:1.6,marginBottom:0}}>{current.strength}</p></div>
+        <div style={{padding:16,borderLeft:"2px solid #8d7464",background:"#21150d"}}><strong style={{fontSize:12}}>Limite</strong><p style={{fontSize:13,color:"var(--muted)",lineHeight:1.6,marginBottom:0}}>{current.limit}</p></div>
+      </div>
+    </div>
+  </div>;
+}
