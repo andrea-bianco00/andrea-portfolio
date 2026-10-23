@@ -3,7 +3,6 @@ import {useState} from "react";
 type M = [[number,number],[number,number]];
 const observed: (number|null)[][] = [[5,4],[2,null]];
 const original: M = [[0,0],[0,0]];
-const subtract=(a:M,b:M):M=>[[a[0][0]-b[0][0],a[0][1]-b[0][1]],[a[1][0]-b[1][0],a[1][1]-b[1][1]]];
 function svdShrink(a:M, threshold:number, rankOnly:boolean):{matrix:M,singular:number[]} {
   const [x,y]=a[0], [z,w]=a[1];
   const p=x*x+z*z,q=x*y+z*w,s=y*y+w*w;
