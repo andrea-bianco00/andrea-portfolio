@@ -79,7 +79,7 @@ const pseudocode: Record<string, {text?: string; tex?: string}[]> = {
   ],
   svp: [
     {tex:String.raw`X_0\leftarrow 0`},
-    {text:"Ripeti per t = 0, 1, …:"},
+    {tex:String.raw`\text{Ripeti per }t=0,1,\ldots`},
     {tex:String.raw`E_t\leftarrow P_{\Omega}(M-X_t)`},
     {tex:String.raw`Z_t\leftarrow X_t+\eta E_t`},
     {tex:String.raw`X_{t+1}\leftarrow P_r(Z_t)`},
@@ -98,7 +98,7 @@ const pseudocode: Record<string, {text?: string; tex?: string}[]> = {
     {tex:String.raw`X_0\leftarrow 0`},
     {text:"Ripeti per t = 0, 1, …:"},
     {tex:String.raw`E_t\leftarrow P_{\Omega}(M-X_t)`},
-    {text:"Seleziona fino a 2r direzioni singolari del residuo."},
+    {tex:String.raw`\text{Seleziona fino a }2r\text{ direzioni singolari del residuo.}`},
     {text:"Unisci le direzioni al sottospazio corrente."},
     {text:"Stima i coefficienti sui rating osservati."},
     {tex:String.raw`X_{t+1}\leftarrow P_r(\widetilde X_{t+1})`},
@@ -138,7 +138,7 @@ export default function AlgorithmExplorer() {
       </div>
       <section style={{marginTop:28,padding:22,border:"1px solid var(--line)",borderRadius:14,background:"#0a0807"}}>
         <strong style={{fontSize:15}}>Pseudocodice e notazione matematica</strong>
-        <p style={{fontSize:12,color:"var(--muted)",lineHeight:1.6}}>I passaggi principali, semplificati a partire dal codice del progetto. μ è la media globale, λ la penalizzazione, η il passo, PΩ conserva solo le posizioni osservate e Pᵣ tronca la matrice al rango r.</p>
+        <p style={{fontSize:13,color:"var(--muted)",lineHeight:1.8}}>I passaggi principali, semplificati a partire dal codice del progetto. <MathFormula tex={String.raw`\mu`} /> è la media globale, <MathFormula tex={String.raw`\lambda`} /> la penalizzazione, <MathFormula tex={String.raw`\eta`} /> il passo, <MathFormula tex={String.raw`P_{\Omega}`} /> conserva solo le posizioni osservate e <MathFormula tex={String.raw`P_r`} /> tronca la matrice al rango <MathFormula tex={String.raw`r`} />.</p>
         <ol className="portfolio-pseudocode-math" style={{paddingLeft:28,lineHeight:1.9}}>{pseudocode[current.id].map((line,i)=><li key={i}>{line.tex ? <MathFormula tex={line.tex} /> : <span style={{color:"var(--muted)"}}>{line.text}</span>}</li>)}</ol>
         <p style={{fontSize:12,color:"var(--muted)",lineHeight:1.6}}>Le implementazioni includono ulteriori controlli numerici e criteri di arresto. SVT usa una variante prossimale; ADMiRA è una variante didattica, non l'algoritmo canonico.</p>
       </section>
