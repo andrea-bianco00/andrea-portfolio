@@ -11,6 +11,7 @@ const algorithms = [
     strength: "È un riferimento minimo, facile da interpretare.",
     limit: "Non considera le differenze tra utenti o film.",
     rmse: "1,035", color: "#b9a38d",
+    pseudo: ["mu = media dei voti osservati","per ogni coppia utente-film:","  previsione = mu"],
     cells: [3.6,3.6,3.6,3.6,3.6,3.6,3.6,3.6,3.6],
   },
   {
@@ -21,6 +22,7 @@ const algorithms = [
     strength: "Cattura differenze sistematiche con pochi elementi interpretabili.",
     limit: "Non rappresenta direttamente le interazioni personali tra un utente e uno specifico film.",
     rmse: "0,861", color: "#ff7a1a",
+    pseudo: ["mu = media dei voti osservati","inizializza i bias di utenti e film a zero","ripeti:","  aggiorna i bias degli utenti con regolarizzazione","  aggiorna i bias dei film con regolarizzazione","  controlla la variazione dei parametri","previsione = mu + bias_utente + bias_film"],
     cells: [3.2,3.7,4.1,2.6,3.1,3.5,3.7,4.2,4.6],
   },
   {
@@ -31,6 +33,7 @@ const algorithms = [
     strength: "Impone direttamente una struttura a rango basso.",
     limit: "La scelta del rango conta; nel nostro esperimento non è stata certificata la convergenza.",
     rmse: "1,390", color: "#d4aa78",
+    pseudo: ["X = matrice inizialmente nulla","ripeti:","  E = errori nelle posizioni osservate","  Z = X + passo * E","  X = SVD troncata di Z al rango r","  controlla la variazione relativa di X"],
     cells: [3.0,3.6,4.1,2.8,3.4,3.9,2.5,3.1,3.6],
   },
   {
@@ -41,6 +44,7 @@ const algorithms = [
     strength: "Controlla la complessità in modo più graduale di un rango fissato.",
     limit: "La soglia influisce sul risultato; qui usiamo una variante a gradiente prossimale, non necessariamente il SVT duale originale.",
     rmse: "1,719", color: "#b8a08c",
+    pseudo: ["X = matrice inizialmente nulla","ripeti:","  E = errori nelle posizioni osservate","  Z = X + passo * E","  calcola i valori singolari di Z","  riduci ogni valore di passo * soglia, minimo zero","  ricostruisci X e controlla la variazione"],
     cells: [3.1,3.3,3.5,3.0,3.2,3.4,2.9,3.1,3.3],
   },
   {
@@ -51,6 +55,7 @@ const algorithms = [
     strength: "Esplora un approccio iterativo di tipo pursuit.",
     limit: "La nostra è una variante didattica: non la presentiamo come implementazione verificata dell'ADMiRA canonico.",
     rmse: "1,491", color: "#c8a188",
+    pseudo: ["X = matrice inizialmente nulla","ripeti:","  E = residui nelle posizioni osservate","  trova 2r direzioni singolari di E","  unisci le direzioni alle componenti correnti","  stima i coefficienti con minimi quadrati","  ricostruisci X e tronca al rango r"],
     cells: [3.3,3.9,3.4,2.8,3.4,2.9,3.1,3.7,3.2],
   },
 ] as const;
@@ -86,6 +91,12 @@ export default function AlgorithmExplorer() {
           <figcaption style={{fontSize:11,lineHeight:1.65,color:"var(--muted)",marginTop:15}}>Illustrazione inventata per mostrare la logica del metodo: <strong>non</strong> sono previsioni prodotte dal codice del progetto. I valori reali di RMSE sono riportati sopra.</figcaption>
         </figure>
       </div>
+      <section style={{marginTop:28,padding:22,border:"1px solid var(--line)",borderRadius:14,background:"#0a0807"}}>
+        <strong style={{fontSize:15}}>Pseudocodice</strong>
+        <p style={{fontSize:12,color:"var(--muted)",lineHeight:1.6}}>I passaggi principali, semplificati a partire dal codice del progetto.</p>
+        <ol style={{paddingLeft:28,fontFamily:"monospace",fontSize:12,lineHeight:2,overflowX:"auto"}}>{current.pseudo.map((line,i)=><li key={i} style={{whiteSpace:"pre",paddingLeft:5}}>{line}</li>)}</ol>
+        <p style={{fontSize:12,color:"var(--muted)",lineHeight:1.6}}>Le implementazioni includono ulteriori controlli numerici e criteri di arresto. SVT usa una variante prossimale; ADMiRA è una variante didattica, non l'algoritmo canonico.</p>
+      </section>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:14,marginTop:22}}>
         <div style={{padding:16,borderLeft:"2px solid var(--orange)",background:"#21150d"}}><strong style={{fontSize:12}}>Punto di forza</strong><p style={{fontSize:13,color:"var(--muted)",lineHeight:1.6,marginBottom:0}}>{current.strength}</p></div>
         <div style={{padding:16,borderLeft:"2px solid #8d7464",background:"#21150d"}}><strong style={{fontSize:12}}>Limite</strong><p style={{fontSize:13,color:"var(--muted)",lineHeight:1.6,marginBottom:0}}>{current.limit}</p></div>
