@@ -108,9 +108,18 @@ export default function GeometrySurvivor(){
  const touch=useRef<{x:number;y:number}|null>(null),last=useRef(0),raf=useRef(0),running=useRef(false);
  const [status,setStatus]=useState<"ready"|"playing"|"paused"|"dead">("ready");
  const [seconds,setSeconds]=useState(0),[best,setBest]=useState(0),[nearMisses,setNearMisses]=useState(0);
+ const [bestLoaded,setBestLoaded]=useState(false);
+ useEffect(()=>{try{const stored=Number(window.localStorage.getItem("geometry-survivor:best:v1"));if(Number.isFinite(stored)&&stored>=0&&stored<=86400)setBest(stored)}catch{}setBestLoaded(true)},[]);
+ useEffect(()=>{if(!bestLoaded||best<=0)return;try{const old=Number(window.localStorage.getItem("geometry-survivor:best:v1"))||0;if(best>old)window.localStorage.setItem("geometry-survivor:best:v1",String(best))}catch{}},[best,bestLoaded]);
  const reset=useCallback(()=>{game.current=initial();keys.current.clear();touch.current=null;last.current=0;setSeconds(0);setNearMisses(0);setStatus("playing");running.current=true},[]);
  useEffect(()=>{
-  const down=(e:KeyboardEvent)=>{if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key)&&document.activeElement?.tagName!=="INPUT")e.preventDefault();keys.current.add(e.key.toLowerCase());if(e.key===" "&&game.current.dead)reset()};
+  const down=(e:KeyboardEvent)=>{
+   const el=document.activeElement;
+   if(el instanceof HTMLElement&&(el.isContentEditable||["INPUT","TEXTAREA","SELECT","BUTTON"].includes(el.tagName)))return;
+   if(!running.current&&e.key!==" ")return;
+   if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key))e.preventDefault();
+   keys.current.add(e.key.toLowerCase());if(e.key===" "&&game.current.dead)reset();
+  };
   const up=(e:KeyboardEvent)=>keys.current.delete(e.key.toLowerCase());
   window.addEventListener("keydown",down);window.addEventListener("keyup",up);
   const blur=()=>{keys.current.clear();touch.current=null;running.current=false;setStatus(s=>s==="playing"?"paused":s)};
@@ -158,6 +167,6 @@ export default function GeometrySurvivor(){
    {status==="paused"&&<div className="geometry-game-overlay"><strong>PAUSA</strong><button type="button" onClick={()=>{running.current=true;last.current=0;setStatus("playing")}}>▶ RIPRENDI</button></div>}
    {status==="dead"&&<div className="geometry-game-restart"><button type="button" onClick={reset}>↻ RIGIOCA</button></div>}
   </div>
-  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · LA DIFFICOLTÀ AUMENTA</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button></div></div>
+  <div className="geometry-game-bottom"><span>EVITA GLI OSTACOLI · RECORD SALVATO SU QUESTO DISPOSITIVO</span><div><button type="button" onClick={()=>{if(status==="playing"){running.current=false;setStatus("paused")}else if(status==="paused"){running.current=true;last.current=0;setStatus("playing")}else reset()}}>{status==="playing"?"Ⅱ PAUSA":status==="paused"?"▶ RIPRENDI":"↻ START"}</button><button type="button" onClick={reset}>↻ RESET</button></div></div>
  </section>;
 }
