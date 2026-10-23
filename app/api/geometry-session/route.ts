@@ -4,7 +4,7 @@ import {initial,update,STEP} from "../../lib/geometry-core";
 export const runtime="nodejs";
 export const dynamic="force-dynamic";
 const SUPABASE="https://mjxlppdnuxrnajpugfvh.supabase.co";
-const KEY="sb_publishable_pF-nbo3Nc-xCvJYoiazBtg_8I7RhZcz";
+
 const json=(data:unknown,status=200)=>NextResponse.json(data,{status,headers:{"Cache-Control":"no-store"}});
 const validNick=(x:unknown):x is string=>typeof x==="string"&&/^[A-Za-z0-9_-]{2,20}$/.test(x);
 const validUuid=(x:unknown):x is string=>typeof x==="string"&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(x);
@@ -12,7 +12,8 @@ function sign(payload:string,secret:string){return createHmac("sha256",secret).u
 function safeEq(a:string,b:string){return a.length===b.length&&timingSafeEqual(Buffer.from(a),Buffer.from(b))}
 export async function POST(request:NextRequest){
  const secret=process.env.GEOMETRY_SUBMIT_TOKEN;
- if(!secret||secret.length<32)return json({error:"La pubblicazione dei record non è ancora attiva."},503);
+ const dbKey=process.env.GEOMETRY_SUPABASE_SECRET_KEY;
+ if(!secret||secret.length<32||!dbKey)return json({error:"La pubblicazione dei record non è ancora attiva."},503);
  const origin=request.headers.get("origin");
  if(origin&&origin!==new URL(request.url).origin&&origin!=="https://andrea-bianco.com"&&origin!=="https://www.andrea-bianco.com")return json({error:"Origine non consentita"},403);
  if(Number(request.headers.get("content-length")||0)>180000)return json({error:"Dati troppo grandi"},413);
@@ -50,7 +51,7 @@ export async function POST(request:NextRequest){
  try{
   const result=await fetch(SUPABASE+"/rest/v1/rpc/geometry_submit_verified",{
    method:"POST",cache:"no-store",signal:AbortSignal.timeout(8000),
-   headers:{"Content-Type":"application/json","apikey":KEY,"Authorization":"Bearer "+KEY},
+   headers:{"Content-Type":"application/json","apikey":dbKey,"Authorization":"Bearer "+dbKey},
    body:JSON.stringify({p_token:secret,p_session:sessionId,p_player:body.playerId,p_nickname:body.nickname,p_duration:duration,p_hash:replayHash})
   });
   if(!result.ok)return json({error:"Salvataggio non disponibile; riprova più tardi."},503);
