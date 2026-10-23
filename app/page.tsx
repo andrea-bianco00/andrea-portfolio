@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SiteNav from "./components/SiteNav";
 import DataConstellation from "./components/DataConstellation";
+import GeometrySurvivor from "./components/GeometrySurvivor";
 import { projects } from "./project-data";
 import type { Metadata } from "next";
 
@@ -33,7 +34,7 @@ export default function Home() {
 
 
       </div>
-      <div className="geometry-coming-soon" aria-label="Geometry Survivor in sviluppo"><span className="geometry-coming-kicker">NEXT EXPERIMENT</span><strong>GEOMETRY<br/>SURVIVOR<span className="geometry-coming-dot">.</span></strong><p>Un nuovo gioco geometrico è in costruzione.</p><span className="geometry-coming-symbol" aria-hidden="true">△　◇　○</span></div>
+      <GeometrySurvivor />
     </section>
 
     <div className="home-reference-stats" aria-label="Profilo in breve"><div><span>♧</span><strong>M.Sc. Data Science</strong><small>Università di Bologna</small></div><div><span>▥</span><strong>Research Internship</strong><small>CREST – ENSAI (FR)</small></div><div><span>⌘</span><strong>Progetti Data Science</strong><small>Machine Learning · NLP · Statistica</small></div><div><span>◎</span><strong>C1</strong><small>Inglese professionale</small></div></div>
