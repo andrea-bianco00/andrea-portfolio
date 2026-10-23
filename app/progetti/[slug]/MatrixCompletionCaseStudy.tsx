@@ -1,32 +1,33 @@
 export default function MatrixCompletionCaseStudy() {
   return <>
     <section className="case-section">
-      <p className="eyebrow">IL PROBLEMA</p>
-      <h2>Possiamo prevedere un film che non hai ancora valutato?</h2>
-      <p>Nei sistemi di raccomandazione, la matrice utenti × film contiene pochissimi rating osservati. Il progetto universitario, sviluppato con Matteo Mancini e successivamente riorganizzato come benchmark documentato, confronta metodi di ricostruzione low-rank con baseline molto più semplici.</p>
-      <p>La domanda non era soltanto «quale algoritmo è più sofisticato?», ma «quale generalizza meglio su rating non utilizzati per addestrarlo?».</p>
+      <p className="eyebrow">IL PROGETTO</p>
+      <h2>Ricostruire i rating mancanti</h2>
+      <p>Questo progetto nasce da un lavoro universitario svolto insieme a Matteo Mancini. Siamo partiti da un problema tipico dei sistemi di raccomandazione: ogni utente valuta soltanto una piccola parte dei film disponibili. È possibile stimare i rating mancanti usando le informazioni che abbiamo già?</p>
+      <p>Per studiarlo abbiamo lavorato con MovieLens e confrontato tre metodi di matrix completion: SVP, SVT e una variante didattica ispirata ad ADMiRA. Abbiamo incluso anche due baseline, perché volevamo capire se la maggiore complessità dei metodi low-rank portasse davvero un vantaggio.</p>
     </section>
     <section className="case-section">
-      <p className="eyebrow">IL DISEGNO SPERIMENTALE</p>
-      <h2>Stessi dati, stesso criterio di valutazione.</h2>
-      <p>MovieLens Latest Small: 100.836 rating, 610 utenti e 9.724 film valutati. Suddivisione fissata prima del confronto: 70.585 rating di training, 15.125 di validation e 15.126 di test.</p>
-      <p>Abbiamo valutato 11 configurazioni tra SVP, SVT, una variante didattica ispirata ad ADMiRA, media globale e baseline regolarizzata con effetti utente–film. La scelta del modello è avvenuta sulla validation; il test finale è stato usato una sola volta, soltanto per il modello selezionato.</p>
+      <p className="eyebrow">COME ABBIAMO LAVORATO</p>
+      <h2>Un confronto sullo stesso dataset</h2>
+      <p>Il dataset contiene 100.836 rating di 610 utenti su 9.724 film. Abbiamo separato i dati in training (70.585 rating), validation (15.125) e test (15.126), usando la validation per confrontare le 11 configurazioni considerate.</p>
+      <p>Una volta scelto il modello con il risultato migliore sulla validation, lo abbiamo valutato sul test finale. Non abbiamo usato i risultati del test per scegliere i parametri o cambiare modello.</p>
     </section>
     <section className="case-section">
-      <p className="eyebrow">RISULTATO PRINCIPALE</p>
-      <h2>La baseline ha battuto i modelli più complessi.</h2>
+      <p className="eyebrow">I RISULTATI</p>
+      <h2>Il modello più semplice è andato meglio</h2>
       <div className="case-metrics">
-        <div><strong>0,8607</strong><span>RMSE validation · baseline regolarizzata</span></div>
-        <div><strong>0,8781</strong><span>RMSE test · modello selezionato</span></div>
+        <div><strong>0,8607</strong><span>RMSE sulla validation · baseline regolarizzata</span></div>
+        <div><strong>0,8781</strong><span>RMSE sul test · modello scelto</span></div>
         <div><strong>15.126</strong><span>Rating nel test finale</span></div>
       </div>
-      <p>Tra i tre approcci di matrix completion, SVP ha ottenuto il miglior RMSE di validation nella griglia studiata (circa 1,3895 con rango 5). La baseline regolarizzata utente–film è risultata però nettamente migliore (0,8607). È una conclusione relativa a questo dataset, queste implementazioni e questo protocollo, non una classifica universale degli algoritmi.</p>
+      <p>Tra i metodi di matrix completion, il risultato migliore sulla validation è stato quello di SVP con rango 5 (RMSE circa 1,3895). La sorpresa è stata che una baseline regolarizzata, basata sugli effetti dei singoli utenti e film, ha ottenuto un errore molto più basso: 0,8607.</p>
+      <p>Questo non significa che SVP, SVT o ADMiRA siano in generale meno efficaci. Significa che, nelle condizioni del nostro esperimento, la soluzione più semplice ha funzionato meglio.</p>
     </section>
     <section className="case-section">
-      <p className="eyebrow">COSA HO IMPARATO</p>
-      <h2>Un esperimento credibile vale più di un risultato appariscente.</h2>
-      <p>Il progetto mette in evidenza il valore delle baseline, la separazione fra selezione e valutazione finale, il controllo dei casi con film mai osservati nel training e la necessità di dichiarare i limiti computazionali e metodologici.</p>
-      <p>Il repository contiene codice, configurazioni, risultati registrati e controlli automatici offline. Alcuni test d’integrazione richiedono l’archivio originale MovieLens e vengono esplicitamente saltati quando non è disponibile. Il badge verde non equivale a una nuova esecuzione completa degli esperimenti né certifica un isolamento del processo a livello di sistema operativo.</p>
+      <p className="eyebrow">CODICE E DOCUMENTAZIONE</p>
+      <h2>Il lavoro dietro ai numeri</h2>
+      <p>Nel repository abbiamo raccolto le implementazioni, le configurazioni usate, i risultati e i controlli automatici. Abbiamo anche documentato le scelte fatte e i limiti del confronto, compresi i casi in cui gli algoritmi hanno raggiunto il numero massimo di iterazioni.</p>
+      <p>I controlli automatici possono essere eseguiti senza il dataset originale; quelli che richiedono MovieLens vengono segnalati come saltati se il file non è disponibile. La verifica del codice non va quindi confusa con una nuova esecuzione completa dell'esperimento.</p>
     </section>
   </>;
 }
