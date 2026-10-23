@@ -51,7 +51,7 @@ export async function POST(request:NextRequest){
  try{
   const result=await fetch(SUPABASE+"/rest/v1/rpc/geometry_submit_verified",{
    method:"POST",cache:"no-store",signal:AbortSignal.timeout(8000),
-   headers:{"Content-Type":"application/json","apikey":dbKey,"Authorization":"Bearer "+dbKey},
+   headers:{"Content-Type":"application/json","apikey":dbKey},
    body:JSON.stringify({p_token:secret,p_session:sessionId,p_player:body.playerId,p_nickname:body.nickname,p_duration:duration,p_hash:replayHash})
   });
   if(!result.ok)return json({error:"Salvataggio non disponibile; riprova più tardi."},503);
