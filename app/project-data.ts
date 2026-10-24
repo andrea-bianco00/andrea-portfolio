@@ -11,6 +11,16 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "high-dimensional-time-series",
+    title: "High-Dimensional Time Series & Air Quality Forecasting",
+    category: "Time Series & Machine Learning",
+    year: 2026,
+    summary: "Da 516 sensori Taiwan a un benchmark PM2.5 su Beijing: come ho affrontato l'alta dimensionalità, costruito baseline credibili e valutato il contributo delle variabili ambientali, senza nascondere i limiti dei risultati.",
+    tags: ["Python", "R", "Time Series", "LightGBM", "Statistical Modeling"],
+    featured: true,
+    github: "https://github.com/andrea-bianco00/high-dimensional-time-series",
+  },
+  {
     slug: "matrix-completion-movielens",
     title: "Matrix Completion su MovieLens",
     category: "Machine Learning & Recommender Systems",
