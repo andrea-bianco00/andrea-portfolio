@@ -1,44 +1,82 @@
-const stations = [
- {name:"Aotizhongxin",lon:116.397,lat:39.982},
- {name:"Changping",lon:116.230,lat:40.217},
- {name:"Dingling",lon:116.220,lat:40.292},
- {name:"Dongsi",lon:116.417,lat:39.929},
- {name:"Guanyuan",lon:116.339,lat:39.929},
- {name:"Gucheng",lon:116.184,lat:39.914},
- {name:"Huairou",lon:116.628,lat:40.328},
- {name:"Nongzhanguan",lon:116.461,lat:39.937},
- {name:"Shunyi",lon:116.655,lat:40.127},
- {name:"Tiantan",lon:116.407,lat:39.886},
- {name:"Wanliu",lon:116.287,lat:39.987},
- {name:"Wanshouxigong",lon:116.352,lat:39.878}
+"use client";
+
+import {useEffect,useRef,useState} from "react";
+
+const stations=[
+ {name:"Aotizhongxin",lat:39.982,lon:116.397},{name:"Changping",lat:40.217,lon:116.230},
+ {name:"Dingling",lat:40.292,lon:116.220},{name:"Dongsi",lat:39.929,lon:116.417},
+ {name:"Guanyuan",lat:39.929,lon:116.339},{name:"Gucheng",lat:39.914,lon:116.184},
+ {name:"Huairou",lat:40.328,lon:116.628},{name:"Nongzhanguan",lat:39.937,lon:116.461},
+ {name:"Shunyi",lat:40.127,lon:116.655},{name:"Tiantan",lat:39.886,lon:116.407},
+ {name:"Wanliu",lat:39.987,lon:116.287},{name:"Wanshouxigong",lat:39.878,lon:116.352}
 ];
-const left=72,right=748,top=58,bottom=462;
-const x=(lon:number)=>left+(lon-116.12)/(116.72-116.12)*(right-left);
-const y=(lat:number)=>bottom-(lat-39.83)/(40.38-39.83)*(bottom-top);
-const central=new Set(["Aotizhongxin","Dongsi","Guanyuan","Gucheng","Nongzhanguan","Tiantan","Wanliu","Wanshouxigong"]);
+type LeafletMap={setView:(point:[number,number],zoom:number)=>LeafletMap;fitBounds:(bounds:[number,number][],options?:{padding?:[number,number]})=>LeafletMap;remove:()=>void;invalidateSize:()=>void};
+type LeafletMarker={addTo:(map:LeafletMap)=>LeafletMarker;bindPopup:(html:string)=>LeafletMarker;remove:()=>void};
+type LeafletAPI={map:(element:HTMLElement,options?:Record<string,unknown>)=>LeafletMap;tileLayer:(url:string,options:Record<string,unknown>)=>{addTo:(map:LeafletMap)=>void};circleMarker:(point:[number,number],options:Record<string,unknown>)=>LeafletMarker;control:{scale:()=>{addTo:(map:LeafletMap)=>void}}};
+declare global{interface Window{L?:LeafletAPI}}
+const bounds=stations.map(s=>[s.lat,s.lon] as [number,number]);
+const leafletJs="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+const leafletCss="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+let leafletLoading:Promise<void>|null=null;
+function loadLeaflet(){
+ if(window.L)return Promise.resolve();
+ if(leafletLoading)return leafletLoading;
+ leafletLoading=new Promise<void>((resolve,reject)=>{
+  if(!document.querySelector('link[data-hdts-leaflet]')){const css=document.createElement("link");css.rel="stylesheet";css.href=leafletCss;css.dataset.hdtsLeaflet="1";document.head.appendChild(css)}
+  const existing=document.querySelector('script[data-hdts-leaflet]') as HTMLScriptElement|null;
+  if(existing){existing.addEventListener("load",()=>resolve(),{once:true});existing.addEventListener("error",()=>reject(new Error("Map library unavailable")),{once:true});return}
+  const script=document.createElement("script");script.src=leafletJs;script.async=true;script.dataset.hdtsLeaflet="1";script.onload=()=>resolve();script.onerror=()=>reject(new Error("Map library unavailable"));document.body.appendChild(script);
+ }).catch(error=>{leafletLoading=null;throw error});
+ return leafletLoading;
+}
 export default function BeijingStationMap(){
+ const container=useRef<HTMLDivElement>(null);
+ const map=useRef<LeafletMap|null>(null);
+ const markers=useRef<LeafletMarker[]>([]);
+ const [ready,setReady]=useState(false);
+ const [error,setError]=useState(false);
+ const [showStations,setShowStations]=useState(true);
+ const [view,setView]=useState<"china"|"beijing">("china");
+ useEffect(()=>{
+  let disposed=false;
+  loadLeaflet().then(()=>{
+   if(disposed||!container.current||!window.L)return;
+   const L=window.L;
+   const instance=L.map(container.current,{scrollWheelZoom:true}).setView([35.8,104.2],4);
+   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',maxZoom:18}).addTo(instance);
+   L.control.scale().addTo(instance);
+   map.current=instance;
+   markers.current=stations.map(s=>L.circleMarker([s.lat,s.lon],{radius:8,color:"#fff3e5",weight:2,fillColor:"#ff7a1a",fillOpacity:.95}).addTo(instance).bindPopup(`<strong>${s.name}</strong><br/>PM2.5 monitoring station<br/>${s.lat.toFixed(3)}° N · ${s.lon.toFixed(3)}° E`));
+   setReady(true);
+   requestAnimationFrame(()=>instance.invalidateSize());
+  }).catch(()=>{if(!disposed)setError(true)});
+  return()=>{disposed=true;markers.current.forEach(m=>m.remove());markers.current=[];map.current?.remove();map.current=null};
+ },[]);
+ function changeView(next:"china"|"beijing"){
+  if(!map.current)return;
+  if(next==="china")map.current.setView([35.8,104.2],4);
+  else map.current.fitBounds(bounds,{padding:[45,45]});
+  setView(next);
+ }
+ function toggleMarkers(){
+  if(!map.current||!window.L)return;
+  if(showStations)markers.current.forEach(m=>m.remove());
+  else markers.current.forEach(m=>m.addTo(map.current!));
+  setShowStations(!showStations);
+ }
  return <figure className="hdts-map-panel">
-  <div className="hdts-viz-head"><div><span className="eyebrow">GEOGRAFIA DEL DATASET</span><h3>Dove si trovano le 12 stazioni di Beijing?</h3></div><span className="hdts-viz-meta">Latitudine · Longitudine</span></div>
-  <p>Non sono dodici repliche dello stesso punto: alcune stazioni si concentrano nella zona urbana, altre si trovano più a nord o a est. La posizione aiuta a interpretare perché le misure possano essere correlate senza essere identiche.</p>
-  <div className="hdts-map-layout">
-   <svg viewBox="0 0 820 525" role="img" aria-label="Mappa schematica georeferenziata delle dodici stazioni PM2.5 nell'area di Pechino, con assi longitudine e latitudine. Nord verso l'alto." className="hdts-station-map">
-    <defs><pattern id="hdts-grid" width="88" height="76" patternUnits="userSpaceOnUse"><path d="M 88 0 L 0 0 0 76" fill="none" stroke="#493024" strokeWidth=".6"/></pattern></defs>
-    <rect x="0" y="0" width="820" height="525" rx="16" fill="#120c09"/>
-    <rect x={left} y={top} width={right-left} height={bottom-top} fill="url(#hdts-grid)" stroke="#493024" strokeWidth="1"/>
-    {[116.2,116.3,116.4,116.5,116.6].map(lon=><g key={lon}><line x1={x(lon)} x2={x(lon)} y1={top} y2={bottom} stroke="#493024" strokeDasharray="3 6"/><text x={x(lon)} y={bottom+24} fill="#ac9079" textAnchor="middle" fontSize="11">{lon.toFixed(1)}°E</text></g>)}
-    {[39.9,40,40.1,40.2,40.3].map(lat=><g key={lat}><line x1={left} x2={right} y1={y(lat)} y2={y(lat)} stroke="#493024" strokeDasharray="3 6"/><text x={left-12} y={y(lat)+4} fill="#ac9079" textAnchor="end" fontSize="11">{lat.toFixed(1)}°N</text></g>)}
-    <text x={right-4} y={top-18} fill="#ff7a1a" textAnchor="end" fontSize="12" fontWeight="bold">N ↑</text>
-    <ellipse cx={x(116.37)} cy={y(39.95)} rx="132" ry="85" fill="#ff7a1a" fillOpacity=".045" stroke="#ff7a1a" strokeOpacity=".25" strokeDasharray="5 7"/>
-    {stations.map((s,i)=><g key={s.name}>
-      <title>{s.name}: {s.lat.toFixed(3)}°N, {s.lon.toFixed(3)}°E</title>
-      <circle cx={x(s.lon)} cy={y(s.lat)} r="11" fill={central.has(s.name)?"#ff7a1a":"#f3e7d3"} fillOpacity=".15"/>
-      <circle cx={x(s.lon)} cy={y(s.lat)} r="5" fill={central.has(s.name)?"#ff7a1a":"#f3e7d3"} stroke="#120c09" strokeWidth="1.4"/>
-      <text x={x(s.lon)+9} y={y(s.lat)-9} fill="#f3e7d3" fontSize="10" fontWeight="600">{i+1}</text>
-    </g>)}
-    <text x="410" y="510" fill="#ac9079" textAnchor="middle" fontSize="11">Distribuzione geografica dei punti · non è una cartografia stradale</text>
-   </svg>
-   <div className="hdts-map-key"><div className="hdts-map-key-head"><span className="hdts-map-legend urban"/>Area urbana <span className="hdts-map-legend outer"/>Stazioni periferiche</div><ol>{stations.map((s,i)=><li key={s.name}><span>{String(i+1).padStart(2,"0")}</span><strong>{s.name}</strong></li>)}</ol></div>
+  <div className="hdts-viz-head"><div><span className="eyebrow">GEOGRAFIA DEL DATASET · MAPPA INTERATTIVA</span><h3>Dalla Cina alle 12 stazioni di Beijing</h3></div><span className="hdts-viz-meta">OpenStreetMap · Leaflet</span></div>
+  <p>Esplora la posizione delle stazioni sulla cartografia reale. Parti dalla Cina intera, avvicinati a Beijing e seleziona un punto arancione per visualizzare le coordinate.</p>
+  <div className="hdts-map-toolbar" role="group" aria-label="Controlli della mappa">
+   <button type="button" disabled={!ready} aria-pressed={view==="china"} onClick={()=>changeView("china")}>Cina intera</button>
+   <button type="button" disabled={!ready} aria-pressed={view==="beijing"} onClick={()=>changeView("beijing")}>Zoom sulle 12 stazioni</button>
+   <button type="button" disabled={!ready} aria-pressed={showStations} onClick={toggleMarkers}>{showStations?"Nascondi stazioni":"Mostra stazioni"}</button>
   </div>
-  <figcaption>Coordinate geografiche pubblicate in letteratura per il Beijing Multi-Site Air Quality dataset, arrotondate a tre decimali. Schema longitudine/latitudine, senza sfondo cartografico né confini amministrativi. Fonte: <a href="https://www.mdpi.com/2071-1050/14/9/5104" target="_blank" rel="noopener noreferrer">Sustainability (2022), tabella 1 ↗</a>. Le categorie urbana/periferica servono solo a orientare la lettura, non sono variabili usate nel benchmark.</figcaption>
+  <div className="hdts-live-map-wrap">
+   <div ref={container} className="hdts-live-map" role="region" aria-label="Mappa interattiva della Cina e delle 12 stazioni PM2.5 di Pechino"/>
+   {!ready&&!error&&<div className="hdts-map-loading">Caricamento cartografia interattiva…</div>}
+   {error&&<div className="hdts-map-loading">La cartografia non è disponibile in questo momento. Controlla la connessione o le impostazioni di blocco dei contenuti.</div>}
+  </div>
+  <figcaption>Trascina per spostarti, usa la rotellina o i pulsanti +/− per lo zoom e tocca i marcatori per i dettagli. La mappa utilizza OpenStreetMap; i punti rappresentano le 12 stazioni del benchmark Beijing e non i 516 sensori Taiwan. Coordinate indicative arrotondate, da verificare con i metadati originali prima di un'analisi spaziale.</figcaption>
  </figure>;
 }
