@@ -1,5 +1,6 @@
 import Link from "next/link";
 import TimeSeriesTheory from "./TimeSeriesTheory";
+import TimeSeriesVisualizations from "./TimeSeriesVisualizations";
 
 const stations = [
   ["Aotizhongxin",9.898,8.635],["Changping",8.939,8.322],["Dingling",8.409,7.868],
@@ -68,6 +69,7 @@ export default function HighDimensionalCaseStudy() {
         {[["Persistenza",9.663,false],["LightGBM · solo PM2.5",8.797,false],["LightGBM · PM2.5 + ambiente",8.682,true]].map(([name,value,best])=><div className="hdts-bar-row" key={String(name)}><div className="hdts-bar-label"><span>{name}</span><strong>{Number(value).toFixed(3).replace(".",",")}</strong></div><div className="hdts-bar-track"><div className={best?"hdts-bar-fill hdts-best":"hdts-bar-fill"} style={{width:`${Number(value)/11*100}%`}} /></div></div>)}
         <p>Stesse osservazioni per tutti i modelli. MAE espresso nelle unità PM2.5 del dataset; le previsioni negative non sono state corrette a posteriori.</p>
       </div>
+      <TimeSeriesVisualizations />
       <div className="hdts-split hdts-insights">
         <article><span className="hdts-step">COSA SUGGERISCONO I DATI</span><h3>La meteorologia aggiunge informazione</h3><p>La versione con variabili ambientali ha ottenuto un MAE inferiore alla versione con solo PM2.5 in tutte le 12 stazioni, nel confronto archiviato.</p></article>
         <article><span className="hdts-step">COSA NON POSSIAMO CONCLUDERE</span><h3>Un buon risultato storico non è una garanzia</h3><p>La scelta dei modelli è stata influenzata dall'esplorazione degli stessi anni. Per misurare la generalizzazione serve un nuovo test indipendente.</p></article>
