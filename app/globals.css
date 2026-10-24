@@ -839,3 +839,25 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
 .hdts-map-style-picker button:disabled{opacity:.4;cursor:wait}
 .hdts-live-map-wrap{box-shadow:0 20px 55px #0006}
 .hdts-live-map .leaflet-control-zoom a{color:#2b1c14;background:#fff9f1;border-color:#e5d9c9}
+
+
+/* Taiwan chapter: honest dimensionality visualization */
+.hdts-taiwan-viz{margin:44px 0;padding:30px;border:1px solid var(--line);border-radius:20px;background:radial-gradient(circle at 80% 15%,#38200f,transparent 55%),var(--panel)}
+.hdts-taiwan-equation{display:flex;justify-content:center;align-items:center;gap:35px;margin:30px 0}
+.hdts-taiwan-equation>div{display:grid;gap:7px}
+.hdts-taiwan-equation>div>span{font:700 10px var(--font-geist-mono),monospace;letter-spacing:.08em;color:var(--muted)}
+.hdts-taiwan-equation strong{font:450 clamp(2rem,5vw,4.1rem) var(--font-fraunces),Georgia,serif;color:var(--paper)}
+.hdts-taiwan-equation small{font-size:11px;color:var(--muted)}
+.hdts-taiwan-versus{font:italic 24px Georgia,serif;color:var(--orange)}
+.hdts-taiwan-grid{display:grid;grid-template-columns:repeat(43,minmax(0,1fr));gap:3px;max-width:700px;margin:30px auto}
+.hdts-taiwan-cell{aspect-ratio:1;border-radius:2px;background:#6d503d;opacity:.5}
+.hdts-taiwan-cell.active{background:var(--orange);opacity:1}
+.hdts-taiwan-note{border-left:3px solid var(--orange);padding:10px 0 10px 20px;margin:25px 0}
+.hdts-taiwan-note strong{color:var(--paper)}
+.case-section .hdts-taiwan-note p{font-size:14px;margin:8px 0 0}
+.hdts-taiwan-viz figcaption{border-top:1px solid var(--line);margin-top:24px;padding-top:16px;font-size:12px;color:var(--muted);line-height:1.7}
+.hdts-chapter-divider{margin:50px 0 30px;padding:30px 0;border-top:1px solid var(--orange);border-bottom:1px solid var(--line)}
+.hdts-chapter-divider>span{font:700 10px var(--font-geist-mono),monospace;color:var(--orange);letter-spacing:.1em}
+.hdts-chapter-divider h3{font:450 clamp(1.7rem,3vw,2.5rem) var(--font-fraunces),Georgia,serif;margin:17px 0}
+.case-section .hdts-chapter-divider p{font-size:14px;max-width:750px}
+@media(max-width:760px){.hdts-taiwan-viz{padding:20px}.hdts-taiwan-equation{gap:12px}.hdts-taiwan-equation>div>span{font-size:8px}.hdts-taiwan-grid{gap:2px}}
