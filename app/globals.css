@@ -800,3 +800,19 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
 .hdts-viz-takeaway strong{color:var(--paper)}
 .case-section .hdts-viz-takeaway p{font-size:14px;margin:10px 0 0}
 @media(max-width:760px){.hdts-viz-dual{grid-template-columns:1fr;gap:25px}.hdts-viz-head{flex-direction:column}.hdts-viz-panel{padding:21px}.hdts-station-line{grid-template-columns:105px minmax(0,1fr) 55px;gap:8px}.hdts-station-line>span{font-size:10px}}
+
+/* Geographic context for Beijing monitoring sites */
+.hdts-map-panel{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:30px;margin:42px 0}
+.case-section .hdts-map-panel>p{font-size:14px;line-height:1.7;margin-bottom:24px}
+.hdts-map-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(185px,.8fr);gap:20px;align-items:start}
+.hdts-station-map{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
+.hdts-map-key{min-width:0}.hdts-map-key-head{display:flex;gap:9px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:10px;margin-bottom:18px}
+.hdts-map-legend{display:inline-block;width:9px;height:9px;border-radius:50%}.hdts-map-legend.urban{background:var(--orange)}.hdts-map-legend.outer{background:var(--paper)}
+.hdts-map-key ol{padding:0;margin:0;list-style:none;display:grid;gap:8px}
+.hdts-map-key li{display:flex;align-items:center;gap:11px;font-size:11px;min-width:0}
+.hdts-map-key li span{font:600 10px var(--font-geist-mono),monospace;color:var(--orange)}
+.hdts-map-key li strong{font-weight:500;overflow-wrap:anywhere}
+.hdts-map-panel figcaption{border-top:1px solid var(--line);padding-top:18px;margin-top:24px;font-size:12px;line-height:1.7;color:var(--muted)}
+.hdts-map-panel figcaption a{color:var(--orange);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){.hdts-map-layout{grid-template-columns:1fr}.hdts-map-key ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hdts-map-panel{padding:20px}}
+@media(max-width:410px){.hdts-map-key ol{grid-template-columns:1fr}}
