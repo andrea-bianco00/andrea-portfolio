@@ -764,3 +764,12 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
 .hdts-theory-summary>span{font:700 10px var(--font-geist-mono),monospace;color:var(--orange);letter-spacing:.1em}
 .case-section .hdts-theory-summary p{color:var(--paper);font-size:16px;line-height:1.8;margin-bottom:0}
 @media(max-width:760px){.hdts-theory-metrics{grid-template-columns:1fr}.hdts-equation{padding:20px 12px 16px}.hdts-theory-head{flex-wrap:wrap}.hdts-theory-summary{padding:24px}}
+
+/* Explicit model-selection reasoning */
+.hdts-decision-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:36px 0}
+.hdts-decision-list article{padding:27px 24px;border:1px solid var(--line);background:linear-gradient(160deg,#191008,var(--panel));border-radius:18px}
+.hdts-decision-list span{font:700 10px var(--font-geist-mono),monospace;letter-spacing:.1em;color:var(--orange)}
+.hdts-decision-list h3{font:450 clamp(1.45rem,2.2vw,1.9rem) var(--font-fraunces),Georgia,serif;line-height:1.22;margin:25px 0 16px}
+.case-section .hdts-decision-list p{font-size:13px;line-height:1.75;margin:0}
+.hdts-decision-list strong{color:var(--paper)}
+@media(max-width:760px){.hdts-decision-list{grid-template-columns:1fr}.hdts-decision-list article{padding:25px}}
