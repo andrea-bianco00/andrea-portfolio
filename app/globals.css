@@ -830,3 +830,12 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
 .hdts-live-map .leaflet-popup-content{line-height:1.8}
 .hdts-live-map .leaflet-control-attribution{font-size:10px}
 @media(max-width:760px){.hdts-live-map{height:440px}.hdts-map-toolbar button{font-size:11px;padding:10px 13px}}
+
+
+.hdts-map-style-picker{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 15px}
+.hdts-map-style-picker>span{font:700 10px var(--font-geist-mono),monospace;letter-spacing:.1em;color:var(--muted);margin-right:8px}
+.hdts-map-style-picker button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:12px}
+.hdts-map-style-picker button[aria-pressed="true"]{background:var(--paper);border-color:var(--paper);color:#1c130d;font-weight:700}
+.hdts-map-style-picker button:disabled{opacity:.4;cursor:wait}
+.hdts-live-map-wrap{box-shadow:0 20px 55px #0006}
+.hdts-live-map .leaflet-control-zoom a{color:#2b1c14;background:#fff9f1;border-color:#e5d9c9}
