@@ -17,7 +17,7 @@ export default function HighDimensionalCaseStudy() {
     </div>
 
     <nav className="hdts-nav" aria-label="Sezioni del progetto">
-      <span>IL PERCORSO</span><a href="#hdts-problema">Problema</a><a href="#hdts-metodo">Metodo</a><a href="#hdts-teoria">Teoria</a><a href="#hdts-risultati">Risultati</a><a href="#hdts-limiti">Limiti</a>
+      <span>IL PERCORSO</span><a href="#hdts-problema">Problema</a><a href="#hdts-metodo">Metodo</a><a href="#hdts-teoria">Teoria</a><a href="#hdts-scelte">Decisioni</a><a href="#hdts-risultati">Risultati</a><a href="#hdts-limiti">Limiti</a>
     </nav>
 
     <section id="hdts-problema" className="case-section">
@@ -46,6 +46,18 @@ export default function HighDimensionalCaseStudy() {
     </section>
 
     <TimeSeriesTheory />
+
+    <section id="hdts-scelte" className="case-section hdts-decisions">
+      <p className="eyebrow">DAL MODELLO ALLA DECISIONE</p>
+      <h2>Perché proprio questi modelli?</h2>
+      <p>Un buon esperimento non è una gara a chi usa l’algoritmo più complicato. Ho organizzato il confronto per rispondere a domande successive, ciascuna con una scelta verificabile.</p>
+      <div className="hdts-decision-list">
+        <article><span>DOMANDA 01</span><h3>Quanto è difficile prevedere l’ora successiva?</h3><p><strong>Persistenza.</strong> È il riferimento minimo: se non supero l’ultima osservazione disponibile, il modello complesso non aggiunge valore.</p></article>
+        <article><span>DOMANDA 02</span><h3>Il passato della rete è sufficiente?</h3><p><strong>LightGBM con soli ritardi PM2.5.</strong> Misura il contributo di uno storico multistazione senza aggiungere variabili meteorologiche.</p></article>
+        <article><span>DOMANDA 03</span><h3>Le condizioni ambientali migliorano la previsione?</h3><p><strong>LightGBM con covariate ritardate.</strong> Mantengo la famiglia di modello e confronto il guadagno dovuto all’aggiunta delle informazioni ambientali.</p></article>
+      </div>
+      <p className="hdts-disclaimer">Questo confronto è un’ablation study retrospettivo, non una prova causale del ruolo della meteorologia: variabili correlate e scelte precedenti possono influenzare i risultati.</p>
+    </section>
 
     <section id="hdts-risultati" className="case-section">
       <p className="eyebrow">04 / COSA È EMERSO</p>
