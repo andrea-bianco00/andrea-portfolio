@@ -740,3 +740,27 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
 .hdts-links{display:flex;flex-direction:column;gap:12px;align-items:stretch;flex-shrink:0;text-align:center}
 @media(max-width:760px){.hdts-kpis,.hdts-limits{grid-template-columns:1fr}.hdts-split{grid-template-columns:1fr}.hdts-timeline{grid-template-columns:repeat(2,minmax(0,1fr))}.hdts-footer{flex-direction:column;align-items:stretch}.hdts-links{align-items:stretch}.hdts-chart{padding:22px}.hdts-nav span{width:100%}}
 @media(max-width:430px){.hdts-kpis>div{padding:22px}.hdts-split article{padding:24px}.hdts-conclusion{padding:24px}.hdts-bar-label{font-size:11px}}
+
+
+/* Mathematical explanations in the time-series case study */
+.hdts-theory-block{border-top:1px solid var(--line);padding:36px 0 44px}
+.hdts-theory-head{display:flex;justify-content:space-between;gap:18px;color:var(--orange);font:700 10px var(--font-geist-mono),monospace;letter-spacing:.12em}
+.hdts-theory-head strong{color:var(--muted)}
+.hdts-theory-block h3{font:450 clamp(1.7rem,3vw,2.65rem) var(--font-fraunces),Georgia,serif;line-height:1.2;margin:24px 0 16px;max-width:800px}
+.hdts-theory-block p strong{color:var(--paper)}
+.hdts-equation{border:1px solid var(--line);border-radius:16px;background:var(--panel);padding:28px 20px 18px;margin:30px 0}
+.hdts-equation-scroll{overflow-x:auto;overflow-y:hidden;color:var(--paper);font-size:clamp(.8rem,1.5vw,1.1rem)}
+.hdts-equation .katex-display{margin:0;min-width:max-content;padding:10px 0}
+.hdts-equation figcaption{border-top:1px solid var(--line);margin-top:15px;padding-top:16px;color:var(--muted);font-size:12px;line-height:1.65}
+.hdts-theory-insight{border-left:3px solid var(--orange);padding:12px 0 12px 24px;margin:28px 0}
+.hdts-theory-insight strong{color:var(--orange);font-size:14px}
+.hdts-theory-insight p{margin:10px 0 0}
+.hdts-theory-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:30px 0}
+.hdts-theory-metrics>div{min-width:0}
+.hdts-theory-metrics h4{font-size:14px;margin:0 0 12px}
+.hdts-theory-metrics .hdts-equation{margin:10px 0 18px}
+.case-section .hdts-theory-metrics p{font-size:13px}
+.hdts-theory-summary{background:radial-gradient(circle at 95% 90%,#3a1b0b,transparent 60%),var(--panel);border:1px solid var(--line);border-radius:18px;padding:30px;margin:10px 0 30px}
+.hdts-theory-summary>span{font:700 10px var(--font-geist-mono),monospace;color:var(--orange);letter-spacing:.1em}
+.case-section .hdts-theory-summary p{color:var(--paper);font-size:16px;line-height:1.8;margin-bottom:0}
+@media(max-width:760px){.hdts-theory-metrics{grid-template-columns:1fr}.hdts-equation{padding:20px 12px 16px}.hdts-theory-head{flex-wrap:wrap}.hdts-theory-summary{padding:24px}}
