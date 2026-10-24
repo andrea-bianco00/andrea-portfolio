@@ -1,4 +1,5 @@
 import Link from "next/link";
+import TimeSeriesTheory from "./TimeSeriesTheory";
 
 const stations = [
   ["Aotizhongxin",9.898,8.635],["Changping",8.939,8.322],["Dingling",8.409,7.868],
@@ -16,7 +17,7 @@ export default function HighDimensionalCaseStudy() {
     </div>
 
     <nav className="hdts-nav" aria-label="Sezioni del progetto">
-      <span>IL PERCORSO</span><a href="#hdts-problema">Problema</a><a href="#hdts-metodo">Metodo</a><a href="#hdts-risultati">Risultati</a><a href="#hdts-limiti">Limiti</a>
+      <span>IL PERCORSO</span><a href="#hdts-problema">Problema</a><a href="#hdts-metodo">Metodo</a><a href="#hdts-teoria">Teoria</a><a href="#hdts-risultati">Risultati</a><a href="#hdts-limiti">Limiti</a>
     </nav>
 
     <section id="hdts-problema" className="case-section">
@@ -44,8 +45,10 @@ export default function HighDimensionalCaseStudy() {
       </div>
     </section>
 
+    <TimeSeriesTheory />
+
     <section id="hdts-risultati" className="case-section">
-      <p className="eyebrow">03 / COSA È EMERSO</p>
+      <p className="eyebrow">04 / COSA È EMERSO</p>
       <h2>Le informazioni ambientali aiutano. Ma il confronto conta più del numero.</h2>
       <p>Su 102.298 osservazioni stazione-ora valutabili del 2016, LightGBM con informazioni ambientali ritardate ha ridotto l'errore medio assoluto rispetto alla persistenza. Il confronto è retrospettivo: il periodo è stato consultato più volte durante lo sviluppo.</p>
       <div className="hdts-chart" role="img" aria-label="Errore medio assoluto: persistenza 9,663; LightGBM PM2.5 8,797; LightGBM con variabili ambientali 8,682">
@@ -61,7 +64,7 @@ export default function HighDimensionalCaseStudy() {
     </section>
 
     <section id="hdts-limiti" className="case-section">
-      <p className="eyebrow">04 / COSA HO IMPARATO</p>
+      <p className="eyebrow">05 / COSA HO IMPARATO</p>
       <h2>Un modello convincente deve saper spiegare anche i propri limiti.</h2>
       <p>Questo lavoro mi ha insegnato che ottenere una metrica migliore è soltanto una parte del processo. Bisogna chiedersi se i dati sarebbero davvero disponibili al momento della previsione, quali osservazioni mancano, quanto il confronto sia equo e se la valutazione sia rimasta indipendente dalle scelte fatte.</p>
       <div className="hdts-limits">
