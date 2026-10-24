@@ -1,6 +1,7 @@
 import Link from "next/link";
 import TimeSeriesTheory from "./TimeSeriesTheory";
 import TimeSeriesVisualizations from "./TimeSeriesVisualizations";
+import BeijingStationMap from "./BeijingStationMap";
 
 const stations = [
   ["Aotizhongxin",9.898,8.635],["Changping",8.939,8.322],["Dingling",8.409,7.868],
@@ -29,6 +30,7 @@ export default function HighDimensionalCaseStudy() {
         <article><span className="hdts-step">IL PUNTO DI PARTENZA</span><h3>516 serie, poche osservazioni</h3><p>Nel progetto universitario, sviluppato con Emidio Grillo e Luca Nudo, abbiamo studiato 744 osservazioni orarie di 516 sensori Taiwan AirBox. Un VAR tradizionale richiede rapidamente troppi parametri: la regolarizzazione aiuta a gestire la dimensionalità e a controllare la complessità.</p><span className="hdts-sub">R · Serie temporali multivariate · VAR regolarizzato</span></article>
         <article><span className="hdts-step">L'ESTENSIONE SUCCESSIVA</span><h3>La previsione deve battere qualcosa di semplice</h3><p>Ho poi affrontato un problema distinto: prevedere il PM2.5 dell'ora successiva sui dati di 12 stazioni Beijing. Il riferimento era volutamente elementare: usare come previsione il valore appena osservato. Ogni modello più complesso doveva dimostrare di aggiungere valore.</p><span className="hdts-sub">Python · Forecasting · Machine Learning</span></article>
       </div>
+      <BeijingStationMap />
       <p className="hdts-disclaimer">I due dataset non sono intercambiabili: Beijing non è un test del modello Taiwan e i risultati non vengono confrontati direttamente.</p>
     </section>
 
