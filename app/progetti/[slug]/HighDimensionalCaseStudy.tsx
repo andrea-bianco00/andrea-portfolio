@@ -2,6 +2,7 @@ import Link from "next/link";
 import TimeSeriesTheory from "./TimeSeriesTheory";
 import TimeSeriesVisualizations from "./TimeSeriesVisualizations";
 import BeijingStationMap from "./BeijingStationMap";
+import TaiwanDimensionality from "./TaiwanDimensionality";
 
 const stations = [
   ["Aotizhongxin",9.898,8.635],["Changping",8.939,8.322],["Dingling",8.409,7.868],
@@ -30,6 +31,8 @@ export default function HighDimensionalCaseStudy() {
         <article><span className="hdts-step">IL PUNTO DI PARTENZA</span><h3>516 serie, poche osservazioni</h3><p>Nel progetto universitario, sviluppato con Emidio Grillo e Luca Nudo, abbiamo studiato 744 osservazioni orarie di 516 sensori Taiwan AirBox. Un VAR tradizionale richiede rapidamente troppi parametri: la regolarizzazione aiuta a gestire la dimensionalità e a controllare la complessità.</p><span className="hdts-sub">R · Serie temporali multivariate · VAR regolarizzato</span></article>
         <article><span className="hdts-step">L'ESTENSIONE SUCCESSIVA</span><h3>La previsione deve battere qualcosa di semplice</h3><p>Ho poi affrontato un problema distinto: prevedere il PM2.5 dell'ora successiva sui dati di 12 stazioni Beijing. Il riferimento era volutamente elementare: usare come previsione il valore appena osservato. Ogni modello più complesso doveva dimostrare di aggiungere valore.</p><span className="hdts-sub">Python · Forecasting · Machine Learning</span></article>
       </div>
+      <TaiwanDimensionality />
+      <div className="hdts-chapter-divider"><span>SECONDO CAPITOLO · ESTENSIONE SUCCESSIVA</span><h3>Da Taiwan a Beijing: un’altra domanda, un altro dataset.</h3><p>Il lavoro universitario si concentrava sull’alta dimensionalità. Nel benchmark successivo ho studiato invece la previsione a un’ora e il contributo di nuove variabili. I risultati non sono trasferibili automaticamente da un contesto all’altro.</p></div>
       <BeijingStationMap />
       <p className="hdts-disclaimer">I due dataset non sono intercambiabili: Beijing non è un test del modello Taiwan e i risultati non vengono confrontati direttamente.</p>
     </section>
@@ -40,7 +43,7 @@ export default function HighDimensionalCaseStudy() {
       <div className="hdts-process">
         <article><span>01</span><div><h3>Un obiettivo misurabile</h3><p>Prevedere PM2.5 all'ora t usando soltanto misure dell'ora t−1 o precedenti. Nessuna variabile ambientale osservata nello stesso istante da prevedere.</p></div></article>
         <article><span>02</span><div><h3>Una baseline credibile</h3><p>Partire dalla persistenza. È semplice, riproducibile e spesso competitiva nelle previsioni a brevissimo termine.</p></div></article>
-        <article><span>03</span><div><h3>Esperimenti progressivi</h3><p>Confrontare regressione regolarizzata e modelli ad alberi, poi isolare il contributo dello storico PM2.5, delle variabili meteorologiche e degli altri inquinanti.</p></div></article>
+        <article><span>03</span><div><h3>Esperimenti progressivi</h3><p>Nel benchmark riproducibile, confrontare la persistenza con LightGBM basato sui ritardi PM2.5 e con la versione arricchita da covariate ambientali ritardate.</p></div></article>
         <article><span>04</span><div><h3>Una valutazione temporale</h3><p>Separare i periodi cronologicamente, valutare tutti i modelli sulle stesse osservazioni valide e documentare ore escluse e previsioni negative.</p></div></article>
       </div>
       <div className="hdts-timeline" aria-label="Periodi di analisi">
@@ -76,7 +79,7 @@ export default function HighDimensionalCaseStudy() {
         <article><span className="hdts-step">COSA SUGGERISCONO I DATI</span><h3>La meteorologia aggiunge informazione</h3><p>La versione con variabili ambientali ha ottenuto un MAE inferiore alla versione con solo PM2.5 in tutte le 12 stazioni, nel confronto archiviato.</p></article>
         <article><span className="hdts-step">COSA NON POSSIAMO CONCLUDERE</span><h3>Un buon risultato storico non è una garanzia</h3><p>La scelta dei modelli è stata influenzata dall'esplorazione degli stessi anni. Per misurare la generalizzazione serve un nuovo test indipendente.</p></article>
       </div>
-      <details className="hdts-details"><summary>Guarda il confronto per tutte le 12 stazioni <span>+</span></summary><div className="hdts-table-wrap"><table><thead><tr><th>Stazione</th><th>Persistenza · MAE</th><th>LightGBM completo · MAE</th></tr></thead><tbody>{stations.map(([name,base,full])=><tr key={String(name)}><td>{name}</td><td>{Number(base).toFixed(3)}</td><td>{Number(full).toFixed(3)}</td></tr>)}</tbody></table></div><p>Dati aggregati dalla tabella pubblicata nel repository. Per il confronto completo con la versione solo PM2.5, consulta i risultati GitHub.</p></details>
+      <details className="hdts-details"><summary>Guarda il confronto per tutte le 12 stazioni <span>+</span></summary><div className="hdts-table-wrap"><table><thead><tr><th>Stazione</th><th>Persistenza · MAE</th><th>LightGBM completo · MAE</th></tr></thead><tbody>{stations.map(([name,base,full])=><tr key={String(name)}><td>{name}</td><td>{Number(base).toFixed(3)}</td><td>{Number(full).toFixed(3)}</td></tr>)}</tbody></table></div><p>Valori arrotondati a tre decimali dalla tabella pubblicata nel repository. Per il confronto completo con la versione solo PM2.5, consulta i risultati GitHub.</p></details>
     </section>
 
     <section id="hdts-limiti" className="case-section">
