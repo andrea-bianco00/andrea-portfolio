@@ -35,7 +35,7 @@ export default function BeijingStationMap(){
  const map=useRef<LeafletMap|null>(null);
  const markers=useRef<LeafletMarker[]>([]);
  const tileLayer=useRef<LeafletTile|null>(null);
- const [basemap,setBasemap]=useState<"voyager"|"dark">("voyager");
+ const [basemap,setBasemap]=useState<"streets"|"terrain">("streets");
  const [ready,setReady]=useState(false);
  const [error,setError]=useState(false);
  const [showStations,setShowStations]=useState(true);
@@ -46,7 +46,7 @@ export default function BeijingStationMap(){
    if(disposed||!container.current||!window.L)return;
    const L=window.L;
    const instance=L.map(container.current,{scrollWheelZoom:true}).setView([35.8,104.2],4);
-   tileLayer.current=L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19,subdomains:"abcd"}).addTo(instance);
+   tileLayer.current=L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',maxZoom:19}).addTo(instance);
    L.control.scale().addTo(instance);
    map.current=instance;
    markers.current=stations.map(s=>L.circleMarker([s.lat,s.lon],{radius:8,color:"#fff3e5",weight:2,fillColor:"#ff7a1a",fillOpacity:.95}).addTo(instance).bindPopup(`<strong>${s.name}</strong><br/>PM2.5 monitoring station<br/>${s.lat.toFixed(3)}° N · ${s.lon.toFixed(3)}° E`));
@@ -61,11 +61,14 @@ export default function BeijingStationMap(){
   else map.current.fitBounds(bounds,{padding:[45,45]});
   setView(next);
  }
- function changeBasemap(next:"voyager"|"dark"){
+ function changeBasemap(next:"streets"|"terrain"){
   if(!map.current||!window.L)return;
   tileLayer.current?.remove();
-  const path=next==="voyager"?"voyager":"dark_all";
-  tileLayer.current=window.L.tileLayer(`https://{s}.basemaps.cartocdn.com/${path}/{z}/{x}/{y}{r}.png`,{attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',maxZoom:19,subdomains:"abcd"}).addTo(map.current);
+  const terrain=next==="terrain";
+  tileLayer.current=window.L.tileLayer(
+    terrain?"https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}":"https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {attribution:terrain?'Tiles &copy; Esri; data &copy; OpenStreetMap contributors and GIS user community':'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',maxZoom:terrain?18:19}
+  ).addTo(map.current);
   setBasemap(next);
  }
  function toggleMarkers(){
@@ -75,19 +78,19 @@ export default function BeijingStationMap(){
   setShowStations(!showStations);
  }
  return <figure className="hdts-map-panel">
-  <div className="hdts-viz-head"><div><span className="eyebrow">GEOGRAFIA DEL DATASET · MAPPA INTERATTIVA</span><h3>Dalla Cina alle 12 stazioni di Beijing</h3></div><span className="hdts-viz-meta">CARTO Voyager · OpenStreetMap</span></div>
+  <div className="hdts-viz-head"><div><span className="eyebrow">GEOGRAFIA DEL DATASET · MAPPA INTERATTIVA</span><h3>Dalla Cina alle 12 stazioni di Beijing</h3></div><span className="hdts-viz-meta">OpenStreetMap · Esri</span></div>
   <p>Esplora la posizione delle stazioni sulla cartografia reale. Parti dalla Cina intera, avvicinati a Beijing e seleziona un punto arancione per visualizzare le coordinate.</p>
   <div className="hdts-map-toolbar" role="group" aria-label="Controlli della mappa">
    <button type="button" disabled={!ready} aria-pressed={view==="china"} onClick={()=>changeView("china")}>Cina intera</button>
    <button type="button" disabled={!ready} aria-pressed={view==="beijing"} onClick={()=>changeView("beijing")}>Zoom sulle 12 stazioni</button>
    <button type="button" disabled={!ready} aria-pressed={showStations} onClick={toggleMarkers}>{showStations?"Nascondi stazioni":"Mostra stazioni"}</button>
   </div>
-  <div className="hdts-map-style-picker" role="group" aria-label="Stile della mappa"><span>STILE MAPPA</span><button type="button" disabled={!ready} aria-pressed={basemap==="voyager"} onClick={()=>changeBasemap("voyager")}>Stradale chiara</button><button type="button" disabled={!ready} aria-pressed={basemap==="dark"} onClick={()=>changeBasemap("dark")}>Notturna</button></div>
+  <div className="hdts-map-style-picker" role="group" aria-label="Stile della mappa"><span>STILE MAPPA</span><button type="button" disabled={!ready} aria-pressed={basemap==="streets"} onClick={()=>changeBasemap("streets")}>Stradale chiara</button><button type="button" disabled={!ready} aria-pressed={basemap==="terrain"} onClick={()=>changeBasemap("terrain")}>Terreno</button></div>
   <div className="hdts-live-map-wrap">
    <div ref={container} className="hdts-live-map" role="region" aria-label="Mappa interattiva della Cina e delle 12 stazioni PM2.5 di Pechino"/>
    {!ready&&!error&&<div className="hdts-map-loading">Caricamento cartografia interattiva…</div>}
    {error&&<div className="hdts-map-loading">La cartografia non è disponibile in questo momento. Controlla la connessione o le impostazioni di blocco dei contenuti.</div>}
   </div>
-  <figcaption>Trascina per spostarti, usa la rotellina o i pulsanti +/− per lo zoom e tocca i marcatori per i dettagli. La mappa utilizza la cartografia CARTO su dati OpenStreetMap; i punti rappresentano le 12 stazioni del benchmark Beijing e non i 516 sensori Taiwan. Coordinate indicative arrotondate, da verificare con i metadati originali prima di un'analisi spaziale.</figcaption>
+  <figcaption>Trascina per spostarti, usa la rotellina o i pulsanti +/− per lo zoom e tocca i marcatori per i dettagli. La mappa usa OpenStreetMap (stradale) oppure Esri World Topographic Map (terreno), senza chiavi API; i punti rappresentano le 12 stazioni del benchmark Beijing e non i 516 sensori Taiwan. Coordinate indicative arrotondate, da verificare con i metadati originali prima di un'analisi spaziale.</figcaption>
  </figure>;
 }
