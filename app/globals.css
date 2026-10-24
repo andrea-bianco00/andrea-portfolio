@@ -816,3 +816,17 @@ math mi{font-style:italic}math mi[mathvariant="normal"]{font-style:normal}
 .hdts-map-panel figcaption a{color:var(--orange);text-decoration:underline;text-underline-offset:3px}
 @media(max-width:760px){.hdts-map-layout{grid-template-columns:1fr}.hdts-map-key ol{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.hdts-map-panel{padding:20px}}
 @media(max-width:410px){.hdts-map-key ol{grid-template-columns:1fr}}
+
+
+/* Interactive real-world cartography */
+.hdts-map-toolbar{display:flex;gap:9px;flex-wrap:wrap;margin:22px 0 15px}
+.hdts-map-toolbar button{border:1px solid var(--line);border-radius:999px;padding:11px 16px;color:var(--paper);background:#26180f;cursor:pointer;font-size:12px;transition:background .15s,border-color .15s}
+.hdts-map-toolbar button:hover:not(:disabled),.hdts-map-toolbar button[aria-pressed="true"]{background:#61300f;border-color:var(--orange)}
+.hdts-map-toolbar button:disabled{opacity:.45;cursor:wait}
+.hdts-live-map-wrap{position:relative;background:#151b20;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.hdts-live-map{height:clamp(360px,51vw,610px);width:100%;z-index:0}
+.hdts-map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;background:#17110c;color:var(--paper);font-size:13px}
+.hdts-live-map .leaflet-popup-content-wrapper,.hdts-live-map .leaflet-popup-tip{background:#21160f;color:#f3e7d3}
+.hdts-live-map .leaflet-popup-content{line-height:1.8}
+.hdts-live-map .leaflet-control-attribution{font-size:10px}
+@media(max-width:760px){.hdts-live-map{height:440px}.hdts-map-toolbar button{font-size:11px;padding:10px 13px}}
