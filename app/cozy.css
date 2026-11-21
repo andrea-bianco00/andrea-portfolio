@@ -286,3 +286,19 @@
 .cozy-cert-danger p{font-size:13px}
 .cozy-cert-danger .tracker-outline{border-color:#bb7f73;color:#99544a}
 @media(max-width:700px){.cozy-cert-public-item{grid-template-columns:35px minmax(0,1fr);gap:13px}.cozy-cert-form{grid-template-columns:1fr;padding:0 20px 25px}.cozy-cert-wide{grid-column:1}.cozy-cert-admin-item details .cozy-cert-form{padding:20px 0 8px}}
+
+/* Site management: publication controls in the private workspace. */
+.cozy-site-manager>.tracker-muted{max-width:790px}
+.cozy-manager-section{margin-top:30px}
+.cozy-manager-section .tracker-panel-head{padding-bottom:20px}
+.cozy-manager-section .tracker-panel-head .tracker-muted{margin:12px 0 0;max-width:710px}
+.cozy-manager-row{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:24px 32px;border-top:1px solid #d3d5c8}
+.cozy-manager-row>div{min-width:0}
+.cozy-manager-row h3{font:500 clamp(1.3rem,2vw,1.7rem) var(--font-fraunces),Georgia,serif;color:#34483b;line-height:1.25;margin:5px 0 8px}
+.cozy-manager-row p{font-size:13px;color:#68796b;margin:0 0 4px;line-height:1.5}
+.cozy-manager-row a{display:inline-block;font-size:12px;color:#a6755e;margin-top:7px}
+.cozy-manager-row form{flex-shrink:0}
+.cozy-manager-row button{min-width:128px}
+.cozy-manager-state{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9a765e}
+.cozy-manager-empty{color:#68796b;font-size:14px;padding:12px 32px 35px}
+@media(max-width:650px){.cozy-manager-row{align-items:flex-start;flex-direction:column;padding:22px 20px;gap:16px}.cozy-manager-row button{width:100%}.cozy-manager-row form{width:100%}.cozy-manager-empty{padding:12px 20px 30px}}
