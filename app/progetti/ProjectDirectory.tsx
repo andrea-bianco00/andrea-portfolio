@@ -6,15 +6,15 @@ import { projectCategories, projects } from "../project-data";
 import { englishProjects } from "../project-i18n";
 import { useLanguage } from "../components/LocaleProvider";
 
-export default function ProjectDirectory() {
+export default function ProjectDirectory({visibleSlugs}:{visibleSlugs:string[]}) {
   const { language } = useLanguage();
   const [category, setCategory] = useState("Tutti");
   const [query, setQuery] = useState("");
   const filtered = useMemo(() => projects.filter((project) => {
-    const matchesCategory = category === "Tutti" || project.category === category;
+    const matchesCategory = (category === "Tutti" || project.category === category) && visibleSlugs.includes(project.slug);
     const searchable = [project.title, project.category, project.summary, englishProjects[project.slug]?.title ?? "", englishProjects[project.slug]?.summary ?? "", ...project.tags].join(" ").toLocaleLowerCase("it");
     return matchesCategory && searchable.includes(query.trim().toLocaleLowerCase("it"));
-  }), [category, query]);
+  }), [category, query, visibleSlugs]);
 
   return <>
     <div className="portfolio-controls">
