@@ -148,3 +148,10 @@
 .cozy-language-detail-toggle{display:inline-block;margin-top:15px;background:transparent;border:0;border-bottom:1px solid #a16e58;color:#6b5446;padding:4px 0;font:600 14px var(--font-geist-sans),Arial,sans-serif;cursor:pointer;text-align:left}
 .cozy-original-case{border-top:1px solid #cbd0c2;margin-top:50px;padding-top:40px}
 @media(max-width:760px){.cozy-case-english-grid{grid-template-columns:1fr;gap:20px}.cozy-english-case>h2{font-size:2.3rem}}
+
+/* Discreet personal-area entry shared across public page footers. */
+.cozy-footer .cozy-private-entry{margin-left:auto;color:#6f765f;border-bottom:1px solid #abae9f;padding-bottom:3px}
+.cozy-footer .cozy-private-entry:hover,.cozy-case-private-footer .cozy-private-entry:hover{color:#a16e58;border-color:#a16e58}
+.cozy-case-private-footer{margin-top:35px;padding:22px 0;border-top:1px solid #cbd0c2;text-align:right}
+.cozy-case-private-footer .cozy-private-entry{font-size:13px;color:#6f765f;border-bottom:1px solid #abae9f;padding-bottom:4px}
+@media(max-width:760px){.cozy-footer .cozy-private-entry{margin-left:0}}
