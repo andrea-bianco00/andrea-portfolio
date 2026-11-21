@@ -25,22 +25,22 @@ export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
-  return <main>
+  return <main className="cozy-page cozy-detail-page">
     <SiteNav />
-    <article className="section case-study">
-      <Link href="/progetti" className="text-link">← TUTTI I PROGETTI</Link>
+    <article className="section case-study cozy-case">
+      <Link href="/progetti" className="text-link">← Tutti i progetti</Link>
       <header className="case-header">
         <p className="eyebrow">{project.category.toUpperCase()} · {project.year}</p>
         <h1>{project.title}</h1>
         <p className="large-copy">{project.summary}</p>
         <div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-        {project.github && <a className="button primary case-github" href={project.github} target="_blank" rel="noopener noreferrer">ESPLORA IL CODICE SU GITHUB ↗</a>}
+        {project.github && <a className="button primary case-github" href={project.github} target="_blank" rel="noopener noreferrer">Codice su GitHub ↗</a>}
       </header>
       {slug === "named-entity-recognition" && <NerCaseStudy />}
       {slug === "statistical-learning-optimization" && <OptimizationCaseStudy />}
       {slug === "matrix-completion-movielens" && <MatrixCompletionCaseStudy />}
       {slug === "high-dimensional-time-series" && <HighDimensionalCaseStudy />}
-      <div className="case-end"><Link href="/progetti" className="text-link">← TORNA AI PROGETTI</Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">REPOSITORY GITHUB ↗</a>}</div>
+      <div className="case-end"><Link href="/progetti" className="text-link">← Torna ai progetti</Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">Repository GitHub ↗</a>}</div>
     </article>
   </main>;
 }
