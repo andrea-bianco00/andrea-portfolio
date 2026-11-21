@@ -8,9 +8,9 @@ export default function SiteNav() {
   useEffect(() => { let live=true; fetch("/api/site-visibility",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(data=>{if(live&&data)setPages({projects:data.projects===true,certifications:data.certifications===true})}).catch(()=>{}); return()=>{live=false}; },[]);
   const { language, setLanguage } = useLanguage();
   const links = [
-    { href: "/progetti", it: "Progetti", en: "Projects" },
-    { href: "/ricerca", it: "Ricerca", en: "Research" },
     { href: "/about", it: "Chi sono", en: "About" },
+    { href: "/ricerca", it: "Ricerca", en: "Research" },
+    { href: "/progetti", it: "Progetti", en: "Projects" },
     { href: "/cv", it: "CV", en: "CV" },
     { href: "/certificazioni", it: "Certificazioni", en: "Certificates" }
   ];
