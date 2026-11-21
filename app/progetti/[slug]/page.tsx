@@ -10,7 +10,9 @@ import OptimizationCaseStudy from "./OptimizationCaseStudy";
 import MatrixCompletionCaseStudy from "./MatrixCompletionCaseStudy";
 import HighDimensionalCaseStudy from "./HighDimensionalCaseStudy";
 import { getProject, projects } from "../../project-data";
+import { getSiteVisibility } from "../../site-visibility";
 
+export const dynamic="force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
@@ -20,14 +22,16 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
-  if (!project) return { title: "Progetto non trovato | Andrea Bianco" };
+  const states=await getSiteVisibility();
+  if (!project || states["page:progetti"]!==true || states["project:"+slug]!==true) return { title: "Pagina non disponibile | Andrea Bianco", robots: {index:false,follow:false} };
   return { title: `${project.title} | Andrea Bianco`, description: project.summary };
 }
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const project = getProject(slug);
-  if (!project) notFound();
+  const states=await getSiteVisibility();
+  if (!project || states["page:progetti"]!==true || states["project:"+slug]!==true) notFound();
   return <main className="cozy-page cozy-detail-page">
     <SiteNav />
     <article className="section case-study cozy-case">
