@@ -4,6 +4,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import MicrosoftClarity from "./clarity";
 import foxIcon from "./fox-512.png";
 import "./globals.css";
+import "./cozy.css";
 import "katex/dist/katex.min.css";
 
 const geistSans = Geist({

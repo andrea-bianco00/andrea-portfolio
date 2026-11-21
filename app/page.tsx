@@ -1,71 +1,13 @@
 import Link from "next/link";
 import SiteNav from "./components/SiteNav";
-import DataConstellation from "./components/DataConstellation";
-import GeometrySurvivor from "./components/GeometrySurvivor";
-import { projects } from "./project-data";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Andrea Bianco | Data Scientist · Statistica e Machine Learning",
-  description: "Portfolio di Andrea Bianco: Data Scientist con formazione in statistica. Scopri progetti di NLP, Machine Learning, ricerca e analisi dei dati.",
-};
-
-const featured = projects.filter((project) => project.featured).map((project, index) => ({ n: String(index + 1).padStart(2, "0"), category: `${project.category} · ${project.year}`, title: project.title, text: project.summary, href: `/progetti/${project.slug}`, tags: project.tags }));
-
-const approach = [
-  ["01","Capire","Partire dal problema e dai dati prima di scegliere il modello."],
-  ["02","Modellare","Usare statistica e Machine Learning scegliendo metodi coerenti con il contesto."],
-  ["03","Verificare","Confrontare alternative, misurare le prestazioni e cercare i limiti delle soluzioni."],
-  ["04","Comunicare","Trasformare risultati tecnici in conclusioni leggibili e utili."],
-];
-
-export default function Home() {
-  return <main className="home-with-network">
-    <DataConstellation />
-    <SiteNav />
-
-    <section className="hero home-hero">
-      <div className="home-hero-content">
-        <p className="eyebrow hero-eyebrow"><span className="hero-status-dot" aria-hidden="true"/> DATA SCIENTIST · STATISTICA · MACHINE LEARNING</p>
-        <h1>CAPIRE I DATI.<br/><em>CAPIRE IL PROBLEMA.</em></h1>
-        <p className="hero-copy">Sono Andrea Bianco, Data Scientist con una solida formazione statistica ed esperienza di ricerca presso CREST–ENSAI. Sviluppo e valuto modelli di Machine Learning per trasformare problemi complessi in analisi rigorose e risultati utili.</p>
-        <div className="home-skill-tags" aria-label="Competenze principali"><span>Python</span><span>R</span><span>SQL</span><span>Machine Learning</span><span>Statistical Modeling</span></div>
-        <div className="actions"><Link href="/progetti" className="button primary">→　Scopri i miei progetti</Link><Link href="/cv" className="button secondary">▤　Scarica CV</Link></div>
-
-
-      </div>
-      <GeometrySurvivor />
-    </section>
-
-    <div className="home-reference-stats" aria-label="Profilo in breve"><div><span>♧</span><strong>M.Sc. Data Science</strong><small>Università di Bologna</small></div><div><span>▥</span><strong>Research Internship</strong><small>CREST – ENSAI (FR)</small></div><div><span>⌘</span><strong>Progetti Data Science</strong><small>Machine Learning · NLP · Statistica</small></div><div><span>◎</span><strong>C1</strong><small>Inglese professionale</small></div></div>
-
-    <section className="section work" id="progetti-in-evidenza">
-      <div className="section-head"><div><p className="eyebrow">PROGETTI IN EVIDENZA</p><h2>Il lavoro, <em>non solo le parole.</em></h2><p className="home-section-lead">Esperimenti, codice e risultati: progetti raccontati con metodo e attenzione ai limiti.</p></div><Link href="/progetti">Vedi tutti i progetti →</Link></div>
-      <div className="project-list">{featured.map(p=><Link href={p.href} className="project-row" key={p.title}><span className="project-number">{p.n}</span><div><p className="project-meta">{p.category}</p><h3>{p.title}</h3><p className="project-description">{p.text}</p><div className="tags">{p.tags.map(t=><span key={t}>{t}</span>)}</div></div><span className="arrow">↗</span></Link>)}</div>
-    </section>
-
-    <section className="section">
-      <div className="section-title"><p className="eyebrow">APPROCCIO</p><h2>Il metodo prima dello strumento.</h2><p>Non parto da un algoritmo. Parto dalla domanda, cerco di capire cosa raccontano i dati e scelgo gli strumenti di conseguenza.</p></div>
-      <div className="approach-grid">{approach.map(a=><article key={a[0]}><span>{a[0]}</span><h3>{a[1]}</h3><p>{a[2]}</p></article>)}</div>
-    </section>
-
-    <section className="section research-feature" id="ricerca">
-      <div><p className="eyebrow">RICERCA · CREST–ENSAI</p><h2>Quando il dato è poco,<br/><em>il metodo conta ancora di più.</em></h2></div>
-      <div><p className="large-copy">Durante il tirocinio di ricerca presso CREST–ENSAI ho lavorato sulla stima della struttura di covarianza per dati funzionali sparsi. Ho studiato la letteratura, implementato metodi in R, progettato simulazioni e confrontato approcci alternativi su dati sintetici e reali.</p><Link href="/ricerca" className="text-link">ESPLORA LA RICERCA →</Link></div>
-    </section>
-
-    <section className="section journey">
-      <p className="eyebrow">PERCORSO</p><h2>Dalla statistica alla Data Science.</h2>
-      <div className="timeline"><article><span>2021 — 2024</span><h3>Statistica</h3><p>Laurea triennale in Scienze Statistiche, Università di Bologna.</p></article><article><span>2024 — 2026</span><h3>Data Science</h3><p>Laurea magistrale in Scienze Statistiche – Data Science, Università di Bologna.</p></article><article><span>2025 — 2026</span><h3>ENSAI</h3><p>Master in Smart Data Science, specializzazione AI and Data Science.</p></article><article><span>2026</span><h3>CREST</h3><p>Ricerca su dati funzionali sparsi con Valentin Patilea a Bruz, Francia.</p></article></div>
-      <Link href="/about" className="text-link">IL MIO PERCORSO COMPLETO →</Link>
-    </section>
-
-
-
-    <section className="contact" id="contatti">
-      <p className="eyebrow">CONTATTI / COLLABORAZIONI</p><h2>Costruiamo qualcosa<br/>di interessante.</h2><p>Hai un progetto, una posizione in Data Science o un problema da risolvere con i dati? Scrivimi.</p><a href="mailto:andrea.bianco00.ab@gmail.com?subject=Opportunit%C3%A0%20Data%20Science">SCRIVIMI UNA EMAIL ↗</a>
-    </section>
-
-    <footer><p>ANDREA BIANCO · 2026</p><div><a href="https://github.com/andrea-bianco00">GITHUB</a><a href="https://www.linkedin.com/in/andreabianco00">LINKEDIN</a><a href="mailto:andrea.bianco00.ab@gmail.com">EMAIL</a><Link href="/dashboard" aria-label="Accedi all’area riservata">AREA RISERVATA ↗</Link></div></footer>
-  </main>;
-}
+import {projects} from "./project-data";
+import type {Metadata} from "next";
+export const metadata:Metadata={title:"Andrea Bianco | Statistics, Data Science & Research",description:"Uno spazio personale per condividere lavori di statistica, ricerca, letture e interessi in evoluzione."};
+function StudyIllustration(){return <svg viewBox="0 0 300 320" role="img" aria-label="Illustrazione di una scrivania con libri, quaderno e pianta" xmlns="http://www.w3.org/2000/svg"><path d="M25 274H275" stroke="#61735e" strokeWidth="4"/><path d="M56 274v28m188-28v28" stroke="#61735e" strokeWidth="5"/><rect x="57" y="210" width="188" height="65" rx="7" fill="#c9af8d"/><path d="M66 215h170" stroke="#8f755f" strokeWidth="2"/><path d="M80 209V104m12 105V104" stroke="#587567" strokeWidth="2"/><rect x="73" y="119" width="12" height="90" rx="2" fill="#a66f58"/><rect x="91" y="95" width="19" height="114" rx="2" fill="#789184"/><rect x="113" y="111" width="13" height="98" rx="2" fill="#d9c190"/><rect x="129" y="88" width="25" height="121" rx="2" fill="#8b675e"/><path d="M77 131h5m11-23h15m24-6h18" stroke="#f3ead7" strokeWidth="2"/><path d="M165 205l47-10 12 14-46 8z" fill="#f7efde" stroke="#7a8978"/><path d="M177 204l28-6" stroke="#b6a08d"/><path d="M217 163v44" stroke="#61735e" strokeWidth="5"/><path d="M191 163q26-55 52 0z" fill="#deb987"/><circle cx="217" cy="211" r="5" fill="#61735e"/><path d="M235 194q-18-35 3-46m0 23q-5-29 15-36" stroke="#5e866d" strokeWidth="3" fill="none"/><ellipse cx="230" cy="153" rx="10" ry="6" transform="rotate(-35 230 153)" fill="#799b80"/><ellipse cx="250" cy="144" rx="12" ry="6" transform="rotate(-25 250 144)" fill="#799b80"/><path d="M227 188h28l-5 22h-17z" fill="#a97760"/><path d="M41 71q100-58 212 0" stroke="#d1c5ad" strokeWidth="1.5" strokeDasharray="3 6" fill="none"/><circle cx="47" cy="70" r="5" fill="#c09c75"/><circle cx="253" cy="72" r="5" fill="#c09c75"/></svg>}
+const featured=projects.filter(p=>p.featured).slice(0,3);
+export default function Home(){return <main className="cozy-page"><SiteNav/><div className="cozy-shell">
+<section className="cozy-hero"><div><p className="cozy-kicker">Statistics · Data Science · Research</p><h1>Hi, I&apos;m Andrea.</h1><p className="cozy-lead">Ho studiato statistica e Data Science. Mi interessano i metodi statistici, anche nei loro aspetti teorici, e le domande che possiamo affrontare attraverso i dati: dalla demografia allo studio della società.</p><p className="cozy-copy">Questo è il mio spazio per raccogliere lavori, letture e cose che sto cercando di capire. Non tutto è concluso, e non tutto deve esserlo.</p><div className="cozy-actions"><Link className="cozy-link" href="/about">Qualcosa su di me ↗</Link><Link className="cozy-link" href="/ricerca">La mia ricerca ↗</Link></div></div><div className="cozy-illustration"><StudyIllustration/></div></section>
+<section className="cozy-section"><p className="cozy-kicker">Interessi</p><h2>Le domande e i metodi.</h2><div className="cozy-list"><article className="cozy-item"><h3>Statistica e metodologia</h3><p>Inferenza, modelli, dati funzionali e domande sulle proprietà dei metodi.</p></article><article className="cozy-item"><h3>Demografia e ricerca sociale</h3><p>Popolazioni, migrazioni, disuguaglianze e cambiamenti nel tempo.</p></article><article className="cozy-item"><h3>Computational Social Science</h3><p>Come strumenti computazionali e fonti di dati diverse possono aiutarci a studiare fenomeni sociali.</p></article><article className="cozy-item"><h3>Altre curiosità</h3><p>Libri, persone, attività ed esperienze che non hanno necessariamente a che fare con la statistica.</p></article></div></section>
+<section className="cozy-section"><div className="cozy-section-head"><div><p className="cozy-kicker">Selected work</p><h2>Alcuni lavori.</h2></div><Link href="/progetti" className="cozy-link">Tutti i progetti ↗</Link></div><div className="cozy-list">{featured.map(p=><Link href={`/progetti/${p.slug}`} className="cozy-item" key={p.slug}><small>{p.category} · {p.year}</small><h3>{p.title}</h3><p>{p.summary}</p></Link>)}</div></section>
+<section className="cozy-section cozy-columns"><div><p className="cozy-kicker">In progress</p><h2>Uno spazio che cresce.</h2></div><div className="cozy-copy"><p>Vorrei usare questo sito anche per annotare quello che leggo, i problemi che incontro e le idee che cambiano nel tempo. Non una vetrina perfetta: un luogo che possa evolvere insieme a me.</p><Link href="/about" className="cozy-link">Leggi il mio percorso ↗</Link></div></section>
+<footer className="cozy-footer"><span>Andrea Bianco · 2026</span><div><a href="mailto:andrea.bianco00.ab@gmail.com">Email</a><a href="https://github.com/andrea-bianco00">GitHub</a><Link href="/cv">CV</Link><Link href="/dashboard">Area riservata</Link></div></footer></div></main>}
