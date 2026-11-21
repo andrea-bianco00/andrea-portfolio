@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: Props) {
       {slug === "matrix-completion-movielens" && <MatrixCompletionCaseStudy />}
       {slug === "high-dimensional-time-series" && <HighDimensionalCaseStudy />}
       </CaseStudyLanguage>
-      <div className="case-end"><Link href="/progetti" className="text-link"><T it="← Torna ai progetti" en="← Back to projects"/></Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link"><T it="Repository GitHub ↗" en="GitHub repository ↗"/></a>}</div>
+      <div className="case-end"><Link href="/progetti" className="text-link"><T it="← Torna ai progetti" en="← Back to projects"/></Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link"><T it="Repository GitHub ↗" en="GitHub repository ↗"/></a>}</div><footer className="cozy-case-private-footer"><Link href="/dashboard" className="cozy-private-entry"><T it="Area personale ↗" en="Personal area ↗"/></Link></footer>
     </article>
   </main>;
 }
