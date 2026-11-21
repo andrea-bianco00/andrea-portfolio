@@ -1,20 +1,6 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
+import Link from "next/link";
 import SiteNav from "../components/SiteNav";
 import ProjectDirectory from "./ProjectDirectory";
-
-export const metadata: Metadata = {
-  title: "Progetti | Andrea Bianco",
-  description: "Portfolio di Data Science, statistica, Machine Learning e NLP: metodi, risultati e codice dei progetti di Andrea Bianco.",
-};
-
-export default function ProjectsPage() {
-  return <main>
-    <SiteNav />
-    <section className="section portfolio-page">
-      <p className="eyebrow">PORTFOLIO / PROGETTI</p>
-      <h1 className="portfolio-title">Dati, modelli,<br/><em>soluzioni.</em></h1>
-      <p className="large-copy portfolio-intro">Una raccolta di progetti di Data Science, statistica e intelligenza artificiale. Ogni lavoro racconta il problema affrontato, le scelte metodologiche e i risultati ottenuti.</p>
-      <ProjectDirectory />
-    </section>
-  </main>;
-}
+export const metadata:Metadata={title:"Progetti | Andrea Bianco",description:"Progetti di statistica, Data Science e Machine Learning: domande, approcci, risultati e limiti."};
+export default function ProjectsPage(){return <main className="cozy-page"><SiteNav/><div className="cozy-shell"><header className="cozy-interior-hero"><p className="cozy-kicker">Selected work / Progetti</p><h1>I lavori, <em>uno alla volta.</em></h1><p className="cozy-lead">Una raccolta di lavori quantitativi, esperimenti e progetti universitari. Alcuni sono più metodologici, altri applicati: cerco di raccontarli senza nascondere scelte e limiti.</p><p className="cozy-copy">Puoi filtrare per argomento o aprire un progetto per leggerne il percorso completo.</p></header><section className="cozy-section cozy-project-directory"><div className="cozy-section-head"><div><p className="cozy-kicker">Archivio dei progetti</p><h2>Scegli cosa esplorare.</h2></div><Link href="/ricerca" className="cozy-link">Interessi di ricerca ↗</Link></div><ProjectDirectory/></section><footer className="cozy-footer"><span>Andrea Bianco · Progetti</span><div><Link href="/ricerca">Ricerca</Link><Link href="/about">About</Link><a href="mailto:andrea.bianco00.ab@gmail.com">Email</a></div></footer></div></main>}
