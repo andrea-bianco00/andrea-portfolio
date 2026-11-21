@@ -9,7 +9,8 @@ export default function SiteNav() {
     { href: "/progetti", it: "Progetti", en: "Projects" },
     { href: "/ricerca", it: "Ricerca", en: "Research" },
     { href: "/about", it: "Chi sono", en: "About" },
-    { href: "/cv", it: "CV", en: "CV" }
+    { href: "/cv", it: "CV", en: "CV" },
+    { href: "/certificazioni", it: "Certificazioni", en: "Certificates" }
   ];
   return <nav className="site-nav" aria-label={language === "en" ? "Main navigation" : "Navigazione principale"}>
     <Link href="/" className="brand" onClick={() => setOpen(false)}>Andrea Bianco</Link>
