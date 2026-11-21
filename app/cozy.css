@@ -127,3 +127,13 @@
 .cozy-detail-page .case-end{border-color:#cbd0c2}
 .cozy-detail-page .case-study :focus-visible,.cozy-page :focus-visible{outline:2px solid #9f765c;outline-offset:4px}
 @media(max-width:760px){.cozy-interior-hero{padding:65px 0 70px}.cozy-page .cozy-project-directory .portfolio-controls{display:block}.cozy-page .cozy-project-directory .portfolio-search input{width:100%;margin-top:17px}.cozy-page .cozy-project-directory .project-row{grid-template-columns:25px minmax(0,1fr) 18px;gap:12px;padding:24px 0}.cozy-detail-page .cozy-case{padding:45px 22px 80px}.cozy-detail-page .case-header{padding-top:32px}}
+
+/* Bilingual language switch: keyboard accessible and responsive. */
+.site-nav .locale-switch{display:inline-flex;gap:8px;align-items:center;border-left:1px solid var(--line);padding-left:17px}
+.site-nav .locale-switch button{border:0;background:transparent;color:inherit;cursor:pointer;font:inherit;letter-spacing:0;padding:6px 3px;opacity:.6}
+.site-nav .locale-switch button.locale-active{opacity:1;text-decoration:underline;text-underline-offset:5px;font-weight:750}
+.site-nav .locale-switch button:hover{opacity:1}
+.cozy-page .site-nav .locale-switch{border-color:var(--cozy-rule);color:var(--cozy-secondary)}
+.cozy-page .site-nav .locale-switch button.locale-active{color:var(--cozy-ink)}
+.site-nav .locale-switch button:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:2px}
+@media(max-width:760px){.site-nav .locale-switch{border-left:0;padding:8px 0 0}.cozy-page .site-nav .locale-switch{border-left:0}}
