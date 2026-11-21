@@ -88,3 +88,42 @@
 .cozy-footer{font-size:12px;letter-spacing:.02em}
 @media(max-width:900px){.cozy-chapter{grid-template-columns:125px minmax(0,1fr);gap:25px}.cozy-about-intro{gap:30px}.cozy-hero{gap:40px}.cozy-story-grid{gap:30px}}
 @media(max-width:760px){.cozy-page h1{font-size:clamp(3.7rem,13vw,5.4rem)}.cozy-hero{padding-top:55px;padding-bottom:75px}.cozy-illustration{max-width:310px}.cozy-section{padding-top:65px;padding-bottom:65px}.cozy-chapter{display:block}.cozy-chapter-index{position:static;padding:0;margin-bottom:22px}.cozy-chapter-index span{font-size:28px;display:inline;margin-right:10px}.cozy-story-grid,.cozy-about-intro{display:block}.cozy-about-side{margin:35px 0 0}.cozy-field-note{padding:28px}.cozy-marginalia{max-width:none;margin-top:20px}.cozy-timeline article{grid-template-columns:1fr}.cozy-page .site-nav .brand{font-size:23px}}
+
+/* Shared interior pages */
+.cozy-interior-hero{padding:104px 0 94px;max-width:910px}
+.cozy-interior-hero h1{max-width:900px}
+.cozy-interior-hero .cozy-lead{font-family:var(--font-fraunces),Georgia,serif;font-size:clamp(1.4rem,2.2vw,1.85rem);line-height:1.55;color:#415348;max-width:800px}
+.cozy-interior-hero .cozy-copy{max-width:720px}
+.cozy-inline-link{text-decoration:underline!important;text-decoration-color:#b59278!important;text-underline-offset:5px}
+.cozy-cv-index{display:flex;flex-wrap:wrap;gap:26px;border-top:1px solid var(--cozy-rule);padding:22px 0 26px;font-size:13px;color:var(--cozy-secondary)}
+.cozy-cv-index a:hover{color:var(--cozy-accent)}
+.cozy-skill-tags{display:flex;gap:9px;flex-wrap:wrap}
+.cozy-skill-tags span{border:1px solid #c6cdbf;border-radius:25px;padding:7px 12px;color:#506452;font-size:13px}
+.cozy-page .cozy-project-directory .portfolio-controls{display:flex;gap:20px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin:0 0 26px}
+.cozy-page .cozy-project-directory .portfolio-filters{display:flex;gap:9px;flex-wrap:wrap}
+.cozy-page .cozy-project-directory .filter-chip{background:transparent;border:1px solid #c7c9bd;color:#5b6b5f;border-radius:30px;padding:10px 15px;font-size:12px;cursor:pointer;transition:background .2s,color .2s}
+.cozy-page .cozy-project-directory .filter-chip:hover{background:#e9e4d5}
+.cozy-page .cozy-project-directory .filter-chip.active{background:#34483c;color:#f7f3e9;border-color:#34483c}
+.cozy-page .cozy-project-directory .portfolio-search input{background:#f9f6ef;border:1px solid #c8cabb;border-radius:9px;color:#34483c;font:inherit;font-size:13px;padding:12px 15px;min-width:230px}
+.cozy-page .cozy-project-directory .portfolio-search input::placeholder{color:#728074}
+.cozy-page .cozy-project-directory .portfolio-count{color:#93775e;font-size:12px;margin:16px 0}
+.cozy-page .cozy-project-directory .project-list{border-top:1px solid #cfd0c4}
+.cozy-page .cozy-project-directory .project-row{color:#34483c;border-color:#cfd0c4;grid-template-columns:42px minmax(0,1fr) 28px;padding:30px 7px}
+.cozy-page .cozy-project-directory .project-row:hover{background:#eae5d9;padding-left:15px}
+.cozy-page .cozy-project-directory .project-number{color:#a5775e}
+.cozy-page .cozy-project-directory .project-meta{color:#996d59;font-size:11px}
+.cozy-page .cozy-project-directory .project-row h3{color:#34483c;font-size:clamp(1.7rem,2.8vw,2.6rem);margin:12px 0}
+.cozy-page .cozy-project-directory .project-description{font-size:15px;color:#5f6c61;line-height:1.8}
+.cozy-page .cozy-project-directory .tags span{color:#667668;border-color:#c5cabc}
+.cozy-page .cozy-project-directory .portfolio-empty{color:#67746a;padding:25px 0}
+.cozy-detail-page .cozy-case{max-width:1100px;padding:70px 32px 110px;color:#34483c}
+.cozy-detail-page .cozy-case>.text-link,.cozy-detail-page .cozy-case>.case-end .text-link{color:#7d6758}
+.cozy-detail-page .case-header{border-bottom:1px solid #cbd0c2;padding:44px 0 58px;margin-bottom:56px}
+.cozy-detail-page .case-header h1{font-size:clamp(2.8rem,5.5vw,5.5rem);color:#34483c;line-height:1.1}
+.cozy-detail-page .case-header .eyebrow{color:#a16e58}
+.cozy-detail-page .case-header .large-copy{color:#526458;font-size:19px;max-width:780px}
+.cozy-detail-page .case-header .tags span{color:#657669;border-color:#c6cabb}
+.cozy-detail-page .case-header .case-github{background:#34483c;color:#f6f2e9;border-radius:30px}
+.cozy-detail-page .case-end{border-color:#cbd0c2}
+.cozy-detail-page .case-study :focus-visible,.cozy-page :focus-visible{outline:2px solid #9f765c;outline-offset:4px}
+@media(max-width:760px){.cozy-interior-hero{padding:65px 0 70px}.cozy-page .cozy-project-directory .portfolio-controls{display:block}.cozy-page .cozy-project-directory .portfolio-search input{width:100%;margin-top:17px}.cozy-page .cozy-project-directory .project-row{grid-template-columns:25px minmax(0,1fr) 18px;gap:12px;padding:24px 0}.cozy-detail-page .cozy-case{padding:45px 22px 80px}.cozy-detail-page .case-header{padding-top:32px}}
