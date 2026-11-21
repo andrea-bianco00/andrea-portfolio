@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SiteNav from "../../components/SiteNav";
+import { T } from "../../components/LocaleProvider";
+import { englishProjects } from "../../project-i18n";
+import CaseStudyLanguage from "./CaseStudyLanguage";
 import NerCaseStudy from "./NerCaseStudy";
 import OptimizationCaseStudy from "./OptimizationCaseStudy";
 import MatrixCompletionCaseStudy from "./MatrixCompletionCaseStudy";
@@ -28,19 +31,21 @@ export default async function ProjectPage({ params }: Props) {
   return <main className="cozy-page cozy-detail-page">
     <SiteNav />
     <article className="section case-study cozy-case">
-      <Link href="/progetti" className="text-link">← Tutti i progetti</Link>
+      <Link href="/progetti" className="text-link"><T it="← Tutti i progetti" en="← All projects"/></Link>
       <header className="case-header">
         <p className="eyebrow">{project.category.toUpperCase()} · {project.year}</p>
-        <h1>{project.title}</h1>
-        <p className="large-copy">{project.summary}</p>
+        <h1><T it={project.title} en={englishProjects[slug]?.title ?? project.title}/></h1>
+        <p className="large-copy"><T it={project.summary} en={englishProjects[slug]?.summary ?? project.summary}/></p>
         <div className="tags">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-        {project.github && <a className="button primary case-github" href={project.github} target="_blank" rel="noopener noreferrer">Codice su GitHub ↗</a>}
+        {project.github && <a className="button primary case-github" href={project.github} target="_blank" rel="noopener noreferrer"><T it="Codice su GitHub ↗" en="Code on GitHub ↗"/></a>}
       </header>
+      <CaseStudyLanguage slug={slug}>
       {slug === "named-entity-recognition" && <NerCaseStudy />}
       {slug === "statistical-learning-optimization" && <OptimizationCaseStudy />}
       {slug === "matrix-completion-movielens" && <MatrixCompletionCaseStudy />}
       {slug === "high-dimensional-time-series" && <HighDimensionalCaseStudy />}
-      <div className="case-end"><Link href="/progetti" className="text-link">← Torna ai progetti</Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link">Repository GitHub ↗</a>}</div>
+      </CaseStudyLanguage>
+      <div className="case-end"><Link href="/progetti" className="text-link"><T it="← Torna ai progetti" en="← Back to projects"/></Link>{project.github && <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-link"><T it="Repository GitHub ↗" en="GitHub repository ↗"/></a>}</div>
     </article>
   </main>;
 }
