@@ -155,3 +155,97 @@
 .cozy-case-private-footer{margin-top:35px;padding:22px 0;border-top:1px solid #cbd0c2;text-align:right}
 .cozy-case-private-footer .cozy-private-entry{font-size:13px;color:#6f765f;border-bottom:1px solid #abae9f;padding-bottom:4px}
 @media(max-width:760px){.cozy-footer .cozy-private-entry{margin-left:0}}
+
+/* Private workspace v2 — shared calm editorial visual language, isolated from public site. */
+.tracker-cozy{--workspace-bg:#f6f2e9;--workspace-paper:#fbf9f2;--workspace-ink:#34483b;--workspace-muted:#6b796b;--workspace-rule:#d3d4c8;--workspace-accent:#ab765e;min-height:100vh;background:var(--workspace-bg);background-image:radial-gradient(rgba(100,86,65,.075) .5px,transparent .65px);background-size:7px 7px;color:var(--workspace-ink)}
+.tracker-cozy .tracker-wordmark{font:500 25px var(--font-fraunces),Georgia,serif;color:#34483b;letter-spacing:-.035em;white-space:nowrap}
+.tracker-cozy .tracker-wordmark span{color:#b58469;font-family:Georgia,serif;font-size:20px;vertical-align:5px}
+.tracker-cozy .tracker-overline{font:700 10px var(--font-geist-sans),sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#a6755e}
+.tracker-cozy .tracker-muted{color:#647366;font-size:15px;line-height:1.85}
+.tracker-cozy h1,.tracker-cozy h2,.tracker-cozy h3{font-family:var(--font-fraunces),Georgia,serif;font-weight:500;letter-spacing:-.035em;color:var(--workspace-ink)}
+.tracker-cozy h1 em,.tracker-cozy h2 em{color:#a9735b}
+.tracker-cozy .eyebrow{color:#a6755e;letter-spacing:.12em;font-size:10px}
+.tracker-cozy .tracker-header{max-width:1190px;padding:25px 32px;border-bottom:1px solid var(--workspace-rule);gap:20px}
+.tracker-cozy .tracker-header-note{font:italic 17px var(--font-fraunces),Georgia,serif;color:#8a8e7c;margin-left:auto}
+.tracker-cozy .tracker-exit{border:1px solid #c3cabb;border-radius:50px;padding:10px 17px;color:#526755;font-size:12px;letter-spacing:0;text-transform:none;background:#f9f7ef}
+.tracker-cozy .tracker-exit:hover{background:#e8eadf}
+.tracker-cozy .tracker-content{max-width:1190px;padding:72px 32px 110px}
+.tracker-cozy .tracker-content>h1,.tracker-cozy .tracker-dashboard-intro h1{font-size:clamp(3.8rem,6.6vw,6.4rem);line-height:1.04;letter-spacing:-.06em;margin:20px 0 24px}
+.tracker-dashboard-intro{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(240px,.5fr);gap:60px;align-items:end}
+.tracker-dashboard-intro>.tracker-dashboard-aside{border-left:1px solid #ccc9bb;padding-left:25px;margin-bottom:13px}
+.tracker-dashboard-aside span{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#a6755e;font-weight:700}
+.tracker-dashboard-aside p{font:italic 22px/1.5 var(--font-fraunces),Georgia,serif;color:#697a68}
+.tracker-home-link{display:inline-block;margin-top:10px;border-bottom:1px solid #9aa596;padding-bottom:5px;font-size:13px;color:#526956}
+.tracker-home-link:hover{color:#a6755e}
+.tracker-cozy .tracker-stats{margin-top:70px;margin-bottom:32px;gap:14px}
+.tracker-cozy .tracker-stats>div{background:#eee9dc;border:1px solid #d6d2c4;border-radius:12px;padding:28px 30px;gap:12px}
+.tracker-cozy .tracker-stats span{font-size:10px;font-weight:750;letter-spacing:.12em;color:#9a755f}
+.tracker-cozy .tracker-stats strong{font:500 62px var(--font-fraunces),Georgia,serif;color:#34483b;letter-spacing:-.045em}
+.tracker-cozy .tracker-stats small{font-size:12px;letter-spacing:0;color:#69796b}
+.tracker-cozy .tracker-panel{border:1px solid #d1d2c5;background:rgba(252,250,244,.86);border-radius:14px;color:#34483b}
+.tracker-cozy .tracker-panel-head{padding:30px 32px}
+.tracker-cozy .tracker-panel-head h2{font-size:clamp(1.9rem,3vw,2.6rem);font-weight:500;color:#34483b}
+.tracker-cozy .tracker-button{background:#344b3d;color:#faf7ee;border:1px solid #344b3d}
+.tracker-cozy .tracker-button:hover{background:#4a6251}
+.tracker-cozy .tracker-outline{background:transparent;color:#415e48;border:1px solid #b5c1b1}
+.tracker-cozy .tracker-outline:hover{background:#e9eee5}
+.tracker-cozy .tracker-button,.tracker-cozy .tracker-outline{letter-spacing:.03em;font-size:11px}
+.tracker-cozy input,.tracker-cozy select,.tracker-cozy textarea,.tracker-cozy .tracker-detail-form textarea{background:#fffdf8;border:1px solid #c9d0c2;color:#34483b;border-radius:8px}
+.tracker-cozy input::placeholder,.tracker-cozy textarea::placeholder{color:#829083}
+.tracker-cozy input:focus-visible,.tracker-cozy select:focus-visible,.tracker-cozy button:focus-visible,.tracker-cozy textarea:focus-visible,.tracker-cozy a:focus-visible{outline:2px solid #b78468;outline-offset:3px}
+.tracker-cozy .tracker-new,.tracker-cozy .tracker-workspace-form{background:#f1ede3;border-color:#d0d2c5}
+.tracker-cozy .tracker-new label,.tracker-cozy .tracker-form label,.tracker-cozy .tracker-detail-form label{color:#5c705d;font-size:12px}
+.tracker-cozy .tracker-filters,.tracker-cozy .tracker-item,.tracker-cozy .tracker-workspace-tabs,.tracker-cozy .tracker-timeline,.tracker-cozy .tracker-workspace-entry,.tracker-cozy .tracker-view-toggle{border-color:#d3d5c8}
+.tracker-cozy .tracker-item-date,.tracker-cozy .tracker-timeline-entry span{color:#9a715b}
+.tracker-cozy .tracker-item h3,.tracker-cozy .tracker-workspace-entry h3,.tracker-cozy .tracker-detail-subheading h3{color:#34483b}
+.tracker-cozy .tracker-item p,.tracker-cozy .tracker-footnote,.tracker-cozy .tracker-workspace-empty,.tracker-cozy .tracker-workspace-entry p,.tracker-cozy .tracker-timeline-entry p,.tracker-cozy .tracker-overview-task small{color:#68796b}
+.tracker-cozy .tracker-item a,.tracker-cozy .tracker-overview-task{color:#34483b}
+.tracker-cozy .tracker-overview-task{border-color:#d3d5c8}
+.tracker-cozy .tracker-overview-task:hover,.tracker-cozy .tracker-application-link:hover{color:#a6755e}
+.tracker-cozy .tracker-view-toggle button,.tracker-cozy .tracker-small-action,.tracker-cozy .tracker-platforms-categories button{border-color:#c7cdbf;color:#526755;background:#fcfaf4}
+.tracker-cozy .tracker-view-toggle button.active,.tracker-cozy .tracker-platforms-categories button.active{background:#344b3d;border-color:#344b3d;color:#faf7ee}
+.tracker-cozy .tracker-status-label{color:#647366}
+.tracker-cozy .tracker-kanban-column{background:#f0eee4;border:1px solid #d5d4c7}
+.tracker-cozy .tracker-kanban-column h3{color:#34483b;border-color:#d2d1c4}
+.tracker-cozy .tracker-kanban-column h3 span{color:#a6755e}
+.tracker-cozy .tracker-kanban-card{background:#fffdf7;border-color:#d4d7ca;color:#34483b}
+.tracker-cozy .tracker-kanban-card:hover{border-color:#a6755e}
+.tracker-cozy .tracker-kanban-card span,.tracker-cozy .tracker-kanban-card small{color:#647366}
+.tracker-cozy .tracker-platform-card,.tracker-cozy .tracker-phd-featured a{background:#f8f5ec;border-color:#d4d4c6;color:#34483b}
+.tracker-cozy .tracker-platform-card:hover,.tracker-cozy .tracker-phd-featured a:hover{background:#f0ede1;border-color:#a6755e}
+.tracker-cozy .tracker-platform-mark{background:#e9e5d9;border-color:#d2c9b9;color:#a6755e}
+.tracker-cozy .tracker-platform-arrow,.tracker-cozy .tracker-platform-category,.tracker-cozy .tracker-platforms-dot,.tracker-cozy .tracker-platforms-count,.tracker-cozy .tracker-phd-featured span{color:#a6755e}
+.tracker-cozy .tracker-platform-description,.tracker-cozy .tracker-platforms-intro,.tracker-cozy .tracker-platforms-note,.tracker-cozy .tracker-phd-featured small{color:#6d796a}
+.tracker-cozy .tracker-phd-featured strong{color:#34483b}
+.tracker-cozy .tracker-workspace-tabs button{color:#68796b}
+.tracker-cozy .tracker-workspace-tabs button.active{border-color:#a6755e;color:#34483b}
+.tracker-cozy .tracker-workspace-entry a{color:#9a6954}
+.tracker-cozy .tracker-workspace-task input,.tracker-cozy .tracker-task-row input{accent-color:#456c52}
+.tracker-cozy .tracker-error{background:#f9e9e5;border-color:#d4a69a;color:#923d34}
+.tracker-cozy .tracker-danger{color:#9d554c}
+.tracker-cozy .tracker-confirm{background:#fbebe6;border-color:#d4a69a}
+.tracker-cozy .tracker-confirm-body h4,.tracker-cozy .tracker-confirm-body p{color:#754c43}
+.tracker-cozy .tracker-confirm-eyebrow{color:#9d554c}
+.tracker-cozy .tracker-confirm-icon{background:#f4d4c9;color:#9d554c}
+.tracker-cozy .tracker-detail-subheading{border-color:#d4d5c9}
+/* Login: editorial two-page spread */
+.tracker-cozy.tracker-login{display:block;padding:0}
+.tracker-login-layout{min-height:calc(100vh - 65px);max-width:1190px;margin:auto;padding:70px 32px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:85px;align-items:center}
+.tracker-login-intro{max-width:600px}
+.tracker-login-intro h1{font-size:clamp(3.7rem,6.1vw,6.2rem);line-height:1.06;letter-spacing:-.06em;margin:48px 0 28px}
+.tracker-login-intro .tracker-overline{margin:50px 0 0}
+.tracker-login-intro>p:not(.tracker-overline){font-size:17px;line-height:1.9;color:#69796b;max-width:490px}
+.tracker-login-sketch{margin-top:38px;width:min(340px,90%)}
+.tracker-login-sketch svg{width:100%;height:auto}
+.tracker-cozy .tracker-login-card{width:100%;max-width:480px;background:#fbf8f0;border:1px solid #d3d0c2;box-shadow:12px 12px 0 #e8e0d1;border-radius:14px;padding:42px 42px 35px}
+.tracker-cozy .tracker-login-card .tracker-overline{margin:0 0 21px}
+.tracker-cozy .tracker-login-card h2{font-size:clamp(2.8rem,4vw,4.1rem);margin:0 0 15px}
+.tracker-cozy .tracker-form{gap:19px;margin-top:30px}
+.tracker-cozy .tracker-form label{font-size:12px;font-weight:600;gap:10px}
+.tracker-cozy .tracker-form input{padding:15px;font-size:14px}
+.tracker-cozy .tracker-form .tracker-button{width:100%;font-size:13px;padding:15px}
+.tracker-login-help{font-size:12px;line-height:1.7;color:#708072;border-top:1px solid #d8d8cd;padding-top:19px;margin:25px 0 0}
+.tracker-cozy .tracker-back{color:#657a66;font-size:13px;margin-top:24px;border-bottom:1px solid #b4beb0;padding-bottom:4px}
+.tracker-login-footer{max-width:1190px;padding:22px 32px 35px;margin:auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:11px;color:#819080;border-top:1px solid #d6d6ca}
+@media(max-width:850px){.tracker-login-layout{grid-template-columns:1fr;gap:40px;padding:38px 24px 60px}.tracker-login-intro h1{font-size:clamp(3.5rem,11vw,5rem);margin:25px 0}.tracker-login-intro .tracker-overline{margin-top:35px}.tracker-login-sketch{display:none}.tracker-cozy .tracker-login-card{max-width:100%;box-shadow:6px 6px 0 #e8e0d1}.tracker-dashboard-intro{grid-template-columns:1fr;gap:15px}.tracker-dashboard-intro>.tracker-dashboard-aside{margin-top:0}.tracker-cozy .tracker-header-note{display:none}}
+@media(max-width:680px){.tracker-login-layout{padding:27px 20px 55px}.tracker-cozy .tracker-login-card{padding:28px 24px}.tracker-cozy .tracker-content{padding:48px 20px 75px}.tracker-cozy .tracker-header{padding:19px 20px}.tracker-cozy .tracker-wordmark{font-size:21px}.tracker-cozy .tracker-stats>div{padding:18px 14px}.tracker-cozy .tracker-stats strong{font-size:39px}.tracker-login-footer{padding:20px}.tracker-dashboard-aside{padding-left:18px}}
