@@ -41,3 +41,50 @@
 .cozy-timeline h3{font-size:23px}
 @media(max-width:760px){.cozy-page .site-nav{padding:23px 20px}.cozy-page .site-nav .nav-links{background:var(--cozy-bg);color:var(--cozy-ink);padding:16px 20px;border:1px solid var(--cozy-rule);border-radius:12px}.cozy-shell{padding:0 22px}.cozy-hero{grid-template-columns:1fr;padding:65px 0;gap:40px}.cozy-illustration{min-height:220px;max-width:360px;width:100%;margin:auto}.cozy-section{padding:55px 0}.cozy-section-head{display:block}.cozy-list,.cozy-columns{grid-template-columns:1fr;gap:10px}.cozy-timeline article{grid-template-columns:1fr;gap:6px}.cozy-footer{padding-bottom:30px}}
 @media(prefers-reduced-motion:reduce){.cozy-page *, .cozy-page *::before,.cozy-page *::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Editorial v2: stronger visual hierarchy, tactile details, and a quiet rhythm. */
+.cozy-page{background-image:radial-gradient(rgba(93,82,62,.075) .45px, transparent .6px);background-size:7px 7px}
+.cozy-page .site-nav{border-bottom:1px solid #cbcbbf;padding-top:34px;padding-bottom:26px}
+.cozy-page .site-nav .brand{font-size:27px;letter-spacing:-.04em}
+.cozy-page .site-nav .nav-links{font-size:13px;gap:28px}
+.cozy-hero{padding-top:88px;padding-bottom:100px;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:88px}
+.cozy-page h1{font-size:clamp(4.3rem,7vw,7.3rem);letter-spacing:-.06em;line-height:1.01}
+.cozy-page h1 em{color:#b07a60;font-style:italic;font-weight:400}
+.cozy-page .cozy-kicker{display:flex;gap:12px;align-items:center;letter-spacing:.12em;font-size:10px}
+.cozy-page .cozy-kicker::before{content:"";width:22px;height:1px;background:#aa7e65;display:inline-block}
+.cozy-hero .cozy-lead{font-family:var(--font-fraunces),Georgia,serif;font-size:clamp(1.25rem,2.05vw,1.7rem);line-height:1.55;letter-spacing:-.015em;color:#405347}
+.cozy-hero .cozy-copy{font-size:15px;line-height:1.85}
+.cozy-illustration{background:linear-gradient(150deg,#e6dfce,#eee8da 75%);border:1px solid #d2c9b9;border-radius:180px 180px 12px 12px;box-shadow:14px 14px 0 #e7dfd0;transform:rotate(1deg);position:relative}
+.cozy-illustration:before{content:"A little place to think";font:italic 16px var(--font-fraunces),Georgia,serif;color:#7d806b;position:absolute;bottom:18px;right:26px;transform:rotate(-3deg)}
+.cozy-illustration svg{margin-bottom:25px}
+.cozy-chapter{display:grid;grid-template-columns:195px minmax(0,1fr);gap:50px;align-items:start}
+.cozy-chapter-index{font-size:11px;line-height:1.7;letter-spacing:.06em;color:#a07158;text-transform:uppercase;padding-top:12px;position:sticky;top:20px}
+.cozy-chapter-index span{display:block;font:italic 42px var(--font-fraunces),Georgia,serif;color:#b9b09d;letter-spacing:-.045em;margin-bottom:8px}
+.cozy-chapter-body{min-width:0}
+.cozy-section{padding-top:92px;padding-bottom:95px}
+.cozy-section h2{font-size:clamp(2.5rem,4.5vw,4.15rem)}
+.cozy-page .cozy-item{padding:26px 6px 30px;transition:background .2s,padding .2s}
+.cozy-page a.cozy-item:hover{background:#ede9db;padding-left:15px;padding-right:15px}
+.cozy-page .cozy-item h3{font-size:clamp(1.5rem,2.6vw,2.15rem)}
+.cozy-page .cozy-item p{font-size:15px;line-height:1.8}
+.cozy-marginalia{font:italic 18px/1.6 var(--font-fraunces),Georgia,serif;color:#917c69;max-width:250px;transform:rotate(-3deg)}
+.cozy-quote-rule{width:70px;height:1px;background:#b99072;margin:25px 0}
+.cozy-field-note{border:1px solid #cfc8b8;background:#eee8db;padding:35px 40px;position:relative;box-shadow:5px 5px 0 #e3daca}
+.cozy-field-note:before{content:"✳";position:absolute;top:14px;right:18px;font-size:20px;color:#a87e61}
+.cozy-field-note .cozy-note-no{font:600 10px var(--font-geist-mono),monospace;text-transform:uppercase;letter-spacing:.08em;color:#a16e58}
+.cozy-field-note h3{margin:18px 0 12px}
+.cozy-field-note p{font-size:15px;line-height:1.8;color:#536156}
+.cozy-story-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:80px;align-items:start}
+.cozy-about-intro{max-width:none;display:grid;grid-template-columns:1.65fr .6fr;gap:80px;padding-bottom:110px}
+.cozy-about-intro h1{font-size:clamp(4rem,7vw,7.25rem)}
+.cozy-about-intro .cozy-lead{font-family:var(--font-fraunces),Georgia,serif;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1.6}
+.cozy-about-intro .cozy-copy{font-size:16px;line-height:1.9}
+.cozy-about-side{border-left:1px solid #cfcabf;padding-left:25px;margin-top:95px;font:italic 19px/1.6 var(--font-fraunces),Georgia,serif;color:#88765f}
+.cozy-about-side strong{display:block;font:600 10px var(--font-geist-mono),monospace;letter-spacing:.08em;text-transform:uppercase;color:#a16e58;margin-bottom:15px}
+.cozy-timeline article{grid-template-columns:155px 1fr;padding:31px 0}
+.cozy-timeline h3{font-size:29px}
+.cozy-timeline time{font-family:var(--font-fraunces),Georgia,serif;font-size:18px;font-style:italic}
+.cozy-section .cozy-copy p:first-child{margin-top:0}
+.cozy-footer{font-size:12px;letter-spacing:.02em}
+@media(max-width:900px){.cozy-chapter{grid-template-columns:125px minmax(0,1fr);gap:25px}.cozy-about-intro{gap:30px}.cozy-hero{gap:40px}.cozy-story-grid{gap:30px}}
+@media(max-width:760px){.cozy-page h1{font-size:clamp(3.7rem,13vw,5.4rem)}.cozy-hero{padding-top:55px;padding-bottom:75px}.cozy-illustration{max-width:310px}.cozy-section{padding-top:65px;padding-bottom:65px}.cozy-chapter{display:block}.cozy-chapter-index{position:static;padding:0;margin-bottom:22px}.cozy-chapter-index span{font-size:28px;display:inline;margin-right:10px}.cozy-story-grid,.cozy-about-intro{display:block}.cozy-about-side{margin:35px 0 0}.cozy-field-note{padding:28px}.cozy-marginalia{max-width:none;margin-top:20px}.cozy-timeline article{grid-template-columns:1fr}.cozy-page .site-nav .brand{font-size:23px}}
