@@ -4,7 +4,7 @@ import {requireSession,supabase} from "../lib";
 
 const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function text(data:FormData,key:string,max:number){return String(data.get(key)||"").trim().slice(0,max+1)}
-function refresh(){revalidatePath("/dashboard/certificazioni");revalidatePath("/certificazioni")}
+function refresh(){revalidatePath("/dashboard/certificazioni");revalidatePath("/certificazioni");revalidatePath("/dashboard/gestione-sito")}
 export async function addCertification(data:FormData) {
  const {token}=await requireSession();
  const title=text(data,"title",180),issuer=text(data,"issuer",180),issued_on=text(data,"issued_on",10),credential_url=text(data,"credential_url",2048),description=text(data,"description",2000);
