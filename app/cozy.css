@@ -249,3 +249,40 @@
 .tracker-login-footer{max-width:1190px;padding:22px 32px 35px;margin:auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:11px;color:#819080;border-top:1px solid #d6d6ca}
 @media(max-width:850px){.tracker-login-layout{grid-template-columns:1fr;gap:40px;padding:38px 24px 60px}.tracker-login-intro h1{font-size:clamp(3.5rem,11vw,5rem);margin:25px 0}.tracker-login-intro .tracker-overline{margin-top:35px}.tracker-login-sketch{display:none}.tracker-cozy .tracker-login-card{max-width:100%;box-shadow:6px 6px 0 #e8e0d1}.tracker-dashboard-intro{grid-template-columns:1fr;gap:15px}.tracker-dashboard-intro>.tracker-dashboard-aside{margin-top:0}.tracker-cozy .tracker-header-note{display:none}}
 @media(max-width:680px){.tracker-login-layout{padding:27px 20px 55px}.tracker-cozy .tracker-login-card{padding:28px 24px}.tracker-cozy .tracker-content{padding:48px 20px 75px}.tracker-cozy .tracker-header{padding:19px 20px}.tracker-cozy .tracker-wordmark{font-size:21px}.tracker-cozy .tracker-stats>div{padding:18px 14px}.tracker-cozy .tracker-stats strong{font-size:39px}.tracker-login-footer{padding:20px}.tracker-dashboard-aside{padding-left:18px}}
+
+/* Certificates — quiet public archive and private editorial manager. */
+.cozy-cert-public-list{border-top:1px solid var(--cozy-rule)}
+.cozy-cert-public-item{display:grid;grid-template-columns:75px minmax(0,1fr);gap:25px;padding:35px 0 39px;border-bottom:1px solid var(--cozy-rule)}
+.cozy-cert-public-item .cozy-kicker{margin:0 0 13px}
+.cozy-cert-public-item h2{font-size:clamp(1.7rem,3vw,2.7rem);line-height:1.18;margin:0 0 13px}
+.cozy-cert-public-item p.cozy-copy{margin:0 0 18px}
+.cozy-cert-public-number{font:italic 30px var(--font-fraunces),Georgia,serif;color:#b6a68f}
+.tracker-quick-links{display:flex;gap:18px;flex-wrap:wrap;margin:38px 0 45px}
+.tracker-cert-shortcut{display:flex;flex-direction:column;gap:9px;background:#eee9dc;border:1px solid #d3d1c2;border-radius:13px;padding:24px 27px;max-width:430px;width:100%;transition:background .2s,border-color .2s}
+.tracker-cert-shortcut:hover{background:#e8e7d8;border-color:#b7baa8}
+.tracker-cert-shortcut span{font-size:10px;color:#a6755e;letter-spacing:.1em;font-weight:700}
+.tracker-cert-shortcut strong{font:500 27px var(--font-fraunces),Georgia,serif;color:#34483b}
+.tracker-cert-shortcut small{font-size:12px;color:#667568;line-height:1.5}
+.cozy-cert-admin .tracker-muted{max-width:750px}
+.cozy-cert-new{margin:40px 0}
+.cozy-cert-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:21px;padding:0 32px 32px}
+.cozy-cert-form label{display:flex;flex-direction:column;gap:9px;color:#526755;font-size:13px}
+.cozy-cert-form input,.cozy-cert-form textarea{width:100%;background:#fffdf8;border:1px solid #c9d0c2;border-radius:8px;color:#34483b;padding:13px 14px;font:inherit;font-size:14px}
+.cozy-cert-form textarea{resize:vertical}
+.cozy-cert-form input:focus-visible,.cozy-cert-form textarea:focus-visible{outline:2px solid #b78468;outline-offset:3px}
+.cozy-cert-wide{grid-column:1 / -1}
+.cozy-cert-records{margin-top:45px}
+.cozy-cert-empty{padding:28px 0 55px;color:#6a786b}
+.cozy-cert-empty h2{font-size:32px}
+.cozy-cert-admin-item{border-top:1px solid #d4d4c8;padding:27px 0}
+.cozy-cert-admin-head{display:flex;align-items:center;justify-content:space-between;gap:26px;flex-wrap:wrap}
+.cozy-cert-admin-head h2{font-size:clamp(1.7rem,3vw,2.4rem);margin:13px 0}
+.cozy-cert-admin-head p{font-size:14px;color:#68796b}
+.cozy-cert-admin-item details{margin-top:19px;border-top:1px solid #d4d4c8;padding-top:13px}
+.cozy-cert-admin-item summary{cursor:pointer;color:#566b5b;font-size:13px;font-weight:600}
+.cozy-cert-admin-item details .cozy-cert-form{padding:22px 0 9px}
+.cozy-cert-danger{color:#99544a}
+.cozy-cert-danger summary{color:#99544a!important}
+.cozy-cert-danger p{font-size:13px}
+.cozy-cert-danger .tracker-outline{border-color:#bb7f73;color:#99544a}
+@media(max-width:700px){.cozy-cert-public-item{grid-template-columns:35px minmax(0,1fr);gap:13px}.cozy-cert-form{grid-template-columns:1fr;padding:0 20px 25px}.cozy-cert-wide{grid-column:1}.cozy-cert-admin-item details .cozy-cert-form{padding:20px 0 8px}}
