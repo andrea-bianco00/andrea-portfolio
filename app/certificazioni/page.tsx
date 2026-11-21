@@ -1,4 +1,6 @@
 import type {Metadata} from "next";
+import {notFound} from "next/navigation";
+import {getSiteVisibility} from "../site-visibility";
 import Link from "next/link";
 import SiteNav from "../components/SiteNav";
 import {T} from "../components/LocaleProvider";
@@ -7,6 +9,8 @@ export const metadata:Metadata={title:"Certificazioni | Andrea Bianco",descripti
 export const dynamic="force-dynamic";
 type Certificate={id:string;title:string;issuer:string;issued_on:string|null;credential_url:string|null;description:string|null};
 export default async function CertificatesPage(){
+ const states=await getSiteVisibility();
+ if(states["page:certificazioni"]!==true)notFound();
  const url=process.env.NEXT_PUBLIC_SUPABASE_URL;
  const key=process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
  let records:Certificate[]=[];let failed=false;
