@@ -536,3 +536,35 @@
  .cozy-page *, .cozy-page *::before,.cozy-page *::after,
  .tracker-cozy *, .tracker-cozy *::before,.tracker-cozy *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+
+
+/* Mobile rubber-band fix: paint the actual page/root, not only the inner main.
+   The global legacy theme is dark; all editorial/public and private workspace
+   pages use the same warm paper color. Keep other legacy routes untouched. */
+html:has(.cozy-page),
+html:has(.tracker-cozy),
+body:has(.cozy-page),
+body:has(.tracker-cozy){
+  background-color:#f6f2e9;
+  min-height:100%;
+  overscroll-behavior-y:none;
+}
+body:has(.cozy-page),
+body:has(.tracker-cozy){
+  min-height:100dvh;
+  color:#34483b;
+}
+body:has(.cozy-page)>main,
+body:has(.tracker-cozy)>main,
+.cozy-page,
+.tracker-cozy{
+  min-height:100dvh;
+  background-color:#f6f2e9;
+}
+/* The page can scroll naturally; scrolling beyond its edges never
+   exposes the previous black background on supported mobile browsers. */
+@supports (overscroll-behavior-y: none){
+  html:has(.cozy-page),html:has(.tracker-cozy){
+    overscroll-behavior-y:none;
+  }
+}
