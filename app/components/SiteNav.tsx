@@ -6,6 +6,12 @@ export default function SiteNav() {
   const [open, setOpen] = useState(false);
   const [pages, setPages] = useState({projects:false,certifications:false});
   useEffect(() => { let live=true; fetch("/api/site-visibility",{cache:"no-store"}).then(r=>r.ok?r.json():null).then(data=>{if(live&&data)setPages({projects:data.projects===true,certifications:data.certifications===true})}).catch(()=>{}); return()=>{live=false}; },[]);
+  useEffect(() => {
+    if (!open) return;
+    const onEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onEscape);
+    return () => document.removeEventListener("keydown", onEscape);
+  }, [open]);
   const { language, setLanguage } = useLanguage();
   const links = [
     { href: "/about", it: "Chi sono", en: "About" },
