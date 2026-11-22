@@ -302,3 +302,237 @@
 .cozy-manager-state{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#9a765e}
 .cozy-manager-empty{color:#68796b;font-size:14px;padding:12px 32px 35px}
 @media(max-width:650px){.cozy-manager-row{align-items:flex-start;flex-direction:column;padding:22px 20px;gap:16px}.cozy-manager-row button{width:100%}.cozy-manager-row form{width:100%}.cozy-manager-empty{padding:12px 20px 30px}}
+
+/* ==============================================================
+   MOBILE SYSTEM — November 2026
+   320px-900px: readable typography, contained media and usable controls.
+   Preserves desktop layout and existing data/business logic.
+   ============================================================== */
+.cozy-page,.tracker-cozy{width:100%;max-width:100%;min-width:0}
+.cozy-page :where(section,article,header,footer,nav,div),
+.tracker-cozy :where(section,article,header,footer,nav,div){min-width:0}
+.cozy-page :where(h1,h2,h3,p,small,span,li,a),
+.tracker-cozy :where(h1,h2,h3,p,small,span,li,a){overflow-wrap:break-word}
+.cozy-page :where(img,video,iframe,canvas),
+.tracker-cozy :where(img,video,iframe,canvas){max-width:100%}
+.cozy-page :where(button,input,select,textarea),
+.tracker-cozy :where(button,input,select,textarea){max-width:100%}
+.cozy-page :where(pre,code),.tracker-cozy :where(pre,code){overflow-wrap:anywhere}
+.cozy-page :where(pre),.tracker-cozy :where(pre){max-width:100%;overflow-x:auto;white-space:pre}
+.cozy-detail-page .case-study :where(.katex-display,.portfolio-katex-display,.hdts-equation-scroll,.mc-source-matrix-scroll),
+.cozy-detail-page .case-study :where(table){max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.cozy-detail-page .case-study :where(table){display:block;width:max-content}
+.cozy-detail-page .case-study :where(svg){max-width:100%;height:auto}
+.cozy-detail-page .case-study :where(.case-section,.case-columns,.case-metrics,.hdts-chart,.hdts-viz-panel,.hdts-taiwan-viz){min-width:0}
+.cozy-detail-page .case-study :where(.case-columns,.case-metrics)>*{min-width:0}
+
+/* Tablets and small laptop windows: avoid cramped two-column editorial hero. */
+@media(max-width:900px){
+ .cozy-page .site-nav{padding:23px 24px}
+ .cozy-shell{width:100%;max-width:100%;padding-inline:24px}
+ .cozy-hero{grid-template-columns:minmax(0,1fr) minmax(230px,.65fr);gap:30px;padding-top:65px;padding-bottom:72px}
+ .cozy-hero .cozy-lead{font-size:clamp(1.25rem,2.6vw,1.55rem)}
+ .cozy-about-intro{gap:35px}
+ .cozy-interior-hero{padding-top:72px;padding-bottom:65px}
+ .cozy-section-head{align-items:start;flex-wrap:wrap}
+ .cozy-page .cozy-project-directory .portfolio-controls{align-items:stretch}
+ .cozy-detail-page .cozy-case{width:100%;max-width:100%;padding-inline:24px}
+ .cozy-detail-page .case-header{padding-top:28px}
+ .tracker-cozy .tracker-content{padding-inline:24px}
+ .tracker-cozy .tracker-header{padding-inline:24px}
+ .tracker-cozy .tracker-platforms-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Phones: full readable single-column flow, no page-level horizontal scrolling. */
+@media(max-width:760px){
+ .cozy-page .site-nav{width:100%;max-width:100%;padding:18px 20px;gap:14px;align-items:center}
+ .cozy-page .site-nav .brand{font-size:clamp(21px,5.8vw,25px);line-height:1.2;white-space:nowrap}
+ .cozy-page .site-nav .nav-toggle{
+    display:inline-flex;align-items:center;justify-content:center;
+    flex:0 0 auto;min-height:44px;padding:9px 16px;
+    color:#34483b;border:1px solid #c5cbbd;border-radius:999px;
+    background:#f9f6ee;cursor:pointer;font-size:12px;line-height:1;
+ }
+ .cozy-page .site-nav .nav-links{
+    display:none;position:absolute;z-index:30;
+    top:calc(100% + 6px);left:16px;right:16px;width:auto;
+    max-height:min(72dvh,590px);overflow-y:auto;overscroll-behavior:contain;
+    padding:10px 16px 16px;flex-direction:column;align-items:stretch;gap:0;
+    background:#f9f6ee;border:1px solid #d5d3c6;border-radius:15px;
+    box-shadow:0 20px 48px rgba(36,52,41,.12);
+ }
+ .cozy-page .site-nav .nav-links.nav-open{display:flex}
+ .cozy-page .site-nav .nav-links a{display:flex!important;align-items:center;min-height:48px;padding:12px 8px;font-size:15px;line-height:1.5;font-weight:550;border-bottom:1px solid #e7e3d8}
+ .cozy-page .site-nav .locale-switch{display:flex;align-items:center;gap:12px;border:0;padding:12px 8px 2px;margin-top:6px;font-size:14px}
+ .cozy-page .site-nav .locale-switch button{min-width:46px;min-height:44px;padding:10px 8px}
+ .cozy-page .site-nav .nav-links a:focus-visible,.cozy-page .site-nav .nav-toggle:focus-visible{outline:2px solid #a6755e;outline-offset:3px}
+ .cozy-shell{padding-inline:20px}
+ .cozy-page h1{font-size:clamp(3.05rem,12vw,4.65rem);line-height:1.055;letter-spacing:-.055em;overflow-wrap:normal}
+ .cozy-page h2,.cozy-section h2{font-size:clamp(2.1rem,8vw,3.2rem);line-height:1.16}
+ .cozy-page h3{line-height:1.25}
+ .cozy-page .cozy-kicker{font-size:10px;line-height:1.65;letter-spacing:.085em;gap:9px;flex-wrap:wrap}
+ .cozy-page .cozy-kicker::before{flex:0 0 17px}
+ .cozy-hero{display:flex;flex-direction:column;gap:40px;padding-top:48px;padding-bottom:64px}
+ .cozy-hero>div:first-child{width:100%}
+ .cozy-hero .cozy-lead{font-size:clamp(1.23rem,4.8vw,1.45rem);line-height:1.57}
+ .cozy-hero .cozy-copy,.cozy-about-intro .cozy-copy,.cozy-page .cozy-copy{font-size:15px;line-height:1.8}
+ .cozy-lead,.cozy-interior-hero .cozy-lead{font-size:clamp(1.2rem,5vw,1.48rem);line-height:1.62}
+ .cozy-actions{gap:15px 23px;margin-top:27px}
+ .cozy-link{font-size:14px;line-height:1.55;padding-block:7px;min-height:40px}
+ .cozy-illustration{max-width:290px;min-height:0;aspect-ratio:1/1.05;margin:0 auto 12px;padding:18px}
+ .cozy-illustration svg{max-height:240px;margin-bottom:19px}
+ .cozy-illustration::before{font-size:13px;bottom:12px;right:16px}
+ .cozy-interior-hero,.cozy-about-intro{padding-top:54px;padding-bottom:60px}
+ .cozy-about-intro h1{font-size:clamp(3.05rem,12vw,4.65rem)}
+ .cozy-about-side{margin-top:30px;font-size:17px}
+ .cozy-section{padding-top:55px;padding-bottom:60px}
+ .cozy-chapter{display:block}
+ .cozy-chapter-index{display:flex;align-items:baseline;gap:10px;margin-bottom:25px;position:static}
+ .cozy-chapter-index span{font-size:30px;margin:0}
+ .cozy-list,.cozy-columns,.cozy-story-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+ .cozy-section-head{display:flex;flex-direction:column;align-items:flex-start;gap:15px;margin-bottom:25px}
+ .cozy-page .cozy-item{padding:21px 4px}
+ .cozy-page a.cozy-item:hover{padding:21px 4px}
+ .cozy-page .cozy-item h3{font-size:clamp(1.5rem,6vw,1.85rem)}
+ .cozy-field-note{padding:24px 23px;box-shadow:4px 4px 0 #e3daca}
+ .cozy-marginalia{transform:none}
+ .cozy-timeline article{grid-template-columns:1fr;gap:12px;padding-block:24px}
+ .cozy-timeline h3{font-size:clamp(1.5rem,6.1vw,1.9rem)}
+ .cozy-footer{display:flex;flex-direction:column;gap:17px;padding-top:26px;padding-bottom:42px;font-size:13px}
+ .cozy-footer>div{gap:10px 23px;flex-wrap:wrap}
+ .cozy-footer a{display:inline-flex;align-items:center;min-height:36px}
+ .cozy-footer .cozy-private-entry{margin-left:0}
+ .cozy-cv-index{gap:4px 17px;padding-block:14px}
+ .cozy-cv-index a{min-height:44px;display:inline-flex;align-items:center}
+ .cozy-page .cozy-project-directory .portfolio-controls{display:flex;flex-direction:column;gap:16px}
+ .cozy-page .cozy-project-directory .portfolio-filters{gap:8px}
+ .cozy-page .cozy-project-directory .filter-chip{min-height:44px;padding:10px 13px;font-size:12px}
+ .cozy-page .cozy-project-directory .portfolio-search{display:block;width:100%}
+ .cozy-page .cozy-project-directory .portfolio-search input{display:block;width:100%;min-width:0;margin:0;font-size:16px;min-height:48px}
+ .cozy-page .cozy-project-directory .project-row{grid-template-columns:24px minmax(0,1fr) 18px;gap:9px;padding:25px 0}
+ .cozy-page .cozy-project-directory .project-row h3{font-size:clamp(1.55rem,6.25vw,2.1rem);line-height:1.2;overflow-wrap:anywhere}
+ .cozy-page .cozy-project-directory .project-description{font-size:14px;line-height:1.75}
+ .cozy-page .cozy-project-directory .project-meta{font-size:10px;line-height:1.55}
+ .cozy-detail-page .cozy-case{padding:28px 20px 70px}
+ .cozy-detail-page .case-header{padding:30px 0 42px;margin-bottom:32px}
+ .cozy-detail-page .case-header h1{font-size:clamp(2.25rem,9vw,3.5rem);line-height:1.1;overflow-wrap:anywhere}
+ .cozy-detail-page .case-header .large-copy{font-size:16px;line-height:1.7}
+ .cozy-detail-page .case-section{padding-block:46px}
+ .cozy-detail-page .case-section h2{font-size:clamp(1.9rem,7.7vw,2.7rem)}
+ .cozy-detail-page .case-section p:not(.eyebrow){font-size:15px;line-height:1.75}
+ .cozy-detail-page .case-columns,.cozy-detail-page .case-metrics{grid-template-columns:1fr;gap:13px}
+ .cozy-detail-page .case-columns>div,.cozy-detail-page .case-metrics>div{padding:19px}
+ .cozy-detail-page .ner-overview{grid-template-columns:1fr;gap:12px;margin:0 0 34px}
+ .cozy-detail-page .ner-overview>div{padding:20px}
+ .cozy-detail-page .ner-toc{gap:8px 16px}
+ .cozy-detail-page .ner-toc a{padding:7px 0;display:inline-flex;align-items:center}
+ .cozy-detail-page .ner-chart,.cozy-detail-page .ner-example{max-width:100%}
+ .cozy-detail-page .hdts-chart{padding:17px}
+ .cozy-detail-page .hdts-viz-panel{padding:15px}
+ .cozy-detail-page .hdts-table-wrap{max-width:100%;overflow-x:auto}
+ .cozy-detail-page .hdts-nav,.cozy-detail-page .hdts-links{flex-wrap:wrap;gap:10px}
+ .cozy-detail-page .case-end{flex-direction:column;gap:18px;padding-block:28px}
+ .cozy-english-case{padding-top:12px}
+ .cozy-english-case>h2{font-size:clamp(1.95rem,7.5vw,2.6rem)}
+ .cozy-case-english-grid{grid-template-columns:1fr}
+ .cozy-cert-public-item{grid-template-columns:29px minmax(0,1fr);gap:13px}
+ .cozy-cert-public-item h2{font-size:clamp(1.6rem,6.5vw,2.15rem);overflow-wrap:anywhere}
+ .cozy-cert-public-number{font-size:23px}
+ .cozy-login-not-needed{display:none}
+ /* Private workspace: labels, forms, tabs and cards in a single readable column */
+ .tracker-cozy .tracker-header{display:flex;flex-wrap:wrap;gap:12px;padding:16px 20px}
+ .tracker-cozy .tracker-header .tracker-wordmark{font-size:21px}
+ .tracker-cozy .tracker-header .tracker-home-link{margin:0}
+ .tracker-cozy .tracker-content{width:100%;padding:40px 20px 72px}
+ .tracker-cozy .tracker-content>h1,.tracker-cozy .tracker-dashboard-intro h1{font-size:clamp(2.95rem,11vw,4.8rem);line-height:1.08;overflow-wrap:anywhere}
+ .tracker-cozy .tracker-dashboard-intro{display:block}
+ .tracker-cozy .tracker-dashboard-aside{margin-top:20px;padding-left:20px}
+ .tracker-cozy .tracker-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:30px 0}
+ .tracker-cozy .tracker-stats>div{padding:20px 17px;gap:9px}
+ .tracker-cozy .tracker-stats strong{font-size:clamp(38px,8vw,52px)}
+ .tracker-cozy .tracker-stats small{display:block;font-size:11px;line-height:1.4}
+ .tracker-cozy .tracker-stats span{font-size:10px;letter-spacing:.06em;line-height:1.5}
+ .tracker-cozy .tracker-quick-links{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin:30px 0 35px}
+ .tracker-cozy .tracker-cert-shortcut{max-width:100%;padding:22px}
+ .tracker-cozy .tracker-panel{border-radius:12px}
+ .tracker-cozy .tracker-panel-head{display:flex;align-items:flex-start;flex-direction:column;padding:22px 20px;gap:16px}
+ .tracker-cozy .tracker-panel-head h2{font-size:clamp(1.65rem,6.7vw,2.25rem)}
+ .tracker-cozy .tracker-panel-head .tracker-buttons{width:100%}
+ .tracker-cozy .tracker-buttons{gap:9px}
+ .tracker-cozy .tracker-buttons button{min-height:44px}
+ .tracker-cozy .tracker-view-toggle{gap:8px;padding:15px 16px;flex-wrap:wrap}
+ .tracker-cozy .tracker-view-toggle button{min-height:44px}
+ .tracker-cozy .tracker-filters{padding:16px;align-items:stretch;gap:10px;flex-direction:column}
+ .tracker-cozy .tracker-filters input,.tracker-cozy .tracker-filters select{width:100%;flex:auto;min-height:46px}
+ .tracker-cozy input,.tracker-cozy select,.tracker-cozy textarea,.tracker-cozy .tracker-detail-form textarea{font-size:16px}
+ .tracker-cozy .tracker-new,.tracker-cozy .tracker-detail-form{grid-template-columns:minmax(0,1fr);margin:0 15px 18px;padding:20px 16px;gap:16px}
+ .tracker-cozy .tracker-item{display:flex;flex-direction:column;align-items:stretch;gap:18px;padding:22px 18px}
+ .tracker-cozy .tracker-item-controls{width:100%;display:flex;flex-wrap:wrap;gap:9px}
+ .tracker-cozy .tracker-item-controls>form{max-width:100%;width:100%}
+ .tracker-cozy .tracker-item-controls select{width:100%}
+ .tracker-cozy .tracker-small-action{min-height:44px;padding:11px 15px}
+ .tracker-cozy .tracker-confirm{flex-direction:column;padding:19px}
+ .tracker-cozy .tracker-kanban{grid-template-columns:minmax(0,1fr);padding:16px;gap:12px}
+ .tracker-cozy .tracker-workspace-tabs{padding:0 10px;gap:0;overflow-x:auto}
+ .tracker-cozy .tracker-workspace-tabs button{min-height:48px;padding:14px 16px}
+ .tracker-cozy .tracker-workspace-body{padding:16px}
+ .tracker-cozy .tracker-workspace-toolbar{align-items:stretch;flex-direction:column;gap:10px}
+ .tracker-cozy .tracker-workspace-entry{flex-direction:column;align-items:stretch}
+ .tracker-cozy .tracker-platforms-controls{padding:0 18px 18px}
+ .tracker-cozy .tracker-platforms-categories button{min-height:44px}
+ .tracker-cozy .tracker-platforms-controls input{flex:1 1 100%;width:100%;min-width:0}
+ .tracker-cozy .tracker-platforms-grid{grid-template-columns:minmax(0,1fr);padding:0 18px 24px;gap:12px}
+ .tracker-cozy .tracker-phd-featured{grid-template-columns:minmax(0,1fr);padding:0 18px 24px}
+ .tracker-cozy .tracker-detail-grid{grid-template-columns:minmax(0,1fr);margin-top:32px;gap:16px}
+ .tracker-cozy .tracker-detail-form{margin:0;padding:0 18px 24px}
+ .tracker-cozy .tracker-salary{grid-template-columns:minmax(0,1fr);gap:13px}
+ .tracker-cozy .tracker-timeline-entry{padding:20px 18px}
+ .tracker-cozy .cozy-manager-row{padding:20px 18px}
+ .tracker-cozy .cozy-cert-form{padding:0 18px 22px;grid-template-columns:minmax(0,1fr);gap:15px}
+ .tracker-cozy .cozy-cert-wide{grid-column:1}
+ .tracker-cozy .cozy-cert-admin-head{display:flex;flex-direction:column;align-items:stretch;gap:16px}
+ .tracker-cozy .cozy-cert-admin-head form{width:100%}
+ .tracker-cozy .cozy-cert-admin-head button{width:100%;min-height:44px}
+ .tracker-cozy .cozy-cert-admin-item details .cozy-cert-form{padding:18px 0}
+ .tracker-cozy .cozy-cert-admin-item{padding:22px 0}
+ .tracker-cozy .cozy-manager-row form,.tracker-cozy .cozy-manager-row button{width:100%;min-height:44px}
+ .tracker-login-layout{grid-template-columns:minmax(0,1fr);padding:28px 20px 52px;gap:26px;min-height:0}
+ .tracker-login-intro h1{font-size:clamp(2.9rem,10.5vw,4.35rem);margin:22px 0}
+ .tracker-login-intro .tracker-overline{margin:28px 0 0}
+ .tracker-login-intro>p:not(.tracker-overline){font-size:15px;line-height:1.75}
+ .tracker-cozy .tracker-login-card{max-width:100%;padding:25px 22px;box-shadow:5px 5px 0 #e8e0d1}
+ .tracker-cozy .tracker-login-card h2{font-size:clamp(2.5rem,9vw,3.4rem)}
+ .tracker-cozy .tracker-form{gap:16px}
+ .tracker-cozy .tracker-form input{font-size:16px;min-height:48px}
+ .tracker-cozy .tracker-form button{min-height:48px;font-size:13px}
+ .tracker-login-footer{padding:20px;gap:10px}
+}
+
+/* Compact phones: guarantee usable content within a 320px viewport. */
+@media(max-width:390px){
+ .cozy-shell{padding-inline:16px}
+ .cozy-page .site-nav{padding-inline:16px}
+ .cozy-page .site-nav .nav-links{left:10px;right:10px}
+ .cozy-page h1{font-size:clamp(2.7rem,11.8vw,3.3rem)}
+ .cozy-hero .cozy-lead{font-size:1.19rem}
+ .cozy-interior-hero .cozy-lead{font-size:1.2rem}
+ .cozy-detail-page .cozy-case{padding-inline:16px}
+ .cozy-detail-page .case-header h1{font-size:clamp(2.05rem,8.7vw,2.45rem)}
+ .cozy-field-note{padding:20px}
+ .tracker-cozy .tracker-content{padding-inline:16px}
+ .tracker-cozy .tracker-header{padding-inline:16px}
+ .tracker-cozy .tracker-content>h1,.tracker-cozy .tracker-dashboard-intro h1{font-size:clamp(2.7rem,10.6vw,3.5rem)}
+ .tracker-cozy .tracker-stats{grid-template-columns:minmax(0,1fr)}
+ .tracker-cozy .tracker-stats>div{padding:17px 20px}
+ .tracker-cozy .tracker-stats small{display:block}
+ .tracker-cozy .tracker-buttons{display:flex;flex-direction:column;align-items:stretch}
+ .tracker-cozy .tracker-buttons button{width:100%}
+ .tracker-cozy .tracker-panel-head{padding:20px 16px}
+ .tracker-cozy .tracker-platforms-controls,.tracker-cozy .tracker-platforms-grid{padding-inline:16px}
+ .tracker-login-layout{padding-inline:16px}
+ .tracker-cozy .tracker-login-card{padding:24px 18px}
+}
+@media(prefers-reduced-motion:reduce){
+ .cozy-page *, .cozy-page *::before,.cozy-page *::after,
+ .tracker-cozy *, .tracker-cozy *::before,.tracker-cozy *::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
