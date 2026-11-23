@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import {usePathname} from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLanguage } from "./LocaleProvider";
 export default function SiteNav() {
@@ -13,6 +14,7 @@ export default function SiteNav() {
     return () => document.removeEventListener("keydown", onEscape);
   }, [open]);
   const { language, setLanguage } = useLanguage();
+  const pathname = usePathname();
   const links = [
     { href: "/about", it: "Chi sono", en: "About" },
     { href: "/ricerca", it: "Ricerca", en: "Research" },
@@ -20,11 +22,12 @@ export default function SiteNav() {
     { href: "/cv", it: "CV", en: "CV" },
     { href: "/certificazioni", it: "Certificazioni", en: "Certificates" }
   ];
-  return <nav className="site-nav" aria-label={language === "en" ? "Main navigation" : "Navigazione principale"}>
+  return <nav className="site-nav site-nav-sidebar" aria-label={language === "en" ? "Main navigation" : "Navigazione principale"}>
     <Link href="/" className="brand" onClick={() => setOpen(false)}>Andrea Bianco</Link>
     <button className="nav-toggle" type="button" aria-label={open ? (language === "en" ? "Close menu" : "Chiudi menu") : (language === "en" ? "Open menu" : "Apri menu")} aria-expanded={open} aria-controls="primary-navigation" onClick={() => setOpen(!open)}>{open ? (language === "en" ? "CLOSE ×" : "CHIUDI ×") : "MENU ☰"}</button>
     <div className={open ? "nav-links nav-open" : "nav-links"} id="primary-navigation">
-      {links.filter(link=>(link.href!=="/progetti"||pages.projects)&&(link.href!=="/certificazioni"||pages.certifications)).map(link => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link[language]}</Link>)}
+      <span className="nav-sidebar-label" aria-hidden="true">{language === "en" ? "Explore the site" : "Esplora il sito"}</span>
+      {links.filter(link=>(link.href!=="/progetti"||pages.projects)&&(link.href!=="/certificazioni"||pages.certifications)).map(link => <Link key={link.href} href={link.href} aria-current={pathname === link.href || (link.href === "/progetti" && pathname.startsWith("/progetti/")) ? "page" : undefined} onClick={() => setOpen(false)}>{link[language]}</Link>)}
       <div className="locale-switch" role="group" aria-label={language === "en" ? "Website language" : "Lingua del sito"}>
         <button type="button" onClick={() => setLanguage("it")} aria-pressed={language === "it"} lang="it" className={language === "it" ? "locale-active" : ""}>IT</button>
         <span aria-hidden="true">/</span>
