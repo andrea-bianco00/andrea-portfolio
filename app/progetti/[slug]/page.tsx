@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import SiteNav from "../../components/SiteNav";
 import { T } from "../../components/LocaleProvider";
 import { englishProjects } from "../../project-i18n";
 import CaseStudyLanguage from "./CaseStudyLanguage";
@@ -33,7 +32,7 @@ export default async function ProjectPage({ params }: Props) {
   const states=await getSiteVisibility();
   if (!project || states["page:progetti"]!==true || states["project:"+slug]!==true) notFound();
   return <main className="cozy-page cozy-detail-page">
-    <SiteNav />
+    
     <article className="section case-study cozy-case">
       <Link href="/progetti" className="text-link"><T it="← Tutti i progetti" en="← All projects"/></Link>
       <header className="case-header">
