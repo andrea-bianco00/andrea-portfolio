@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import MicrosoftClarity from "./clarity";
 import { LocaleProvider } from "./components/LocaleProvider";
+import PersistentPublicNav from "./components/PersistentPublicNav";
 import foxIcon from "./fox-512.png";
 import "./globals.css";
 import "./cozy.css";
@@ -44,7 +45,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <LocaleProvider>{children}</LocaleProvider>
+        <LocaleProvider><PersistentPublicNav/>{children}</LocaleProvider>
         <GoogleAnalytics gaId="G-986WZSRXDC" />
         <MicrosoftClarity />
       </body>
