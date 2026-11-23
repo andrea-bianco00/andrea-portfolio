@@ -2,7 +2,6 @@ import type {Metadata} from "next";
 import {notFound} from "next/navigation";
 import {getSiteVisibility} from "../site-visibility";
 import Link from "next/link";
-import SiteNav from "../components/SiteNav";
 import {T} from "../components/LocaleProvider";
 
 export const metadata:Metadata={title:"Certificazioni | Andrea Bianco",description:"Certificazioni ottenute e pubblicate da Andrea Bianco."};
@@ -20,7 +19,7 @@ export default async function CertificatesPage(){
    if(r.ok)records=await r.json();else failed=true;
   }catch{failed=true;}
  }
- return <main className="cozy-page"><SiteNav/><div className="cozy-shell">
+ return <main className="cozy-page"><div className="cozy-shell">
  <header className="cozy-interior-hero"><p className="cozy-kicker"><T it="Un percorso che continua" en="An ongoing journey"/></p>
  <h1><T it="Certificazioni" en="Certificates"/> <em><T it="e competenze." en="and skills."/></em></h1>
  <p className="cozy-lead"><T it="Uno spazio per raccogliere le certificazioni che ho conseguito lungo il mio percorso, dall'università alle esperienze di formazione successive." en="A place to collect the certifications I have earned along my journey, from university to further learning experiences."/></p>
