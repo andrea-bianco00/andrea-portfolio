@@ -695,3 +695,25 @@ body:has(.tracker-cozy)>main,
  .cozy-page .cozy-shell{padding-inline:16px}
  .cozy-detail-page .cozy-case{padding-inline:16px}
 }
+
+/* Persistent navigation is rendered by the app layout, not individual pages.
+   This host consumes only the top header height on mobile and zero space on desktop. */
+.cozy-nav-host{
+  width:100%;
+  max-width:100%;
+  min-height:0!important;
+  height:auto;
+  flex:0 0 auto;
+  background:transparent;
+  background-image:none;
+  position:relative;
+  z-index:45;
+}
+@media(min-width:1000px){
+  .cozy-nav-host{height:0;position:relative;}
+  .cozy-nav-host .site-nav.site-nav-sidebar{position:fixed}
+}
+@media(max-width:999px){
+  .cozy-nav-host{height:auto}
+  .cozy-nav-host .site-nav.site-nav-sidebar{position:relative}
+}
